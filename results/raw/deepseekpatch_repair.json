@@ -1,0 +1,4907 @@
+{
+ "meta": {
+  "started_utc": "2026-11-10T20:52:57Z",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "mode": "repair",
+  "max_rounds": 5,
+  "temperature": 1.0,
+  "max_output_tokens": 400,
+  "thinking_budget": null,
+  "workers": 4,
+  "master_seed": 2026,
+  "n_requests": 60,
+  "system_prompt": "You design levels for Kiln Slide, a grid puzzle.\n\nRULES\n- The ember moves U, D, L or R. A move slides it in a straight line until the\n  next cell is a wall or the edge of the grid. It cannot stop earlier.\n- A move in a direction where the ember is already blocked is not allowed.\n- The ember collects every coal (*) it passes over or stops on.\n- Wet clay (~) can be crossed or rested on. As soon as the ember leaves a clay\n  tile, that tile bakes into a wall for the rest of the level.\n- The level is solved when all coals are collected and the ember comes to\n  REST on the exit (E). Sliding over the exit without stopping does nothing.\n\nLEVEL FORMAT\n- A rectangular text grid, one row per line, no spaces.\n- Characters: # wall, . floor, S start (exactly one), E exit (exactly one),\n  * coal (0 to 5), ~ wet clay (0 to 6).\n- Cells outside the grid are walls, so a border of # is optional.\n- Coordinates in feedback are (row, column), both starting at 1 from the top\n  left.\n\nEXAMPLE 1 (5 wide, 5 tall, optimal 3 moves: D R U)\n.....\n.S#..\n..E.#\n#.*..\n...#.\nD: from (2,2) slide to (5,2). R: stop at (5,3) because (5,4) is a wall.\nU: pass the coal at (4,3), stop on E at (3,3) because (2,3) is a wall.\n\nEXAMPLE 2 (6 wide, 5 tall, optimal 5 moves: U L R D L)\n..~.*.\n......\nE....S\n.#....\n......\nU: to (1,6). L: collect the coal, cross the clay at (1,3), stop at (1,1);\nthe clay bakes into a wall. R: stop at (1,2) against the baked clay.\nD: stop at (3,2) because (4,2) is a wall. L: stop on E at (3,1).\n\nDIFFICULTY is the length of the shortest solution (optimal move count):\neasy = 3-5 moves, medium = 6-9 moves, hard = 10-16 moves.\nEvery level you propose is checked by an exact solver, which finds the true\nshortest solution. A level only counts if the solver's optimal move count is\ninside the requested range, so a shortcut you did not notice makes it fail.\n\nOUTPUT\nReply with exactly two things and nothing else: the level inside one fenced\ncode block, then one line with the solution you intend.\n```\n<grid rows>\n```\nsolution: <letters from U D L R, no spaces>\nNo explanation, no reasoning text, no second attempt. Do not copy the examples.",
+  "patch": true,
+  "thinking": "disabled",
+  "deepseek_balance_before": 0.6,
+  "calls_this_run": 119,
+  "usd_this_run": 0.007285,
+  "finished_utc": "2026-11-10T20:53:30Z",
+  "total_calls_logged": 119,
+  "total_usd_logged": 0.007285,
+  "deepseek_balance_after": 0.6
+ },
+ "records": {
+  "easy-02": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.154,
+   "cost_usd": 4.7586e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.141,
+     "prompt_tokens": 667,
+     "output_tokens": 38,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.7586e-05,
+     "reply": "```\n######\n#S..*#\n#.##.#\n#.##.#\n#...E#\n#.##.#\n#*.#.#\n######\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S..*#\n#.##.#\n#.##.#\n#...E#\n#.##.#\n#*.#.#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 12,
+       "avg_branching": 1.667,
+       "dead_end_states": 12,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (6,5) into a wall"
+    }
+   ],
+   "level": "######\n#S..*#\n#.##.#\n#.##.#\n#...E#\n#.####\n#*.#.#\n######",
+   "canonical": "######\n#*.#.#\n#.####\n#...E#\n#.##.#\n#.##.#\n#S..*#\n######",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "DURD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 10,
+    "reachable_states": 13,
+    "avg_branching": 1.917,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-02"
+  },
+  "easy-00": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.251,
+   "cost_usd": 4.0986000000000004e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.174,
+     "prompt_tokens": 667,
+     "output_tokens": 27,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.0986000000000004e-05,
+     "reply": "```\nS~...~E#\n........\n.#......\n..*..#..\n........\n#.......\n```\nsolution: R L R D",
+     "claimed_solution": "RLRD",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 8 moves (DRDLURUR); requested easy = 3..5 moves",
+      "level": "S~...~E#\n........\n.#......\n..*..#..\n........\n#.......",
+      "features": {
+       "optimal_moves": 8,
+       "solution": "DRDLURUR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 34,
+       "reachable_states": 62,
+       "avg_branching": 2.45,
+       "dead_end_states": 25,
+       "dead_end_ratio": 0.403,
+       "trap_moves": 1
+      }
+     },
+     "patch": "turn the floor at (5,1) into a wall"
+    }
+   ],
+   "level": "S~...~E#\n........\n.#......\n..*..#..\n#.......\n#.......",
+   "canonical": "##...S\n...#.~\n..*...\n......\n......\n..#..~\n.....E\n.....#",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "DRUR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 11,
+    "reachable_states": 47,
+    "avg_branching": 2.333,
+    "dead_end_states": 21,
+    "dead_end_ratio": 0.447,
+    "trap_moves": 1
+   },
+   "id": "easy-00"
+  },
+  "easy-01": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 7,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 2,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 2,
+   "seconds": 2.372,
+   "cost_usd": 9.3156e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.155,
+     "prompt_tokens": 667,
+     "output_tokens": 27,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.0986000000000004e-05,
+     "reply": "```\n.......\n.S...E.\n.#...#.\n.*...*.\n.......\n...*...\n```\nsolution: D R U L D",
+     "claimed_solution": "DRULD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S...E.\n.#...#.\n.*...*.\n.......\n...*...",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 12,
+       "avg_branching": 2.333,
+       "dead_end_states": 12,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): blocked, the ember at (2,2) cannot move that way\nThe ember can never come to rest on the exit at (2,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,2), (4,6).\nCells where the ember can come to rest (8): (1,1) (1,2) (1,7) (2,1) (2,2) (2,7) (6,1) (6,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.171,
+     "prompt_tokens": 867,
+     "output_tokens": 27,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.2170000000000004e-05,
+     "reply": "```\n.......\n.S...E#\n.#...##\n.*...*.\n..#.#..\n.......\n```\nsolution: L U R D L",
+     "claimed_solution": "LURDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S...E#\n.#...##\n.*...*.\n..#.#..\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 16,
+       "avg_branching": 2.188,
+       "dead_end_states": 16,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "move the exit from (2,6) to (4,1)"
+    }
+   ],
+   "level": ".......\n.S....#\n.#...##\nE*...*.\n..#.#..\n.......",
+   "canonical": ".##...\n..#*..\n....#.\n......\n....#.\n.S#*..\n...E..",
+   "features": {
+    "optimal_moves": 5,
+    "solution": "LDRUL",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 10,
+    "reachable_states": 11,
+    "avg_branching": 2.3,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-01"
+  },
+  "easy-05": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 2,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 2,
+   "seconds": 1.617,
+   "cost_usd": 0.000112806,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.911,
+     "prompt_tokens": 667,
+     "output_tokens": 34,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.5186e-05,
+     "reply": "```\n######\n#....#\n#.#..#\n#..S.#\n#.*..#\n#...E#\n#....#\n######\n```\nsolution: L D R",
+     "claimed_solution": "LDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#....#\n#.#..#\n#..S.#\n#.*..#\n#...E#\n#....#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 9,
+       "avg_branching": 2.667,
+       "dead_end_states": 9,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (L): rests at (4,2), coals 0/1\n  move 2 (D): rests at (7,2), coals 0/1\n  move 3 (R): rests at (7,5), coals 0/1\n  -> ends at (7,5), not solved (exit is at (6,5))\nThe ember can never come to rest on the exit at (6,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (5,3).\nCells where the ember can come to rest (9): (2,2) (2,4) (2,5) (4,2) (4,4) (4,5) (7,2) (7,4) (7,5)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.663,
+     "prompt_tokens": 934,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.762e-05,
+     "reply": "```\n######\n#....#\n#..#.#\n#.S..#\n#.*..#\n#..E.#\n#..#.#\n######\n```\nsolution: L D R",
+     "claimed_solution": "LDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#....#\n#..#.#\n#.S..#\n#.*..#\n#..E.#\n#..#.#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 15,
+       "avg_branching": 2.267,
+       "dead_end_states": 15,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "move the exit from (6,4) to (7,5)"
+    }
+   ],
+   "level": "######\n#....#\n#..#.#\n#.S..#\n#.*..#\n#....#\n#..#E#\n######",
+   "canonical": "######\n#..#E#\n#....#\n#.*..#\n#.S..#\n#..#.#\n#....#\n######",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "DURD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 14,
+    "reachable_states": 15,
+    "avg_branching": 2.357,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-05"
+  },
+  "easy-03": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 7,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 3,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 3,
+   "seconds": 3.377,
+   "cost_usd": 0.000180894,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.213,
+     "prompt_tokens": 667,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.638599999999999e-05,
+     "reply": "```\n.......\n.S.*..E\n.#.#.#.\n.~...~.\n...#...\n.*...*.\n.#.#.#.\n.......\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S.*..E\n.#.#.#.\n.~...~.\n...#...\n.*...*.\n.#.#.#.\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 13,
+       "avg_branching": 2.385,
+       "dead_end_states": 13,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 1/3\n  move 2 (D): rests at (8,7), coals 1/3\n  move 3 (L): rests at (8,1), coals 1/3\n  move 4 (U): rests at (1,1), coals 1/3\n  -> ends at (1,1), not solved (exit is at (2,7))\nCoals that can never be collected: (6,2), (6,6).\nCells where the ember can come to rest (8): (1,1) (1,2) (1,7) (2,1) (2,2) (2,7) (8,1) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.933,
+     "prompt_tokens": 914,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.462e-05,
+     "reply": "```\n.......\n.S...*.\n.#.#.#.\n.~...~.\n...#...\n.*...*.\n.#.#.#.\n.....E.\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S...*.\n.#.#.#.\n.~...~.\n...#...\n.*...*.\n.#.#.#.\n.....E.",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 13,
+       "avg_branching": 2.385,
+       "dead_end_states": 13,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 1/3\n  move 2 (D): rests at (8,7), coals 1/3\n  move 3 (L): rests at (8,1), coals 1/3\n  move 4 (U): rests at (1,1), coals 1/3\n  -> ends at (1,1), not solved (exit is at (8,6))\nThe ember can never come to rest on the exit at (8,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (6,2), (6,6).\nCells where the ember can come to rest (8): (1,1) (1,2) (1,7) (2,1) (2,2) (2,7) (8,1) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 1.068,
+     "prompt_tokens": 1204,
+     "output_tokens": 35,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.9888e-05,
+     "reply": "```\n.......\n.S...*.\n.#.#.#.\n.~...~.\n...#...\n.*...*.\n.#.#.#.\nE......\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S...*.\n.#.#.#.\n.~...~.\n...#...\n.*...*.\n.#.#.#.\nE......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 13,
+       "avg_branching": 2.385,
+       "dead_end_states": 13,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (7,7) into a wall"
+    }
+   ],
+   "level": ".......\n.S...*.\n.#.#.#.\n.~...~.\n...#...\n.*...*.\n.#.#.##\nE......",
+   "canonical": ".#......\n.#*.~#*.\n........\n.#.#.#..\n........\n.#*.~#S.\nE.......",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 17,
+    "reachable_states": 26,
+    "avg_branching": 2.16,
+    "dead_end_states": 11,
+    "dead_end_ratio": 0.423,
+    "trap_moves": 0
+   },
+   "id": "easy-03"
+  },
+  "easy-04": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 7,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 2,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 2,
+   "seconds": 2.246,
+   "cost_usd": 9.6006e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.095,
+     "prompt_tokens": 667,
+     "output_tokens": 30,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.2786e-05,
+     "reply": "```\n.......\n.S...E.\n.#.#.#.\n.*...*.\n.~~~~~.\n.......\n.......\n```\nsolution: D R U L",
+     "claimed_solution": "DRUL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S...E.\n.#.#.#.\n.*...*.\n.~~~~~.\n.......\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.5,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): blocked, the ember at (2,2) cannot move that way\nThe ember can never come to rest on the exit at (2,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,2), (4,6).\nCells where the ember can come to rest (8): (1,1) (1,2) (1,7) (2,1) (2,2) (2,7) (7,1) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.952,
+     "prompt_tokens": 870,
+     "output_tokens": 28,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.322e-05,
+     "reply": "```\n.......\n.S...E#\n.*.#.*.\n.~~~~~.\n.......\n.......\n.......\n```\nsolution: D R U L",
+     "claimed_solution": "DRUL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S...E#\n.*.#.*.\n.~~~~~.\n.......\n.......\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 77,
+       "avg_branching": 2.351,
+       "dead_end_states": 77,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "move the exit from (2,6) to (3,5)"
+    }
+   ],
+   "level": ".......\n.S....#\n.*.#E*.\n.~~~~~.\n.......\n.......\n.......",
+   "canonical": ".#.....\n..*~...\n..E~...\n..#~...\n...~...\n.S*~...\n.......",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "DRUL",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 22,
+    "reachable_states": 60,
+    "avg_branching": 2.373,
+    "dead_end_states": 48,
+    "dead_end_ratio": 0.8,
+    "trap_moves": 2
+   },
+   "id": "easy-04"
+  },
+  "easy-06": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.146,
+   "cost_usd": 4.638599999999999e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.125,
+     "prompt_tokens": 667,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.638599999999999e-05,
+     "reply": "```\n######\n#S...#\n#.##.#\n#.#*.#\n#.#..#\n#..*E#\n#....#\n######\n```\nsolution: R D L",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#.##.#\n#.#*.#\n#.#..#\n#..*E#\n#....#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (7,5) into a wall"
+    }
+   ],
+   "level": "######\n#S...#\n#.##.#\n#.#*.#\n#.#..#\n#..*E#\n#...##\n######",
+   "canonical": "######\n##...#\n#E*..#\n#..#.#\n#.*#.#\n#.##.#\n#...S#\n######",
+   "features": {
+    "optimal_moves": 5,
+    "solution": "DRURD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 14,
+    "reachable_states": 18,
+    "avg_branching": 2.118,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-06"
+  },
+  "easy-08": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 0.787,
+   "cost_usd": 4.3986e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.751,
+     "prompt_tokens": 667,
+     "output_tokens": 32,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.3986e-05,
+     "reply": "```\n########\n#S..*..#\n#.####.#\n#...*..#\n#E###..#\n########\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 6 moves (RDLULD); requested easy = 3..5 moves",
+      "level": "########\n#S..*..#\n#.####.#\n#...*..#\n#E###..#\n########",
+      "features": {
+       "optimal_moves": 6,
+       "solution": "RDLULD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 11,
+       "reachable_states": 17,
+       "avg_branching": 2.188,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     },
+     "patch": "turn the floor at (5,7) into a wall"
+    }
+   ],
+   "level": "########\n#S..*..#\n#.####.#\n#...*..#\n#E###.##\n########",
+   "canonical": "######\n##...#\n#..#.#\n##*#*#\n##.#.#\n##.#.#\n#E..S#\n######",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 8,
+    "reachable_states": 11,
+    "avg_branching": 1.9,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-08"
+  },
+  "easy-11": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 0.77,
+   "cost_usd": 4.4585999999999996e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.768,
+     "prompt_tokens": 667,
+     "output_tokens": 33,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.4585999999999996e-05,
+     "reply": "```\n########\n#S...*.#\n#..~...#\n#....#.#\n#..*..E#\n########\n```\nsolution: R U R",
+     "claimed_solution": "RUR",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "########\n#S...*.#\n#..~...#\n#....#.#\n#..*..E#\n########",
+      "features": {
+       "optimal_moves": 4,
+       "solution": "RDLR",
+       "n_optimal_solutions": 2,
+       "states_to_solve": 12,
+       "reachable_states": 14,
+       "avg_branching": 2.0,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "########\n#S...*.#\n#..~...#\n#....#.#\n#..*..E#\n########",
+   "canonical": "######\n#...E#\n#*.#.#\n#....#\n#.~.*#\n#....#\n#S...#\n######",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLR",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 12,
+    "reachable_states": 14,
+    "avg_branching": 2.0,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-11"
+  },
+  "easy-07": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 2,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 2,
+   "seconds": 2.324,
+   "cost_usd": 0.00010710599999999999,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.131,
+     "prompt_tokens": 667,
+     "output_tokens": 33,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.4585999999999996e-05,
+     "reply": "```\n########\n#S.....#\n#..~..E#\n#..*...#\n#......#\n#......#\n########\n```\nsolution: R D L",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#..~..E#\n#..*...#\n#......#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 0/1\n  move 2 (D): rests at (6,7), coals 0/1\n  move 3 (L): rests at (6,2), coals 0/1\n  -> ends at (6,2), not solved (exit is at (3,7))\nThe ember can never come to rest on the exit at (3,7): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,4).\nCells where the ember can come to rest (4): (2,2) (2,7) (6,2) (6,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.152,
+     "prompt_tokens": 908,
+     "output_tokens": 34,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.251999999999999e-05,
+     "reply": "```\n########\n#S.....#\n#..*..E#\n#..~...#\n#......#\n#.....##\n########\n```\nsolution: R D L",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#..*..E#\n#..~...#\n#......#\n#.....##\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 7,
+       "avg_branching": 2.286,
+       "dead_end_states": 7,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (4,7) into a wall"
+    }
+   ],
+   "level": "########\n#S.....#\n#..*..E#\n#..~..##\n#......#\n#.....##\n########",
+   "canonical": "#######\n##.#E.#\n#.....#\n#.....#\n#..~*.#\n#.....#\n#....S#\n#######",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 9,
+    "reachable_states": 13,
+    "avg_branching": 2.25,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-07"
+  },
+  "easy-10": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 7,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 3,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 3,
+   "seconds": 3.268,
+   "cost_usd": 0.000175794,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.186,
+     "prompt_tokens": 667,
+     "output_tokens": 29,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.2186e-05,
+     "reply": "```\n.......\n.S.....\n.#..#..\n...*...\n.#...E.\n..#.#..\n.......\n.......\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S.....\n.#..#..\n...*...\n.#...E.\n..#.#..\n.......\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.5,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 0/1\n  move 2 (D): rests at (8,7), coals 0/1\n  move 3 (L): rests at (8,1), coals 0/1\n  move 4 (U): rests at (1,1), coals 0/1\n  -> ends at (1,1), not solved (exit is at (5,6))\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,4).\nCells where the ember can come to rest (8): (1,1) (1,2) (1,7) (2,1) (2,2) (2,7) (8,1) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.951,
+     "prompt_tokens": 945,
+     "output_tokens": 29,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.507e-05,
+     "reply": "```\n.......\n.S.....\n.#..#..\n...*...\n.#..#E.\n..#.#..\n.......\n.......\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S.....\n.#..#..\n...*...\n.#..#E.\n..#.#..\n.......\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.5,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 0/1\n  move 2 (D): rests at (8,7), coals 0/1\n  move 3 (L): rests at (8,1), coals 0/1\n  move 4 (U): rests at (1,1), coals 0/1\n  -> ends at (1,1), not solved (exit is at (5,6))\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,4).\nCells where the ember can come to rest (8): (1,1) (1,2) (1,7) (2,1) (2,2) (2,7) (8,1) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 1.046,
+     "prompt_tokens": 1223,
+     "output_tokens": 28,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.8538e-05,
+     "reply": "```\n.......\n.S.....\n.#..#..\n.......\n.#..#E#\n..#.#..\n.......\n.......\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S.....\n.#..#..\n.......\n.#..#E#\n..#.#..\n.......\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 2.571,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "move the exit from (5,6) to (6,7)"
+    }
+   ],
+   "level": ".......\n.S.....\n.#..#..\n.......\n.#..#.#\n..#.#.E\n.......\n.......",
+   "canonical": "....#E..\n........\n..#.##..\n........\n.....#..\n.S#.#...\n........",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "LDRU",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 10,
+    "reachable_states": 11,
+    "avg_branching": 2.5,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-10"
+  },
+  "easy-13": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 7,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 2,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 2,
+   "seconds": 2.338,
+   "cost_usd": 0.000102156,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.055,
+     "prompt_tokens": 667,
+     "output_tokens": 30,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.2786e-05,
+     "reply": "```\n.......\n.S..#..\n.#.#.#.\n...#..#\n.*.#.*.\n.#...E.\n.......\n```\nsolution: D R U L",
+     "claimed_solution": "DRUL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S..#..\n.#.#.#.\n...#..#\n.*.#.*.\n.#...E.\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 20,
+       "avg_branching": 2.15,
+       "dead_end_states": 20,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): blocked, the ember at (2,2) cannot move that way\nThe ember can never come to rest on the exit at (6,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (5,2).\nCells where the ember can come to rest (14): (1,1) (1,2) (1,4) (1,7) (2,1) (2,2) (2,4) (3,5) (3,7) (5,5) (5,7) (7,1) (7,5) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.236,
+     "prompt_tokens": 895,
+     "output_tokens": 32,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.937e-05,
+     "reply": "```\n.......\n.S...E.\n.#.#.#.\n...#..#\n.*...*.\n.#.#.#.\n.......\n```\nsolution: R D L D R",
+     "claimed_solution": "RDLDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S...E.\n.#.#.#.\n...#..#\n.*...*.\n.#.#.#.\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 17,
+       "avg_branching": 2.176,
+       "dead_end_states": 17,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "move the exit from (2,6) to (5,1)"
+    }
+   ],
+   "level": ".......\n.S.....\n.#.#.#.\n...#..#\nE*...*.\n.#.#.#.\n.......",
+   "canonical": "...#...\n.#*.#..\n.......\n.#.##..\n.......\n.#*.#S.\n..E....",
+   "features": {
+    "optimal_moves": 5,
+    "solution": "LDRUL",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 10,
+    "reachable_states": 11,
+    "avg_branching": 2.3,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-13"
+  },
+  "easy-14": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 0.783,
+   "cost_usd": 4.3986e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.756,
+     "prompt_tokens": 667,
+     "output_tokens": 32,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.3986e-05,
+     "reply": "```\n#......#\n#......#\n#.S..~.#\n#....*.#\n#......#\n#.....E#\n```\nsolution: R D R",
+     "claimed_solution": "RDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#......#\n#......#\n#.S..~.#\n#....*.#\n#......#\n#.....E#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 13,
+       "avg_branching": 2.385,
+       "dead_end_states": 13,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (1,7) into a wall"
+    }
+   ],
+   "level": "#.....##\n#......#\n#.S..~.#\n#....*.#\n#......#\n#.....E#",
+   "canonical": "######\n#....E\n..~*..\n......\n......\n..S...\n......\n######",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "URDR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 17,
+    "reachable_states": 29,
+    "avg_branching": 2.5,
+    "dead_end_states": 8,
+    "dead_end_ratio": 0.276,
+    "trap_moves": 1
+   },
+   "id": "easy-14"
+  },
+  "easy-09": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 4.819,
+   "cost_usd": 0.000302874,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.791,
+     "prompt_tokens": 667,
+     "output_tokens": 35,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.5786e-05,
+     "reply": "```\n########\n#S.....#\n#......#\n#..*...#\n#....E.#\n#......#\n#......#\n########\n```\nsolution: D R U",
+     "claimed_solution": "DRU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#......#\n#..*...#\n#....E.#\n#......#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): rests at (7,2), coals 0/1\n  move 2 (R): rests at (7,7), coals 0/1\n  move 3 (U): rests at (2,7), coals 0/1\n  -> ends at (2,7), not solved (exit is at (5,6))\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,4).\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.822,
+     "prompt_tokens": 910,
+     "output_tokens": 37,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.462e-05,
+     "reply": "```\n########\n#S.....#\n#......#\n#..*...#\n#....E.#\n#....#.#\n#......#\n########\n```\nsolution: D R U",
+     "claimed_solution": "DRU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#......#\n#..*...#\n#....E.#\n#....#.#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): rests at (7,2), coals 0/1\n  move 2 (R): rests at (7,7), coals 0/1\n  move 3 (U): rests at (2,7), coals 0/1\n  -> ends at (2,7), not solved (exit is at (5,6))\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,4).\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 1.164,
+     "prompt_tokens": 1155,
+     "output_tokens": 37,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.3738e-05,
+     "reply": "```\n########\n#S.....#\n#......#\n#..*...#\n#....E.#\n#......#\n#....#.#\n########\n```\nsolution: D R U",
+     "claimed_solution": "DRU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#......#\n#..*...#\n#....E.#\n#......#\n#....#.#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 6,
+       "avg_branching": 2.0,
+       "dead_end_states": 6,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): rests at (7,2), coals 0/1\n  move 2 (R): rests at (7,5), coals 0/1\n  move 3 (U): rests at (2,5), coals 0/1\n  -> ends at (2,5), not solved (exit is at (5,6))\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,4).\nCells where the ember can come to rest (6): (2,2) (2,5) (2,7) (7,2) (7,5) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 1.017,
+     "prompt_tokens": 1410,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.3756e-05,
+     "reply": "```\n########\n#S.....#\n#......#\n#..*..##\n#....E##\n#......#\n#....#.#\n########\n```\nsolution: D R U",
+     "claimed_solution": "DRU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#......#\n#..*..##\n#....E##\n#......#\n#....#.#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 7,
+       "avg_branching": 2.286,
+       "dead_end_states": 7,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): rests at (7,2), coals 0/1\n  move 2 (R): rests at (7,5), coals 0/1\n  move 3 (U): rests at (2,5), coals 0/1\n  -> ends at (2,5), not solved (exit is at (5,6))\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,4).\nCells where the ember can come to rest (7): (2,2) (2,5) (2,7) (3,2) (3,7) (7,2) (7,5)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 0.903,
+     "prompt_tokens": 1669,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.497399999999999e-05,
+     "reply": "```\n########\n#S.....#\n#......#\n#..*...#\n#.....E#\n#....#.#\n#......#\n########\n```\nsolution: D R U",
+     "claimed_solution": "DRU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#......#\n#..*...#\n#.....E#\n#....#.#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): rests at (7,2), coals 0/1\n  move 2 (R): rests at (7,7), coals 0/1\n  move 3 (U): rests at (2,7), coals 0/1\n  -> ends at (2,7), not solved (exit is at (5,7))\nThe ember can never come to rest on the exit at (5,7): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,4).\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "easy-09"
+  },
+  "easy-16": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 6,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 0.703,
+   "cost_usd": 4.5786e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.693,
+     "prompt_tokens": 667,
+     "output_tokens": 35,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.5786e-05,
+     "reply": "```\n######\n#S..*#\n#.##.#\n#.#E.#\n#.#..#\n#*.#.#\n######\n```\nsolution: R D L D",
+     "claimed_solution": "RDLD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S..*#\n#.##.#\n#.#E.#\n#.#..#\n#*.#.#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 12,
+       "avg_branching": 1.667,
+       "dead_end_states": 12,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "move the exit from (4,4) to (6,3)"
+    }
+   ],
+   "level": "######\n#S..*#\n#.##.#\n#.#..#\n#.#..#\n#*E#.#\n######",
+   "canonical": "######\n#*..S#\n#.##.#\n#..#.#\n#..#.#\n#.#E*#\n######",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RLDR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 11,
+    "reachable_states": 12,
+    "avg_branching": 1.727,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-16"
+  },
+  "easy-18": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.026,
+   "cost_usd": 4.7586e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.015,
+     "prompt_tokens": 667,
+     "output_tokens": 38,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.7586e-05,
+     "reply": "```\n######\n#S...#\n#.##.#\n#..*.#\n#.#..#\n#..E.#\n#.##.#\n######\n```\nsolution: D R U L",
+     "claimed_solution": "DRUL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#.##.#\n#..*.#\n#.#..#\n#..E.#\n#.##.#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 1.5,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (6,5) into a wall"
+    }
+   ],
+   "level": "######\n#S...#\n#.##.#\n#..*.#\n#.#..#\n#..E##\n#.##.#\n######",
+   "canonical": "######\n#.##.#\n##E..#\n#..#.#\n#.*..#\n#.##.#\n#...S#\n######",
+   "features": {
+    "optimal_moves": 5,
+    "solution": "RDLUD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 7,
+    "reachable_states": 16,
+    "avg_branching": 2.267,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-18"
+  },
+  "easy-12": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 5,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 5,
+   "seconds": 5.494,
+   "cost_usd": 0.000296538,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.38,
+     "prompt_tokens": 667,
+     "output_tokens": 39,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.8186e-05,
+     "reply": "```\n########\n#S.....#\n#..*...#\n#..#...#\n#...~..#\n#....*.#\n#.....E#\n########\n```\nsolution: U R D",
+     "claimed_solution": "URD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#..*...#\n#..#...#\n#...~..#\n#....*.#\n#.....E#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (U): blocked, the ember at (2,2) cannot move that way\nCoals that can never be collected: (3,4), (6,6).\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.085,
+     "prompt_tokens": 816,
+     "output_tokens": 39,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.172e-05,
+     "reply": "```\n########\n#S.....#\n#......#\n#..*...#\n#......#\n#....*.#\n#..~..E#\n########\n```\nsolution: R D R D",
+     "claimed_solution": "RDRD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#......#\n#..*...#\n#......#\n#....*.#\n#..~..E#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 12,
+       "avg_branching": 2.167,
+       "dead_end_states": 12,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 0/2\n  move 2 (D): rests at (7,7), coals 0/2\n  move 3 (R): blocked, the ember at (7,7) cannot move that way\nCoals that can never be collected: (4,4), (6,6).\nCells where the ember can come to rest (8): (2,2) (2,3) (2,5) (2,7) (7,2) (7,3) (7,5) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 1.003,
+     "prompt_tokens": 1027,
+     "output_tokens": 37,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.3354e-05,
+     "reply": "```\n########\n#S.....#\n#......#\n#.*....#\n#......#\n#....*.#\n#.....E#\n########\n```\nsolution: R D L D R",
+     "claimed_solution": "RDLDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#......#\n#.*....#\n#......#\n#....*.#\n#.....E#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 0/2\n  move 2 (D): rests at (7,7), coals 0/2\n  move 3 (L): rests at (7,2), coals 0/2\n  move 4 (D): blocked, the ember at (7,2) cannot move that way\nCoals that can never be collected: (4,3), (6,6).\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 0.759,
+     "prompt_tokens": 1237,
+     "output_tokens": 39,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.8422e-05,
+     "reply": "```\n########\n#S.....#\n#..*...#\n#......#\n#...~..#\n#.*....#\n#.....E#\n########\n```\nsolution: D R U L D",
+     "claimed_solution": "DRULD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#..*...#\n#......#\n#...~..#\n#.*....#\n#.....E#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): rests at (7,2), coals 0/2\n  move 2 (R): rests at (7,7), coals 0/2\n  move 3 (U): rests at (2,7), coals 0/2\n  move 4 (L): rests at (2,2), coals 0/2\n  move 5 (D): rests at (7,2), coals 0/2\n  -> ends at (7,2), not solved (exit is at (7,7))\nCoals that can never be collected: (3,4), (6,3).\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 1.154,
+     "prompt_tokens": 1488,
+     "output_tokens": 35,
+     "reasoning_tokens": 0,
+     "cost_usd": 7.485599999999999e-05,
+     "reply": "```\n########\n#S....*#\n#......#\n#......#\n#......#\n#......#\n#*.....E\n########\n```\nsolution: R D L D R",
+     "claimed_solution": "RDLDR",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "########\n#S....*#\n#......#\n#......#\n#......#\n#......#\n#*.....E\n########",
+      "features": {
+       "optimal_moves": 4,
+       "solution": "RDLR",
+       "n_optimal_solutions": 2,
+       "states_to_solve": 12,
+       "reachable_states": 13,
+       "avg_branching": 2.0,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "########\n#S....*#\n#......#\n#......#\n#......#\n#......#\n#*.....E\n########",
+   "canonical": "########\n#*.....E\n#......#\n#......#\n#......#\n#......#\n#S....*#\n########",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLR",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 12,
+    "reachable_states": 13,
+    "avg_branching": 2.0,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-12"
+  },
+  "easy-17": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 3,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 3,
+   "seconds": 2.873,
+   "cost_usd": 0.000193794,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.692,
+     "prompt_tokens": 667,
+     "output_tokens": 40,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.8786000000000004e-05,
+     "reply": "```\n########\n#S.....#\n#..*...#\n#..~...#\n#....*.#\n#...E..#\n#......#\n########\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#..*...#\n#..~...#\n#....*.#\n#...E..#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 0/2\n  move 2 (D): rests at (7,7), coals 0/2\n  move 3 (L): rests at (7,2), coals 0/2\n  move 4 (U): rests at (2,2), coals 0/2\n  -> ends at (2,2), not solved (exit is at (6,5))\nThe ember can never come to rest on the exit at (6,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (3,4), (5,6).\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.862,
+     "prompt_tokens": 941,
+     "output_tokens": 40,
+     "reasoning_tokens": 0,
+     "cost_usd": 7.107e-05,
+     "reply": "```\n########\n#S.....#\n#..*...#\n#..#...#\n#....*.#\n#...E#.#\n#......#\n########\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#..*...#\n#..#...#\n#....*.#\n#...E#.#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 0/2\n  move 2 (D): rests at (7,7), coals 0/2\n  move 3 (L): rests at (7,2), coals 0/2\n  move 4 (U): rests at (2,2), coals 0/2\n  -> ends at (2,2), not solved (exit is at (6,5))\nThe ember can never come to rest on the exit at (6,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (3,4), (5,6).\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 1.221,
+     "prompt_tokens": 1215,
+     "output_tokens": 39,
+     "reasoning_tokens": 0,
+     "cost_usd": 7.3938e-05,
+     "reply": "```\n########\n#S.....#\n#......#\n#..*..*#\n#..#..##\n#...E..#\n#..~...#\n########\n```\nsolution: R D L",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#......#\n#..*..*#\n#..#..##\n#...E..#\n#..~...#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 45,
+       "avg_branching": 2.244,
+       "dead_end_states": 45,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "move the exit from (6,5) to (7,2)"
+    }
+   ],
+   "level": "########\n#S.....#\n#......#\n#..*..*#\n#..#..##\n#......#\n#E.~...#\n########",
+   "canonical": "########\n#..#*..#\n#......#\n#......#\n#~.#*..#\n#......#\n#E....S#\n########",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 13,
+    "reachable_states": 38,
+    "avg_branching": 2.222,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-17"
+  },
+  "medium-00": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.241,
+   "cost_usd": 4.5786e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.182,
+     "prompt_tokens": 667,
+     "output_tokens": 35,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.5786e-05,
+     "reply": "```\n#....#\n.S...#\n..~..#\n...*.#\n.#~..#\n..#*.#\n....E#\n######\n```\nsolution: RDLURD",
+     "claimed_solution": "RDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#....#\n.S...#\n..~..#\n...*.#\n.#~..#\n..#*.#\n....E#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 18,
+       "avg_branching": 2.5,
+       "dead_end_states": 18,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (1,4) into a wall"
+    }
+   ],
+   "level": "#..#.#\n.S...#\n..~..#\n...*.#\n.#~..#\n..#*.#\n....E#\n######",
+   "canonical": "######\n#E....\n#.*#..\n#..~#.\n#.*...\n#..~..\n#...S.\n#.#..#",
+   "features": {
+    "optimal_moves": 8,
+    "solution": "URDRLUDR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 41,
+    "reachable_states": 48,
+    "avg_branching": 2.319,
+    "dead_end_states": 32,
+    "dead_end_ratio": 0.667,
+    "trap_moves": 7
+   },
+   "id": "medium-00"
+  },
+  "easy-15": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 4.536,
+   "cost_usd": 0.00028493999999999997,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.848,
+     "prompt_tokens": 667,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.638599999999999e-05,
+     "reply": "```\n######\n#S...#\n#.##.#\n#.*..#\n#..~E#\n#.##.#\n#....#\n######\n```\nsolution: R D R U",
+     "claimed_solution": "RDRU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#.##.#\n#.*..#\n#..~E#\n#.##.#\n#....#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,5), coals 0/1\n  move 2 (D): rests at (7,5), coals 0/1\n  move 3 (R): blocked, the ember at (7,5) cannot move that way\nThe ember can never come to rest on the exit at (5,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,3).\nCells where the ember can come to rest (4): (2,2) (2,5) (7,2) (7,5)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.769,
+     "prompt_tokens": 893,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.146999999999999e-05,
+     "reply": "```\n######\n#S...#\n#.##.#\n#.*..#\n#..~E#\n#.##.#\n#....#\n######\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#.##.#\n#.*..#\n#..~E#\n#.##.#\n#....#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,5), coals 0/1\n  move 2 (D): rests at (7,5), coals 0/1\n  move 3 (L): rests at (7,2), coals 0/1\n  move 4 (U): rests at (2,2), coals 0/1\n  -> ends at (2,2), not solved (exit is at (5,5))\nThe ember can never come to rest on the exit at (5,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,3).\nCells where the ember can come to rest (4): (2,2) (2,5) (7,2) (7,5)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 1.088,
+     "prompt_tokens": 1158,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.358799999999999e-05,
+     "reply": "```\n######\n#S...#\n#.##.#\n#.*..#\n#..~E#\n#.##.#\n#....#\n######\n```\nsolution: R D D L",
+     "claimed_solution": "RDDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#.##.#\n#.*..#\n#..~E#\n#.##.#\n#....#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,5), coals 0/1\n  move 2 (D): rests at (7,5), coals 0/1\n  move 3 (D): blocked, the ember at (7,5) cannot move that way\nThe ember can never come to rest on the exit at (5,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,3).\nCells where the ember can come to rest (4): (2,2) (2,5) (7,2) (7,5)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 0.861,
+     "prompt_tokens": 1384,
+     "output_tokens": 34,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.8656e-05,
+     "reply": "```\n######\n#S...#\n#.##.#\n#.*..\n#..~#\n#.##.#\n#....#\n######\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "malformed",
+      "detail": "row 4 has 5 characters but row 1 has 6; all rows must be the same length",
+      "parse_code": "ragged"
+     },
+     "feedback": "REJECTED: malformed. row 4 has 5 characters but row 1 has 6; all rows must be the same length. The level must be exactly 6 wide and 8 tall. Reply with a corrected level in the same output format."
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 0.917,
+     "prompt_tokens": 1476,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.483999999999999e-05,
+     "reply": "```\n######\n#S...#\n#.##.#\n#.*..#\n#..~E#\n#.##.#\n#....#\n######\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#.##.#\n#.*..#\n#..~E#\n#.##.#\n#....#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,5), coals 0/1\n  move 2 (D): rests at (7,5), coals 0/1\n  move 3 (L): rests at (7,2), coals 0/1\n  move 4 (U): rests at (2,2), coals 0/1\n  -> ends at (2,2), not solved (exit is at (5,5))\nThe ember can never come to rest on the exit at (5,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,3).\nCells where the ember can come to rest (4): (2,2) (2,5) (7,2) (7,5)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "easy-15"
+  },
+  "medium-01": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 8,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.152,
+   "cost_usd": 5.2385999999999996e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.149,
+     "prompt_tokens": 667,
+     "output_tokens": 46,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.2385999999999996e-05,
+     "reply": "```\n########\n#S..~..#\n#..*.*.#\n#.~...~#\n#..*.*.#\n#..~..E#\n########\n```\nsolution: D R U L D R U L",
+     "claimed_solution": "DRULDRUL",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "########\n#S..~..#\n#..*.*.#\n#.~...~#\n#..*.*.#\n#..~..E#\n########",
+      "features": {
+       "optimal_moves": 9,
+       "solution": "RLDLURDRD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 186,
+       "reachable_states": 572,
+       "avg_branching": 2.376,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "########\n#S..~..#\n#..*.*.#\n#.~...~#\n#..*.*.#\n#..~..E#\n########",
+   "canonical": "#######\n#....S#\n#..~..#\n#~*.*.#\n#....~#\n#.*.*.#\n#E.~..#\n#######",
+   "features": {
+    "optimal_moves": 9,
+    "solution": "RLDLURDRD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 186,
+    "reachable_states": 572,
+    "avg_branching": 2.376,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-01"
+  },
+  "medium-03": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 7,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.088,
+   "cost_usd": 4.8186e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.087,
+     "prompt_tokens": 667,
+     "output_tokens": 39,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.8186e-05,
+     "reply": "```\n#######\n#S..~.#\n#.#.#.#\n#..*..#\n#.#.#.#\n#E~..*#\n#######\n```\nsolution: RDRDLU",
+     "claimed_solution": "RDRDLU",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "#######\n#S..~.#\n#.#.#.#\n#..*..#\n#.#.#.#\n#E~..*#\n#######",
+      "features": {
+       "optimal_moves": 6,
+       "solution": "DRLULD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 17,
+       "reachable_states": 23,
+       "avg_branching": 1.857,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "#######\n#S..~.#\n#.#.#.#\n#..*..#\n#.#.#.#\n#E~..*#\n#######",
+   "canonical": "#######\n#*....#\n#.#.#~#\n#..*..#\n#~#.#.#\n#E...S#\n#######",
+   "features": {
+    "optimal_moves": 6,
+    "solution": "DRLULD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 17,
+    "reachable_states": 23,
+    "avg_branching": 1.857,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-03"
+  },
+  "medium-04": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 7,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.259,
+   "cost_usd": 4.2186e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.215,
+     "prompt_tokens": 667,
+     "output_tokens": 29,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.2186e-05,
+     "reply": "```\n.......\n.S..#..\n.#.#.#.\n...#..~\n~.*..#E\n.......\n```\nsolution: D R U L D R",
+     "claimed_solution": "DRULDR",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 10 moves (URDLUDRDRU); requested medium = 6..9 moves",
+      "level": ".......\n.S..#..\n.#.#.#.\n...#..~\n~.*..#E\n.......",
+      "features": {
+       "optimal_moves": 10,
+       "solution": "URDLUDRDRU",
+       "n_optimal_solutions": 2,
+       "states_to_solve": 24,
+       "reachable_states": 28,
+       "avg_branching": 2.148,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     },
+     "patch": "turn the floor at (1,2) into a wall"
+    }
+   ],
+   "level": ".#.....\n.S..#..\n.#.#.#.\n...#..~\n~.*..#E\n.......",
+   "canonical": ".#.....\n.S..#..\n.#.#.#.\n...#..~\n~.*..#E\n.......",
+   "features": {
+    "optimal_moves": 8,
+    "solution": "LDRULDRU",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 33,
+    "reachable_states": 48,
+    "avg_branching": 1.957,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-04"
+  },
+  "medium-02": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 8,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 2.028,
+   "cost_usd": 4.8186e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.98,
+     "prompt_tokens": 667,
+     "output_tokens": 39,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.8186e-05,
+     "reply": "```\nS..#...#\n.#..*..#\n...#..#.\n.#......\n....#..#\n..#..#..\n.#...#..\nE..#...#\n```\nsolution: R D L U R D L",
+     "claimed_solution": "RDLURDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S..#...#\n.#..*..#\n...#..#.\n.#......\n....#..#\n..#..#..\n.#...#..\nE..#...#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 19,
+       "avg_branching": 2.421,
+       "dead_end_states": 19,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (1,3) into wet clay"
+    }
+   ],
+   "level": "S.~#...#\n.#..*..#\n...#..#.\n.#......\n....#..#\n..#..#..\n.#...#..\nE..#...#",
+   "canonical": "##..#..#\n..#.....\n.....##.\n.*..#...\n#.#....#\n~....#..\n.#.#..#.\nS......E",
+   "features": {
+    "optimal_moves": 8,
+    "solution": "RDURLDLD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 45,
+    "reachable_states": 63,
+    "avg_branching": 2.371,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-02"
+  },
+  "medium-06": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 6,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 0.955,
+   "cost_usd": 4.698600000000001e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.946,
+     "prompt_tokens": 667,
+     "output_tokens": 37,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.698600000000001e-05,
+     "reply": "```\n######\n#S...#\n#.#..#\n#..*.#\n#*~..#\n#..E.#\n######\n```\nsolution: R D L U R D",
+     "claimed_solution": "RDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#.#..#\n#..*.#\n#*~..#\n#..E.#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (4,2) into a wall"
+    }
+   ],
+   "level": "######\n#S...#\n#.#..#\n##.*.#\n#*~..#\n#..E.#\n######",
+   "canonical": "######\n#...S#\n#..#.#\n#.*.##\n#..~*#\n#.E..#\n######",
+   "features": {
+    "optimal_moves": 8,
+    "solution": "RDLURLUD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 20,
+    "reachable_states": 28,
+    "avg_branching": 1.926,
+    "dead_end_states": 12,
+    "dead_end_ratio": 0.429,
+    "trap_moves": 4
+   },
+   "id": "medium-06"
+  },
+  "easy-19": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 5.254,
+   "cost_usd": 0.000308874,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.01,
+     "prompt_tokens": 667,
+     "output_tokens": 35,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.5786e-05,
+     "reply": "```\n........\n.S....E.\n.#..#.#.\n.....*..\n..#..#..\n..*.#.*.\n.#..#.#.\n........\n```\nsolution: R D L D",
+     "claimed_solution": "RDLD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "........\n.S....E.\n.#..#.#.\n.....*..\n..#..#..\n..*.#.*.\n.#..#.#.\n........",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.5,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,8), coals 0/3\n  move 2 (D): rests at (8,8), coals 0/3\n  move 3 (L): rests at (8,1), coals 0/3\n  move 4 (D): blocked, the ember at (8,1) cannot move that way\nThe ember can never come to rest on the exit at (2,7): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,6), (6,3), (6,7).\nCells where the ember can come to rest (8): (1,1) (1,2) (1,8) (2,1) (2,2) (2,8) (8,1) (8,8)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.105,
+     "prompt_tokens": 943,
+     "output_tokens": 35,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.837000000000001e-05,
+     "reply": "```\n........\n.S....E.\n.#..#.#.\n.....*..\n..#..#..\n..*.#.*.\n.#..#.#.\n........\n```\nsolution: R D L D",
+     "claimed_solution": "RDLD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "........\n.S....E.\n.#..#.#.\n.....*..\n..#..#..\n..*.#.*.\n.#..#.#.\n........",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.5,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,8), coals 0/3\n  move 2 (D): rests at (8,8), coals 0/3\n  move 3 (L): rests at (8,1), coals 0/3\n  move 4 (D): blocked, the ember at (8,1) cannot move that way\nThe ember can never come to rest on the exit at (2,7): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,6), (6,3), (6,7).\nCells where the ember can come to rest (8): (1,1) (1,2) (1,8) (2,1) (2,2) (2,8) (8,1) (8,8)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 0.597,
+     "prompt_tokens": 1219,
+     "output_tokens": 41,
+     "reasoning_tokens": 0,
+     "cost_usd": 7.5738e-05,
+     "reply": "```\n########\n#S....E#\n#.####.#\n#.*..*.#\n#.####.#\n#.*..*.#\n#.####.#\n########\n```\nsolution: D R U L",
+     "claimed_solution": "DRUL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S....E#\n#.####.#\n#.*..*.#\n#.####.#\n#.*..*.#\n#.####.#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 1.5,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): rests at (7,2), coals 0/4\n  move 2 (R): blocked, the ember at (7,2) cannot move that way\nCoals that can never be collected: (4,3), (4,6), (6,3), (6,6).\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 1.392,
+     "prompt_tokens": 1401,
+     "output_tokens": 30,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.8806000000000006e-05,
+     "reply": "```\n........\n.S.*....\n....#...\n.*..E...\n....#...\n..*.*...\n........\n........\n```\nsolution: R D L",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "........\n.S.*....\n....#...\n.*..E...\n....#...\n..*.*...\n........\n........",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 19,
+       "avg_branching": 2.421,
+       "dead_end_states": 19,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,8), coals 1/4\n  move 2 (D): rests at (8,8), coals 1/4\n  move 3 (L): rests at (8,1), coals 1/4\n  -> ends at (8,1), not solved (exit is at (4,5))\nThe ember can never come to rest on the exit at (4,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (6,3), (6,5).\nCells where the ember can come to rest (9): (1,1) (1,2) (1,8) (2,1) (2,2) (2,8) (8,1) (8,2) (8,8)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 0.958,
+     "prompt_tokens": 1669,
+     "output_tokens": 28,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.017399999999999e-05,
+     "reply": "```\n........\n.S......\n.#.#....\n....*...\n.#E#....\n........\n........\n........\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "........\n.S......\n.#.#....\n....*...\n.#E#....\n........\n........\n........",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.5,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,8), coals 0/1\n  move 2 (D): rests at (8,8), coals 0/1\n  move 3 (L): rests at (8,1), coals 0/1\n  move 4 (U): rests at (1,1), coals 0/1\n  -> ends at (1,1), not solved (exit is at (5,3))\nThe ember can never come to rest on the exit at (5,3): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,5).\nCells where the ember can come to rest (8): (1,1) (1,2) (1,8) (2,1) (2,2) (2,8) (8,1) (8,8)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "easy-19"
+  },
+  "medium-05": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 8,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 2,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 2,
+   "seconds": 2.312,
+   "cost_usd": 0.00012600599999999999,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.145,
+     "prompt_tokens": 667,
+     "output_tokens": 44,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.1186e-05,
+     "reply": "```\n#......#\n#..*...#\n#.~#~..#\n#..E...#\n#.*..~.#\n#....S.#\n#......#\n```\nsolution: U L U R D L",
+     "claimed_solution": "ULURDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#......#\n#..*...#\n#.~#~..#\n#..E...#\n#.*..~.#\n#....S.#\n#......#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 16,
+       "avg_branching": 2.562,
+       "dead_end_states": 16,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (U): rests at (1,6), coals 0/2\n  move 2 (L): rests at (1,2), coals 0/2\n  move 3 (U): blocked, the ember at (1,2) cannot move that way\nThe ember can never come to rest on the exit at (4,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (2,4), (5,3).\nCells where the ember can come to rest (12): (1,2) (1,6) (1,7) (4,2) (4,6) (4,7) (6,2) (6,6) (6,7) (7,2) (7,6) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.049,
+     "prompt_tokens": 946,
+     "output_tokens": 45,
+     "reasoning_tokens": 0,
+     "cost_usd": 7.481999999999999e-05,
+     "reply": "```\n#......#\n#..*...#\n#.~#~..#\n#..E#..#\n#.*..~.#\n#....S.#\n#......#\n```\nsolution: U L U R D L",
+     "claimed_solution": "ULURDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#......#\n#..*...#\n#.~#~..#\n#..E#..#\n#.*..~.#\n#....S.#\n#......#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 15,
+       "avg_branching": 2.467,
+       "dead_end_states": 15,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (1,2) into a wall"
+    }
+   ],
+   "level": "##.....#\n#..*...#\n#.~#~..#\n#..E#..#\n#.*..~.#\n#....S.#\n#......#",
+   "canonical": "#######\n#......\n..~.*..\n.*#E...\n..~#...\n....~S.\n.......\n#######",
+   "features": {
+    "optimal_moves": 8,
+    "solution": "LURULDUR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 62,
+    "reachable_states": 73,
+    "avg_branching": 2.408,
+    "dead_end_states": 36,
+    "dead_end_ratio": 0.493,
+    "trap_moves": 2
+   },
+   "id": "medium-05"
+  },
+  "medium-08": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 6,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.035,
+   "cost_usd": 4.5186e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.035,
+     "prompt_tokens": 667,
+     "output_tokens": 34,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.5186e-05,
+     "reply": "```\n######\n#S..~#\n#.#..#\n#..*.#\n#.E~.#\n######\n```\nsolution: R D L D R U",
+     "claimed_solution": "RDLDRU",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "######\n#S..~#\n#.#..#\n#..*.#\n#.E~.#\n######",
+      "features": {
+       "optimal_moves": 6,
+       "solution": "RLRDLR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 27,
+       "reachable_states": 31,
+       "avg_branching": 2.2,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "######\n#S..~#\n#.#..#\n#..*.#\n#.E~.#\n######",
+   "canonical": "######\n#...S#\n#E.#.#\n#~*..#\n#...~#\n######",
+   "features": {
+    "optimal_moves": 6,
+    "solution": "RLRDLR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 27,
+    "reachable_states": 31,
+    "avg_branching": 2.2,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-08"
+  },
+  "medium-09": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 7,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 2,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 2,
+   "seconds": 1.954,
+   "cost_usd": 0.00012360599999999998,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.843,
+     "prompt_tokens": 667,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.638599999999999e-05,
+     "reply": "```\n.......\n.S...*.\n.#.#.#.\n...~...\n.#...E.\n..*.#..\n.#.#.#.\n...*...\n```\nsolution: RDLURD",
+     "claimed_solution": "RDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S...*.\n.#.#.#.\n...~...\n.#...E.\n..*.#..\n.#.#.#.\n...*...",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 21,
+       "avg_branching": 2.238,
+       "dead_end_states": 21,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 1/3\n  move 2 (D): rests at (8,7), coals 1/3\n  move 3 (L): rests at (8,1), coals 2/3\n  move 4 (U): rests at (1,1), coals 2/3\n  move 5 (R): rests at (1,7), coals 2/3\n  move 6 (D): rests at (8,7), coals 2/3\n  -> ends at (8,7), not solved (exit is at (5,6))\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (6,3).\nCells where the ember can come to rest (8): (1,1) (1,2) (1,7) (2,1) (2,2) (2,7) (8,1) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.989,
+     "prompt_tokens": 994,
+     "output_tokens": 37,
+     "reasoning_tokens": 0,
+     "cost_usd": 7.722e-05,
+     "reply": "```\n.......\n.S...*.\n.#.#.#.\n...~...\n.#.E#..\n..*.#..\n.#.#.#.\n...*...\n```\nsolution: RDLURD",
+     "claimed_solution": "RDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S...*.\n.#.#.#.\n...~...\n.#.E#..\n..*.#..\n.#.#.#.\n...*...",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 21,
+       "avg_branching": 2.238,
+       "dead_end_states": 21,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (5,1) into a wall"
+    }
+   ],
+   "level": ".......\n.S...*.\n.#.#.#.\n...~...\n##.E#..\n..*.#..\n.#.#.#.\n...*...",
+   "canonical": "...#....\n.#.#.#S.\n..*.....\n*#.E~#..\n..##....\n.#...#*.\n........",
+   "features": {
+    "optimal_moves": 8,
+    "solution": "RDLURUDU",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 66,
+    "reachable_states": 134,
+    "avg_branching": 2.316,
+    "dead_end_states": 65,
+    "dead_end_ratio": 0.485,
+    "trap_moves": 0
+   },
+   "id": "medium-09"
+  },
+  "medium-11": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 6,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.122,
+   "cost_usd": 4.698600000000001e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.121,
+     "prompt_tokens": 667,
+     "output_tokens": 37,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.698600000000001e-05,
+     "reply": "```\n#....#\n..~..#\n.*.#..\n..~.*.\n#..#..\n..*...\nS..~.E\n```\nsolution: U R D L U R D",
+     "claimed_solution": "URDLURD",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "#....#\n..~..#\n.*.#..\n..~.*.\n#..#..\n..*...\nS..~.E",
+      "features": {
+       "optimal_moves": 9,
+       "solution": "URULDULDR",
+       "n_optimal_solutions": 2,
+       "states_to_solve": 79,
+       "reachable_states": 143,
+       "avg_branching": 2.25,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "#....#\n..~..#\n.*.#..\n..~.*.\n#..#..\n..*...\nS..~.E",
+   "canonical": "##....E\n...*...\n..#.#.~\n.~.~.*.\n..*....\n#...#.S",
+   "features": {
+    "optimal_moves": 9,
+    "solution": "URULDULDR",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 79,
+    "reachable_states": 143,
+    "avg_branching": 2.25,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-11"
+  },
+  "medium-13": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 7,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 0.884,
+   "cost_usd": 4.7586e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.883,
+     "prompt_tokens": 667,
+     "output_tokens": 38,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.7586e-05,
+     "reply": "```\n#######\n#S..~.#\n#.#.#.#\n#..*..#\n#~#.#~#\n#....E#\n```\nsolution: R D L D R U",
+     "claimed_solution": "RDLDRU",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "#######\n#S..~.#\n#.#.#.#\n#..*..#\n#~#.#~#\n#....E#",
+      "features": {
+       "optimal_moves": 7,
+       "solution": "DRULRDR",
+       "n_optimal_solutions": 2,
+       "states_to_solve": 21,
+       "reachable_states": 23,
+       "avg_branching": 1.818,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "#######\n#S..~.#\n#.#.#.#\n#..*..#\n#~#.#~#\n#....E#",
+   "canonical": "######\n#...~E\n#~#.#.\n#..*..\n#.#.#.\n#S..~.\n######",
+   "features": {
+    "optimal_moves": 7,
+    "solution": "DRULRDR",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 21,
+    "reachable_states": 23,
+    "avg_branching": 1.818,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-13"
+  },
+  "medium-12": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 8,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.07,
+   "cost_usd": 5.0586e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.031,
+     "prompt_tokens": 667,
+     "output_tokens": 43,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.0586e-05,
+     "reply": "```\nS..*..#.\n.#....#.\n.#..~#..\n....#..#\n.#..#..#\n.#..#*.#\n...#..E.\n#..#..#.\n```\nsolution: RDLURDR",
+     "claimed_solution": "RDLURDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S..*..#.\n.#....#.\n.#..~#..\n....#..#\n.#..#..#\n.#..#*.#\n...#..E.\n#..#..#.",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 17,
+       "avg_branching": 2.412,
+       "dead_end_states": 17,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the wall at (8,4) into floor"
+    }
+   ],
+   "level": "S..*..#.\n.#....#.\n.#..~#..\n....#..#\n.#..#..#\n.#..#*.#\n...#..E.\n#.....#.",
+   "canonical": "#.....#.\n...#..E.\n.#..#*.#\n.#..#..#\n....#..#\n.#..~#..\n.#....#.\nS..*..#.",
+   "features": {
+    "optimal_moves": 8,
+    "solution": "RDLDRURD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 34,
+    "reachable_states": 54,
+    "avg_branching": 2.358,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-12"
+  },
+  "medium-10": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 2,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 2,
+   "seconds": 2.458,
+   "cost_usd": 0.000124956,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.052,
+     "prompt_tokens": 667,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.638599999999999e-05,
+     "reply": "```\n#....#\n.S....\n.#..#.\n.*~#..\n..~.*.\n.#..#.\n..*.E.\n#....#\n```\nsolution: R D L U R D",
+     "claimed_solution": "RDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#....#\n.S....\n.#..#.\n.*~#..\n..~.*.\n.#..#.\n..*.E.\n#....#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 12,
+       "avg_branching": 2.167,
+       "dead_end_states": 12,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,6), coals 0/3\n  move 2 (D): rests at (7,6), coals 0/3\n  move 3 (L): rests at (7,1), coals 1/3\n  move 4 (U): rests at (2,1), coals 1/3\n  move 5 (R): rests at (2,6), coals 1/3\n  move 6 (D): rests at (7,6), coals 1/3\n  -> ends at (7,6), not solved (exit is at (7,5))\nThe ember can never come to rest on the exit at (7,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (4,2), (5,5).\nCells where the ember can come to rest (8): (1,2) (1,5) (2,1) (2,2) (2,5) (2,6) (7,1) (7,6)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.355,
+     "prompt_tokens": 999,
+     "output_tokens": 38,
+     "reasoning_tokens": 0,
+     "cost_usd": 7.857e-05,
+     "reply": "```\n#....#\n.S...#\n.#..##\n.*~#..\n..~.*#\n.#..#.\n..*.E#\n#....#\n```\nsolution: R D L U R D L",
+     "claimed_solution": "RDLURDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#....#\n.S...#\n.#..##\n.*~#..\n..~.*#\n.#..#.\n..*.E#\n#....#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 16,
+       "avg_branching": 2.188,
+       "dead_end_states": 16,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the wall at (3,2) into floor"
+    }
+   ],
+   "level": "#....#\n.S...#\n....##\n.*~#..\n..~.*#\n.#..#.\n..*.E#\n#....#",
+   "canonical": "###.#.##\n..#.*#E.\n...#....\n...~~.*.\n.S.*.#..\n#......#",
+   "features": {
+    "optimal_moves": 7,
+    "solution": "DRLDLUR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 37,
+    "reachable_states": 65,
+    "avg_branching": 2.188,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-10"
+  },
+  "medium-15": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 8,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.374,
+   "cost_usd": 5.3586e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.296,
+     "prompt_tokens": 667,
+     "output_tokens": 48,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.3586e-05,
+     "reply": "```\n#....#..\n#..*.#..\n#.S#...#\n#..#.#.#\n#....#.#\n#.#.*..#\n#E....##\n########\n```\nsolution: D R U L D R U L",
+     "claimed_solution": "DRULDRUL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#....#..\n#..*.#..\n#.S#...#\n#..#.#.#\n#....#.#\n#.#.*..#\n#E....##\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 32,
+       "avg_branching": 2.5,
+       "dead_end_states": 32,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (1,2) into wet clay"
+    }
+   ],
+   "level": "#~...#..\n#..*.#..\n#.S#...#\n#..#.#.#\n#....#.#\n#.#.*..#\n#E....##\n########",
+   "canonical": "########\n##....E#\n#..*.#.#\n#.#....#\n#.#.#..#\n#...#S.#\n..#.*..#\n..#...~#",
+   "features": {
+    "optimal_moves": 7,
+    "solution": "ULDURDL",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 47,
+    "reachable_states": 98,
+    "avg_branching": 2.474,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-15"
+  },
+  "medium-14": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 8,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.516,
+   "cost_usd": 4.4585999999999996e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.395,
+     "prompt_tokens": 667,
+     "output_tokens": 33,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.4585999999999996e-05,
+     "reply": "```\n#......#\n#..~~..#\n#.*..#.#\n#.#.*..#\n#S....E#\n########\n```\nsolution: RUDLUR",
+     "claimed_solution": "RUDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#......#\n#..~~..#\n#.*..#.#\n#.#.*..#\n#S....E#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (1,2) into a wall"
+    }
+   ],
+   "level": "##.....#\n#..~~..#\n#.*..#.#\n#.#.*..#\n#S....E#\n########",
+   "canonical": "######\n#...S#\n..*#.#\n.~...#\n.~.*.#\n..#..#\n....E#\n######",
+   "features": {
+    "optimal_moves": 7,
+    "solution": "RULDRDR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 37,
+    "reachable_states": 78,
+    "avg_branching": 2.387,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-14"
+  },
+  "medium-07": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 7,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 5.328,
+   "cost_usd": 0.000354258,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.064,
+     "prompt_tokens": 667,
+     "output_tokens": 37,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.698600000000001e-05,
+     "reply": "```\n.......\n.#...#.\n.S..*..\n.~~#~..\n.*...E.\n.#..#..\n...*...\n.......\n```\nsolution: R D L U L D R",
+     "claimed_solution": "RDLULDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.#...#.\n.S..*..\n.~~#~..\n.*...E.\n.#..#..\n...*...\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 19,
+       "avg_branching": 2.316,
+       "dead_end_states": 19,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (3,7), coals 1/3\n  move 2 (D): rests at (8,7), coals 1/3\n  move 3 (L): rests at (8,1), coals 1/3\n  move 4 (U): rests at (1,1), coals 1/3\n  move 5 (L): blocked, the ember at (1,1) cannot move that way\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (7,4).\nCells where the ember can come to rest (10): (1,1) (1,7) (3,1) (3,2) (3,7) (5,1) (5,2) (5,7) (8,1) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.094,
+     "prompt_tokens": 966,
+     "output_tokens": 38,
+     "reasoning_tokens": 0,
+     "cost_usd": 7.362e-05,
+     "reply": "```\n.......\n.#...#.\n.S..*..\n.~~#~..\n.*...E.\n.#..#..\n...*...\n.......\n```\nsolution: R D L U R D L U",
+     "claimed_solution": "RDLURDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.#...#.\n.S..*..\n.~~#~..\n.*...E.\n.#..#..\n...*...\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 19,
+       "avg_branching": 2.316,
+       "dead_end_states": 19,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (3,7), coals 1/3\n  move 2 (D): rests at (8,7), coals 1/3\n  move 3 (L): rests at (8,1), coals 1/3\n  move 4 (U): rests at (1,1), coals 1/3\n  move 5 (R): rests at (1,7), coals 1/3\n  move 6 (D): rests at (8,7), coals 1/3\n  move 7 (L): rests at (8,1), coals 1/3\n  move 8 (U): rests at (1,1), coals 1/3\n  -> ends at (1,1), not solved (exit is at (5,6))\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (7,4).\nCells where the ember can come to rest (10): (1,1) (1,7) (3,1) (3,2) (3,7) (5,1) (5,2) (5,7) (8,1) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 1.018,
+     "prompt_tokens": 1347,
+     "output_tokens": 38,
+     "reasoning_tokens": 0,
+     "cost_usd": 9.313799999999999e-05,
+     "reply": "```\n.......\n.#...#.\n.S..*..\n.~~#~..\n.*....\n.#..E#.\n...*...\n.......\n```\nsolution: R D L U L D R D",
+     "claimed_solution": "RDLULDRD",
+     "verdict": {
+      "code": "malformed",
+      "detail": "row 5 has 6 characters but row 1 has 7; all rows must be the same length",
+      "parse_code": "ragged"
+     },
+     "feedback": "REJECTED: malformed. row 5 has 6 characters but row 1 has 7; all rows must be the same length. The level must be exactly 7 wide and 8 tall. Reply with a corrected level in the same output format."
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 0.841,
+     "prompt_tokens": 1443,
+     "output_tokens": 38,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.109e-05,
+     "reply": "```\n.......\n.#...#.\n.S..*..\n.~~#~..\n.*...E.\n.#..#..\n...*...\n.......\n```\nsolution: R D L U R D L U",
+     "claimed_solution": "RDLURDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.#...#.\n.S..*..\n.~~#~..\n.*...E.\n.#..#..\n...*...\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 19,
+       "avg_branching": 2.316,
+       "dead_end_states": 19,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (3,7), coals 1/3\n  move 2 (D): rests at (8,7), coals 1/3\n  move 3 (L): rests at (8,1), coals 1/3\n  move 4 (U): rests at (1,1), coals 1/3\n  move 5 (R): rests at (1,7), coals 1/3\n  move 6 (D): rests at (8,7), coals 1/3\n  move 7 (L): rests at (8,1), coals 1/3\n  move 8 (U): rests at (1,1), coals 1/3\n  -> ends at (1,1), not solved (exit is at (5,6))\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (7,4).\nCells where the ember can come to rest (10): (1,1) (1,7) (3,1) (3,2) (3,7) (5,1) (5,2) (5,7) (8,1) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 1.038,
+     "prompt_tokens": 1824,
+     "output_tokens": 38,
+     "reasoning_tokens": 0,
+     "cost_usd": 8.942399999999999e-05,
+     "reply": "```\n.......\n.#...#.\n.S..*..\n.~~#~..\n.*..#E.\n.#..#..\n...*...\n.......\n```\nsolution: R D L U R D L U",
+     "claimed_solution": "RDLURDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.#...#.\n.S..*..\n.~~#~..\n.*..#E.\n.#..#..\n...*...\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 26,
+       "avg_branching": 2.269,
+       "dead_end_states": 26,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (3,7), coals 1/3\n  move 2 (D): rests at (8,7), coals 1/3\n  move 3 (L): rests at (8,1), coals 1/3\n  move 4 (U): rests at (1,1), coals 1/3\n  move 5 (R): rests at (1,7), coals 1/3\n  move 6 (D): rests at (8,7), coals 1/3\n  move 7 (L): rests at (8,1), coals 1/3\n  move 8 (U): rests at (1,1), coals 1/3\n  -> ends at (1,1), not solved (exit is at (5,6))\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nEach coal is reachable, but at most 2 of 3 can be collected in one run.\nCells where the ember can come to rest (11): (1,1) (1,7) (3,1) (3,2) (3,7) (5,1) (5,2) (5,4) (8,1) (8,4) (8,7)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "medium-07"
+  },
+  "medium-16": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.228,
+   "cost_usd": 4.8786000000000004e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.228,
+     "prompt_tokens": 667,
+     "output_tokens": 40,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.8786000000000004e-05,
+     "reply": "```\n######\n#S..~#\n#.#..#\n#..*.#\n#~#..#\n#..*E#\n#.#..#\n######\n```\nsolution: RDLURD",
+     "claimed_solution": "RDLURD",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "######\n#S..~#\n#.#..#\n#..*.#\n#~#..#\n#..*E#\n#.#..#\n######",
+      "features": {
+       "optimal_moves": 8,
+       "solution": "RDLULDUR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 49,
+       "reachable_states": 52,
+       "avg_branching": 2.078,
+       "dead_end_states": 35,
+       "dead_end_ratio": 0.673,
+       "trap_moves": 1
+      }
+     }
+    }
+   ],
+   "level": "######\n#S..~#\n#.#..#\n#..*.#\n#~#..#\n#..*E#\n#.#..#\n######",
+   "canonical": "######\n#.#..#\n#..*E#\n#~#..#\n#..*.#\n#.#..#\n#S..~#\n######",
+   "features": {
+    "optimal_moves": 8,
+    "solution": "RDLULDUR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 49,
+    "reachable_states": 52,
+    "avg_branching": 2.078,
+    "dead_end_states": 35,
+    "dead_end_ratio": 0.673,
+    "trap_moves": 1
+   },
+   "id": "medium-16"
+  },
+  "medium-18": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 0.859,
+   "cost_usd": 4.8186e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.834,
+     "prompt_tokens": 667,
+     "output_tokens": 39,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.8186e-05,
+     "reply": "```\n#....#\n.S.#..\n.#...#\n..*..#\n.#.~.#\n..*..#\n.#..E#\n#....#\n```\nsolution: R D L D R U",
+     "claimed_solution": "RDLDRU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#....#\n.S.#..\n.#...#\n..*..#\n.#.~.#\n..*..#\n.#..E#\n#....#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 19,
+       "avg_branching": 2.158,
+       "dead_end_states": 19,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "move the exit from (7,5) to (7,1)"
+    }
+   ],
+   "level": "#....#\n.S.#..\n.#...#\n..*..#\n.#.~.#\n..*..#\nE#...#\n#....#",
+   "canonical": "######.#\n........\n...~..#.\n..*.*...\n.#.#.#S.\n#E.....#",
+   "features": {
+    "optimal_moves": 7,
+    "solution": "RDULDLD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 18,
+    "reachable_states": 19,
+    "avg_branching": 2.222,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-18"
+  },
+  "hard-00": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 6,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.003,
+   "cost_usd": 4.9386e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.992,
+     "prompt_tokens": 667,
+     "output_tokens": 41,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.9386e-05,
+     "reply": "```\n####E#\n#~~~~#\n#.*..#\n#..#.#\n#.*..#\n#~..~#\nS...*#\n```\nsolution: U R D L U R D U L D",
+     "claimed_solution": "URDLURDULD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "####E#\n#~~~~#\n#.*..#\n#..#.#\n#.*..#\n#~..~#\nS...*#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 1.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the clay at (2,5) into floor"
+    }
+   ],
+   "level": "####E#\n#~~~.#\n#.*..#\n#..#.#\n#.*..#\n#~..~#\nS...*#",
+   "canonical": "#######\n*~....E\n...#.~#\n..*.*~#\n.~...~#\nS######",
+   "features": {
+    "optimal_moves": 11,
+    "solution": "RUDLURDLURU",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 24,
+    "reachable_states": 31,
+    "avg_branching": 1.7,
+    "dead_end_states": 12,
+    "dead_end_ratio": 0.387,
+    "trap_moves": 4
+   },
+   "id": "hard-00"
+  },
+  "medium-17": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 7,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.482,
+   "cost_usd": 4.7586e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.467,
+     "prompt_tokens": 667,
+     "output_tokens": 38,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.7586e-05,
+     "reply": "```\n#######\n#S..~.#\n#.*.#.#\n#.#~..#\n#..*#.#\n#E...##\n```\nsolution: R D L U R D",
+     "claimed_solution": "RDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S..~.#\n#.*.#.#\n#.#~..#\n#..*#.#\n#E...##",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 5,
+       "avg_branching": 1.4,
+       "dead_end_states": 5,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (6,3) into wet clay"
+    }
+   ],
+   "level": "#######\n#S..~.#\n#.*.#.#\n#.#~..#\n#..*#.#\n#E~..##",
+   "canonical": "######\n#....#\n#~#.#.\n#..~*.\n#.*#.~\n#S...E\n######",
+   "features": {
+    "optimal_moves": 7,
+    "solution": "DRLUDLD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 14,
+    "reachable_states": 19,
+    "avg_branching": 1.722,
+    "dead_end_states": 8,
+    "dead_end_ratio": 0.421,
+    "trap_moves": 3
+   },
+   "id": "medium-17"
+  },
+  "hard-01": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 7,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.055,
+   "cost_usd": 4.8786000000000004e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.985,
+     "prompt_tokens": 667,
+     "output_tokens": 40,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.8786000000000004e-05,
+     "reply": "```\n...#...\n.S~.*..\n.#~~~#.\n.#.#.#.\n...#...\n.*~*~#.\n.#...#.\n...#..E\n```\nsolution: RDLURDLURDLU",
+     "claimed_solution": "RDLURDLURDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "...#...\n.S~.*..\n.#~~~#.\n.#.#.#.\n...#...\n.*~*~#.\n.#...#.\n...#..E",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 115,
+       "avg_branching": 2.052,
+       "dead_end_states": 115,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (7,5) into a wall"
+    }
+   ],
+   "level": "...#...\n.S~.*..\n.#~~~#.\n.#.#.#.\n...#...\n.*~*~#.\n.#..##.\n...#..E",
+   "canonical": "...#...\n..*.~S.\n.#~~~#.\n.#.#.#.\n...#...\n.#~*~*.\n.##..#.\nE..#...",
+   "features": {
+    "optimal_moves": 13,
+    "solution": "RULDLRURURURD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 142,
+    "reachable_states": 176,
+    "avg_branching": 1.931,
+    "dead_end_states": 153,
+    "dead_end_ratio": 0.869,
+    "trap_moves": 4
+   },
+   "id": "hard-01"
+  },
+  "medium-19": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 8,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 2,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 2,
+   "seconds": 2.032,
+   "cost_usd": 0.000146856,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.883,
+     "prompt_tokens": 667,
+     "output_tokens": 49,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.4186e-05,
+     "reply": "```\n#......#\n#..*...#\n#.~#..*#\n#...#..#\n#S..#..#\n#...~..#\n#..*..E#\n#......#\n```\nsolution: R D R U L D R",
+     "claimed_solution": "RDRULDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#......#\n#..*...#\n#.~#..*#\n#...#..#\n#S..#..#\n#...~..#\n#..*..E#\n#......#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 23,
+       "avg_branching": 2.217,
+       "dead_end_states": 23,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (5,4), coals 0/3\n  move 2 (D): rests at (8,4), coals 1/3\n  move 3 (R): rests at (8,7), coals 1/3\n  move 4 (U): rests at (1,7), coals 2/3\n  move 5 (L): rests at (1,2), coals 2/3\n  move 6 (D): rests at (8,2), coals 2/3\n  move 7 (R): rests at (8,7), coals 2/3\n  -> ends at (8,7), not solved (exit is at (7,7))\nThe ember can never come to rest on the exit at (7,7): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (2,4).\nCells where the ember can come to rest (9): (1,2) (1,7) (4,2) (4,4) (5,2) (5,4) (8,2) (8,4) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.058,
+     "prompt_tokens": 1033,
+     "output_tokens": 53,
+     "reasoning_tokens": 0,
+     "cost_usd": 9.266999999999999e-05,
+     "reply": "```\n#......#\n#..*...#\n#.~#..*#\n#...#..#\n#S..#..#\n#...~..#\n#..*..E#\n#.....##\n```\nsolution: R D R U L D R U L D",
+     "claimed_solution": "RDRULDRULD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#......#\n#..*...#\n#.~#..*#\n#...#..#\n#S..#..#\n#...~..#\n#..*..E#\n#.....##",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 30,
+       "avg_branching": 2.333,
+       "dead_end_states": 30,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (1,2) into wet clay"
+    }
+   ],
+   "level": "#~.....#\n#..*...#\n#.~#..*#\n#...#..#\n#S..#..#\n#...~..#\n#..*..E#\n#.....##",
+   "canonical": "########\n#E...*..\n........\n..~##...\n.*...#*.\n.....~..\n...S...~\n########",
+   "features": {
+    "optimal_moves": 7,
+    "solution": "UDURDLR",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 63,
+    "reachable_states": 187,
+    "avg_branching": 2.395,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-19"
+  },
+  "hard-02": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 8,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.331,
+   "cost_usd": 5.1786e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.283,
+     "prompt_tokens": 667,
+     "output_tokens": 45,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.1786e-05,
+     "reply": "```text\n#......#\n#.S..~~#\n#.#.#..#\n#..*.*.#\n#..#...#\n#.E~#..#\n#......#\n```\nsolution: RDLURDRULD",
+     "claimed_solution": "RDLURDRULD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#......#\n#.S..~~#\n#.#.#..#\n#..*.*.#\n#..#...#\n#.E~#..#\n#......#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 36,
+       "avg_branching": 2.083,
+       "dead_end_states": 36,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (5,2) into wet clay"
+    }
+   ],
+   "level": "#......#\n#.S..~~#\n#.#.#..#\n#..*.*.#\n#~.#...#\n#.E~#..#\n#......#",
+   "canonical": "#######\n.....~.\n...*.~.\n.#..#..\n.~#*...\n.E..#S.\n..~....\n#######",
+   "features": {
+    "optimal_moves": 12,
+    "solution": "LDURLRURDLUR",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 135,
+    "reachable_states": 175,
+    "avg_branching": 2.14,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "hard-02"
+  },
+  "hard-04": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 7,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 0.987,
+   "cost_usd": 4.9986000000000006e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.986,
+     "prompt_tokens": 667,
+     "output_tokens": 42,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.9986000000000006e-05,
+     "reply": "```\n#######\n#S..*.#\n#.~.#.#\n#.#~#.#\n#.*.#*#\n#.~..E#\n#######\n```\nsolution: URDLURDULD",
+     "claimed_solution": "URDLURDULD",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "#######\n#S..*.#\n#.~.#.#\n#.#~#.#\n#.*.#*#\n#.~..E#\n#######",
+      "features": {
+       "optimal_moves": 12,
+       "solution": "DRLURDLULURD",
+       "n_optimal_solutions": 2,
+       "states_to_solve": 66,
+       "reachable_states": 73,
+       "avg_branching": 1.93,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "#######\n#S..*.#\n#.~.#.#\n#.#~#.#\n#.*.#*#\n#.~..E#\n#######",
+   "canonical": "#######\n#.*..S#\n#.#.~.#\n#.#~#.#\n#*#.*.#\n#E..~.#\n#######",
+   "features": {
+    "optimal_moves": 12,
+    "solution": "DRLURDLULURD",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 66,
+    "reachable_states": 73,
+    "avg_branching": 1.93,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "hard-04"
+  },
+  "hard-05": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 8,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.505,
+   "cost_usd": 5.1786e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.473,
+     "prompt_tokens": 667,
+     "output_tokens": 45,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.1786e-05,
+     "reply": "```text\n########\n#S..~..#\n#.#.#..#\n#..*#..#\n#.~.*.E#\n#..#.#.#\n########\n```\nsolution: RDLDRULDRULD",
+     "claimed_solution": "RDLDRULDRULD",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 6 moves (DRURDR); requested hard = 10..16 moves",
+      "level": "########\n#S..~..#\n#.#.#..#\n#..*#..#\n#.~.*.E#\n#..#.#.#\n########",
+      "features": {
+       "optimal_moves": 6,
+       "solution": "DRURDR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 23,
+       "reachable_states": 48,
+       "avg_branching": 2.087,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     },
+     "patch": "move the exit from (5,7) to (5,6)"
+    }
+   ],
+   "level": "########\n#S..~..#\n#.#.#..#\n#..*#..#\n#.~.*E.#\n#..#.#.#\n########",
+   "canonical": "#######\n#.....#\n##E...#\n#.*##~#\n##.*..#\n#.~.#.#\n#....S#\n#######",
+   "features": {
+    "optimal_moves": 11,
+    "solution": "DRURDRLURLD",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 56,
+    "reachable_states": 59,
+    "avg_branching": 2.069,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "hard-05"
+  },
+  "hard-08": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 7,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.216,
+   "cost_usd": 5.1786e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.128,
+     "prompt_tokens": 667,
+     "output_tokens": 45,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.1786e-05,
+     "reply": "```\n###...#\n#..*..#\n#.~#..#\n#..S..#\n#*...E#\n#..~..#\n```\nsolution: R U L D R U L D R U L D",
+     "claimed_solution": "RULDRULDRULD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "###...#\n#..*..#\n#.~#..#\n#..S..#\n#*...E#\n#..~..#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 103,
+       "avg_branching": 2.35,
+       "dead_end_states": 103,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "move the exit from (5,6) to (4,2)"
+    }
+   ],
+   "level": "###...#\n#..*..#\n#.~#..#\n#E.S..#\n#*....#\n#..~..#",
+   "canonical": "######\n#..E*.\n#.~...\n.*#S.~\n......\n......\n######",
+   "features": {
+    "optimal_moves": 10,
+    "solution": "DLRURLDRUL",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 98,
+    "reachable_states": 103,
+    "avg_branching": 2.343,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "hard-08"
+  },
+  "hard-03": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 7,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 4.789,
+   "cost_usd": 0.000351108,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.971,
+     "prompt_tokens": 667,
+     "output_tokens": 46,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.2385999999999996e-05,
+     "reply": "```\n#######\n#S..*.#\n#.###.#\n#.#~#.#\n#.#.#.#\n#*...*#\n#..#E##\n```\nsolution: R D L U L D R U L D",
+     "claimed_solution": "RDLULDRULD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S..*.#\n#.###.#\n#.#~#.#\n#.#.#.#\n#*...*#\n#..#E##",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 31,
+       "avg_branching": 2.258,
+       "dead_end_states": 31,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,6), coals 1/3\n  move 2 (D): rests at (6,6), coals 2/3\n  move 3 (L): rests at (6,2), coals 3/3\n  move 4 (U): rests at (2,2), coals 3/3\n  move 5 (L): blocked, the ember at (2,2) cannot move that way\nThe ember can never come to rest on the exit at (7,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (7): (2,2) (2,6) (6,2) (6,3) (6,6) (7,2) (7,3)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.008,
+     "prompt_tokens": 947,
+     "output_tokens": 46,
+     "reasoning_tokens": 0,
+     "cost_usd": 7.557e-05,
+     "reply": "```\n#######\n#S..*.#\n#.###.#\n#.#~#.#\n#.#.#.#\n#*...*#\n#..#E##\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S..*.#\n#.###.#\n#.#~#.#\n#.#.#.#\n#*...*#\n#..#E##",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 31,
+       "avg_branching": 2.258,
+       "dead_end_states": 31,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,6), coals 1/3\n  move 2 (D): rests at (6,6), coals 2/3\n  move 3 (L): rests at (6,2), coals 3/3\n  move 4 (U): rests at (2,2), coals 3/3\n  move 5 (R): rests at (2,6), coals 3/3\n  move 6 (D): rests at (6,6), coals 3/3\n  move 7 (L): rests at (6,2), coals 3/3\n  move 8 (U): rests at (2,2), coals 3/3\n  move 9 (R): rests at (2,6), coals 3/3\n  move 10 (D): rests at (6,6), coals 3/3\n  -> ends at (6,6), not solved (exit is at (7,5))\nThe ember can never come to rest on the exit at (7,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (7): (2,2) (2,6) (6,2) (6,3) (6,6) (7,2) (7,3)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 1.002,
+     "prompt_tokens": 1350,
+     "output_tokens": 45,
+     "reasoning_tokens": 0,
+     "cost_usd": 9.778799999999999e-05,
+     "reply": "```\n#######\n#S....#\n#.###.#\n#.#~#.#\n#.#.#.#\n#*...*#\n#E.#..#\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 5 moves (RDULD); requested hard = 10..16 moves",
+      "level": "#######\n#S....#\n#.###.#\n#.#~#.#\n#.#.#.#\n#*...*#\n#E.#..#",
+      "features": {
+       "optimal_moves": 5,
+       "solution": "RDULD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 18,
+       "reachable_states": 22,
+       "avg_branching": 2.333,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     },
+     "feedback": "REJECTED: wrong_difficulty.\noptimal solution is 5 moves (RDULD); requested hard = 10..16 moves.\nToo short by at least 5 move(s). The solver's shortest solution is RDULD. Block that shortcut or add coals that force detours.\n(Your stated solution was RDLURDLURD, 10 moves.)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 0.78,
+     "prompt_tokens": 1485,
+     "output_tokens": 46,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.219e-05,
+     "reply": "```\n#######\n#S..*.#\n#.###.#\n#.#~#.#\n#.#.#.#\n#*.#..#\n#E#####\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 3 moves (RLD); requested hard = 10..16 moves",
+      "level": "#######\n#S..*.#\n#.###.#\n#.#~#.#\n#.#.#.#\n#*.#..#\n#E#####",
+      "features": {
+       "optimal_moves": 3,
+       "solution": "RLD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 8,
+       "reachable_states": 12,
+       "avg_branching": 1.727,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     },
+     "feedback": "REJECTED: wrong_difficulty.\noptimal solution is 3 moves (RLD); requested hard = 10..16 moves.\nToo short by at least 7 move(s). The solver's shortest solution is RLD. Block that shortcut or add coals that force detours.\n(Your stated solution was RDLURDLURD, 10 moves.)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 0.937,
+     "prompt_tokens": 1621,
+     "output_tokens": 45,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.3174e-05,
+     "reply": "```\n#######\n#S...*#\n#.###.#\n#.#~#.#\n#.#.#.#\n#*.#.*#\n#E#####\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 5 moves (RDULD); requested hard = 10..16 moves",
+      "level": "#######\n#S...*#\n#.###.#\n#.#~#.#\n#.#.#.#\n#*.#.*#\n#E#####",
+      "features": {
+       "optimal_moves": 5,
+       "solution": "RDULD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 15,
+       "reachable_states": 17,
+       "avg_branching": 1.75,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     },
+     "feedback": "REJECTED: wrong_difficulty.\noptimal solution is 5 moves (RDULD); requested hard = 10..16 moves.\nToo short by at least 5 move(s). The solver's shortest solution is RDULD. Block that shortcut or add coals that force detours.\n(Your stated solution was RDLURDLURD, 10 moves.)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "hard-03"
+  },
+  "hard-06": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 8,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 4,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 4,
+   "seconds": 4.646,
+   "cost_usd": 0.00037437,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.294,
+     "prompt_tokens": 667,
+     "output_tokens": 54,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.7186e-05,
+     "reply": "```\n#......#\n#..~...#\n#.*..*.#\n#..E...#\n#.~..~.#\n#..S...#\n#.*..*.#\n#......#\n```\nsolution: U R D L U R D L U R",
+     "claimed_solution": "URDLURDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#......#\n#..~...#\n#.*..*.#\n#..E...#\n#.~..~.#\n#..S...#\n#.*..*.#\n#......#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 13,
+       "avg_branching": 2.385,
+       "dead_end_states": 13,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (U): rests at (1,4), coals 0/4\n  move 2 (R): rests at (1,7), coals 0/4\n  move 3 (D): rests at (8,7), coals 0/4\n  move 4 (L): rests at (8,2), coals 0/4\n  move 5 (U): rests at (1,2), coals 0/4\n  move 6 (R): rests at (1,7), coals 0/4\n  move 7 (D): rests at (8,7), coals 0/4\n  move 8 (L): rests at (8,2), coals 0/4\n  move 9 (U): rests at (1,2), coals 0/4\n  move 10 (R): rests at (1,7), coals 0/4\n  -> ends at (1,7), not solved (exit is at (4,4))\nThe ember can never come to rest on the exit at (4,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (3,3), (3,6), (7,3), (7,6).\nCells where the ember can come to rest (9): (1,2) (1,4) (1,7) (6,2) (6,4) (6,7) (8,2) (8,4) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.885,
+     "prompt_tokens": 1116,
+     "output_tokens": 55,
+     "reasoning_tokens": 0,
+     "cost_usd": 0.00010632,
+     "reply": "```\n#......#\n#..~...#\n#.*..*.#\n#..E#..#\n#.~..~.#\n#..S...#\n#.*..*.#\n#......#\n```\nsolution: U R D L U R D L U R",
+     "claimed_solution": "URDLURDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#......#\n#..~...#\n#.*..*.#\n#..E#..#\n#.~..~.#\n#..S...#\n#.*..*.#\n#......#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 13,
+       "avg_branching": 2.385,
+       "dead_end_states": 13,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (U): rests at (1,4), coals 0/4\n  move 2 (R): rests at (1,7), coals 0/4\n  move 3 (D): rests at (8,7), coals 0/4\n  move 4 (L): rests at (8,2), coals 0/4\n  move 5 (U): rests at (1,2), coals 0/4\n  move 6 (R): rests at (1,7), coals 0/4\n  move 7 (D): rests at (8,7), coals 0/4\n  move 8 (L): rests at (8,2), coals 0/4\n  move 9 (U): rests at (1,2), coals 0/4\n  move 10 (R): rests at (1,7), coals 0/4\n  -> ends at (1,7), not solved (exit is at (4,4))\nThe ember can never come to rest on the exit at (4,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (3,3), (3,6), (7,3), (7,6).\nCells where the ember can come to rest (9): (1,2) (1,4) (1,7) (6,2) (6,4) (6,7) (8,2) (8,4) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 1.119,
+     "prompt_tokens": 1566,
+     "output_tokens": 55,
+     "reasoning_tokens": 0,
+     "cost_usd": 9.8556e-05,
+     "reply": "```\n#......#\n#..~...#\n#.*..*.#\n#.E#...#\n#.~..~.#\n#..S...#\n#.*..*.#\n#......#\n```\nsolution: U R D L U R D L U R",
+     "claimed_solution": "URDLURDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#......#\n#..~...#\n#.*..*.#\n#.E#...#\n#.~..~.#\n#..S...#\n#.*..*.#\n#......#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 19,
+       "avg_branching": 2.316,
+       "dead_end_states": 19,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (U): rests at (5,4), coals 0/4\n  move 2 (R): rests at (5,7), coals 0/4\n  move 3 (D): rests at (8,7), coals 0/4\n  move 4 (L): rests at (8,2), coals 0/4\n  move 5 (U): rests at (1,2), coals 0/4\n  move 6 (R): rests at (1,7), coals 0/4\n  move 7 (D): rests at (8,7), coals 0/4\n  move 8 (L): rests at (8,2), coals 0/4\n  move 9 (U): rests at (1,2), coals 0/4\n  move 10 (R): rests at (1,7), coals 0/4\n  -> ends at (1,7), not solved (exit is at (4,3))\nThe ember can never come to rest on the exit at (4,3): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (3,3), (3,6), (7,3), (7,6).\nCells where the ember can come to rest (11): (1,2) (1,7) (5,2) (5,4) (5,7) (6,2) (6,4) (6,7) (8,2) (8,4) (8,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 0.935,
+     "prompt_tokens": 2026,
+     "output_tokens": 57,
+     "reasoning_tokens": 0,
+     "cost_usd": 0.000112308,
+     "reply": "```\n#......#\n#..~...#\n#.*..*.#\n#..E#..#\n#.~..~.#\n#..S...#\n#.*..*.#\n#....#.#\n```\nsolution: U R D L U R D L U R",
+     "claimed_solution": "URDLURDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#......#\n#..~...#\n#.*..*.#\n#..E#..#\n#.~..~.#\n#..S...#\n#.*..*.#\n#....#.#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 138,
+       "avg_branching": 2.246,
+       "dead_end_states": 138,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (1,7) into a wall"
+    }
+   ],
+   "level": "#.....##\n#..~...#\n#.*..*.#\n#..E#..#\n#.~..~.#\n#..S...#\n#.*..*.#\n#....#.#",
+   "canonical": "########\n#.......\n..*.~.*#\n...#....\n.~.E.S..\n..*.~.*.\n........\n########",
+   "features": {
+    "optimal_moves": 14,
+    "solution": "DRULURDLRULRDR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 392,
+    "reachable_states": 503,
+    "avg_branching": 2.46,
+    "dead_end_states": 450,
+    "dead_end_ratio": 0.895,
+    "trap_moves": 5
+   },
+   "id": "hard-06"
+  },
+  "hard-10": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 6,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.487,
+   "cost_usd": 4.7586e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.447,
+     "prompt_tokens": 667,
+     "output_tokens": 38,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.7586e-05,
+     "reply": "```\n.#..#.\n.~..~.\n..*...\n#.*..#\n...E..\n.*~*..\n.S....\n```\nsolution: U R D L U R D L U R",
+     "claimed_solution": "URDLURDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".#..#.\n.~..~.\n..*...\n#.*..#\n...E..\n.*~*..\n.S....",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 26,
+       "avg_branching": 1.923,
+       "dead_end_states": 26,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (5,3) into wet clay"
+    }
+   ],
+   "level": ".#..#.\n.~..~.\n..*...\n#.*..#\n..~E..\n.*~*..\n.S....",
+   "canonical": ".#..#.\n.~..~.\n..*...\n#.*..#\n..~E..\n.*~*..\n.S....",
+   "features": {
+    "optimal_moves": 13,
+    "solution": "LURLDULDLDRUL",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 279,
+    "reachable_states": 426,
+    "avg_branching": 2.251,
+    "dead_end_states": 134,
+    "dead_end_ratio": 0.315,
+    "trap_moves": 0
+   },
+   "id": "hard-10"
+  },
+  "hard-07": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 8,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 4.849,
+   "cost_usd": 0.00036720599999999997,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.003,
+     "prompt_tokens": 667,
+     "output_tokens": 46,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.2385999999999996e-05,
+     "reply": "```\n########\n#S..#..#\n#.#.#..#\n#.#*#..#\n#...~..#\n#..*#.E#\n########\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S..#..#\n#.#.#..#\n#.#*#..#\n#...~..#\n#..*#.E#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 11,
+       "avg_branching": 2.0,
+       "dead_end_states": 11,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,4), coals 0/2\n  move 2 (D): rests at (6,4), coals 2/2\n  move 3 (L): rests at (6,2), coals 2/2\n  move 4 (U): rests at (2,2), coals 2/2\n  move 5 (R): rests at (2,4), coals 2/2\n  move 6 (D): rests at (6,4), coals 2/2\n  move 7 (L): rests at (6,2), coals 2/2\n  move 8 (U): rests at (2,2), coals 2/2\n  move 9 (R): rests at (2,4), coals 2/2\n  move 10 (D): rests at (6,4), coals 2/2\n  -> ends at (6,4), not solved (exit is at (6,7))\nThe ember can never come to rest on the exit at (6,7): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (4): (2,2) (2,4) (6,2) (6,4)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.18,
+     "prompt_tokens": 1055,
+     "output_tokens": 50,
+     "reasoning_tokens": 0,
+     "cost_usd": 9.417e-05,
+     "reply": "```\n########\n#S..#..#\n#.#.#..#\n#.#*#..#\n#...~..#\n#..*#.E#\n#.....E#\n########\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "malformed",
+      "detail": "level must contain exactly one exit E, found 2",
+      "parse_code": "count"
+     },
+     "feedback": "REJECTED: malformed. level must contain exactly one exit E, found 2. The level must be exactly 8 wide and 7 tall. Reply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 0.887,
+     "prompt_tokens": 1152,
+     "output_tokens": 50,
+     "reasoning_tokens": 0,
+     "cost_usd": 7.1088e-05,
+     "reply": "```\n########\n#S..#..#\n#.#.#..#\n#.#*#..#\n#...~..#\n#..*#..#\n#....#E#\n########\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "malformed",
+      "detail": "wrong size: got 8x8 (width x height), requested 8x7",
+      "parse_code": "wrong_size"
+     },
+     "feedback": "REJECTED: malformed. wrong size: got 8x8 (width x height), requested 8x7. The level must be exactly 8 wide and 7 tall. Reply with a corrected level in the same output format."
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 0.846,
+     "prompt_tokens": 1256,
+     "output_tokens": 48,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.6672e-05,
+     "reply": "```\n########\n#S..#..#\n#.#.#..#\n#.#*#..#\n#...~..#\n#..*#..#\n#....#E#\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S..#..#\n#.#.#..#\n#.#*#..#\n#...~..#\n#..*#..#\n#....#E#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 9,
+       "avg_branching": 1.889,
+       "dead_end_states": 9,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,4), coals 0/2\n  move 2 (D): rests at (7,4), coals 2/2\n  move 3 (L): rests at (7,2), coals 2/2\n  move 4 (U): rests at (2,2), coals 2/2\n  move 5 (R): rests at (2,4), coals 2/2\n  move 6 (D): rests at (7,4), coals 2/2\n  move 7 (L): rests at (7,2), coals 2/2\n  move 8 (U): rests at (2,2), coals 2/2\n  move 9 (R): rests at (2,4), coals 2/2\n  move 10 (D): rests at (7,4), coals 2/2\n  -> ends at (7,4), not solved (exit is at (7,7))\nThe ember can never come to rest on the exit at (7,7): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (5): (2,2) (2,4) (7,2) (7,4) (7,5)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 0.859,
+     "prompt_tokens": 1651,
+     "output_tokens": 39,
+     "reasoning_tokens": 0,
+     "cost_usd": 8.288999999999999e-05,
+     "reply": "```\n########\n#S..#..#\n#.#.#..#\n#.#*#..#\n#...~..#\n#..*#..#\n#....#E#\n```\nsolution: U",
+     "claimed_solution": "U",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S..#..#\n#.#.#..#\n#.#*#..#\n#...~..#\n#..*#..#\n#....#E#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 9,
+       "avg_branching": 1.889,
+       "dead_end_states": 9,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (U): blocked, the ember at (2,2) cannot move that way\nThe ember can never come to rest on the exit at (7,7): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (5): (2,2) (2,4) (7,2) (7,4) (7,5)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "hard-07"
+  },
+  "hard-13": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.101,
+   "cost_usd": 4.8786000000000004e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.052,
+     "prompt_tokens": 667,
+     "output_tokens": 40,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.8786000000000004e-05,
+     "reply": "```\n######\n#S...#\n#.##.#\n#.*..#\n#.~..#\n#..*.#\n#...E#\n######\n```\nsolution: RDLURDULDR",
+     "claimed_solution": "RDLURDULDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#.##.#\n#.*..#\n#.~..#\n#..*.#\n#...E#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (4,5) into a wall"
+    }
+   ],
+   "level": "######\n#S...#\n#.##.#\n#.*.##\n#.~..#\n#..*.#\n#...E#\n######",
+   "canonical": "######\n#...E#\n#..*.#\n#.~..#\n#.*.##\n#.##.#\n#S...#\n######",
+   "features": {
+    "optimal_moves": 13,
+    "solution": "DRULDRULULRDR",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 36,
+    "reachable_states": 41,
+    "avg_branching": 2.05,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "hard-13"
+  },
+  "hard-09": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 7,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 5.468,
+   "cost_usd": 0.000424596,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.996,
+     "prompt_tokens": 667,
+     "output_tokens": 47,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.2986000000000004e-05,
+     "reply": "```\n#######\n#S..*.#\n#.###.#\n#.#~#.#\n#.#E#.#\n#..*..#\n#######\n```\nsolution: R D L U R D L U R D L U",
+     "claimed_solution": "RDLURDLURDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S..*.#\n#.###.#\n#.#~#.#\n#.#E#.#\n#..*..#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 2.0,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,6), coals 1/2\n  move 2 (D): rests at (6,6), coals 1/2\n  move 3 (L): rests at (6,2), coals 2/2\n  move 4 (U): rests at (2,2), coals 2/2\n  move 5 (R): rests at (2,6), coals 2/2\n  move 6 (D): rests at (6,6), coals 2/2\n  move 7 (L): rests at (6,2), coals 2/2\n  move 8 (U): rests at (2,2), coals 2/2\n  move 9 (R): rests at (2,6), coals 2/2\n  move 10 (D): rests at (6,6), coals 2/2\n  move 11 (L): rests at (6,2), coals 2/2\n  move 12 (U): rests at (2,2), coals 2/2\n  -> ends at (2,2), not solved (exit is at (5,4))\nThe ember can never come to rest on the exit at (5,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (4): (2,2) (2,6) (6,2) (6,6)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.92,
+     "prompt_tokens": 1098,
+     "output_tokens": 47,
+     "reasoning_tokens": 0,
+     "cost_usd": 9.882e-05,
+     "reply": "```\n#######\n#S..*.#\n#.###.#\n#.#~#.#\n#.#E#.#\n#..*..#\n#######\n```\nsolution: R D L U R D L U R D L U",
+     "claimed_solution": "RDLURDLURDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S..*.#\n#.###.#\n#.#~#.#\n#.#E#.#\n#..*..#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 2.0,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,6), coals 1/2\n  move 2 (D): rests at (6,6), coals 1/2\n  move 3 (L): rests at (6,2), coals 2/2\n  move 4 (U): rests at (2,2), coals 2/2\n  move 5 (R): rests at (2,6), coals 2/2\n  move 6 (D): rests at (6,6), coals 2/2\n  move 7 (L): rests at (6,2), coals 2/2\n  move 8 (U): rests at (2,2), coals 2/2\n  move 9 (R): rests at (2,6), coals 2/2\n  move 10 (D): rests at (6,6), coals 2/2\n  move 11 (L): rests at (6,2), coals 2/2\n  move 12 (U): rests at (2,2), coals 2/2\n  -> ends at (2,2), not solved (exit is at (5,4))\nThe ember can never come to rest on the exit at (5,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (4): (2,2) (2,6) (6,2) (6,6)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 1.28,
+     "prompt_tokens": 1529,
+     "output_tokens": 46,
+     "reasoning_tokens": 0,
+     "cost_usd": 0.00010642199999999999,
+     "reply": "```\n#######\n#S...*#\n#.###.#\n#.#~#.#\n#.#E#.#\n#*...*#\n#######\n```\nsolution: R D L U R D L U R D L U",
+     "claimed_solution": "RDLURDLURDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S...*#\n#.###.#\n#.#~#.#\n#.#E#.#\n#*...*#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 18,
+       "avg_branching": 2.0,
+       "dead_end_states": 18,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,6), coals 1/3\n  move 2 (D): rests at (6,6), coals 2/3\n  move 3 (L): rests at (6,2), coals 3/3\n  move 4 (U): rests at (2,2), coals 3/3\n  move 5 (R): rests at (2,6), coals 3/3\n  move 6 (D): rests at (6,6), coals 3/3\n  move 7 (L): rests at (6,2), coals 3/3\n  move 8 (U): rests at (2,2), coals 3/3\n  move 9 (R): rests at (2,6), coals 3/3\n  move 10 (D): rests at (6,6), coals 3/3\n  move 11 (L): rests at (6,2), coals 3/3\n  move 12 (U): rests at (2,2), coals 3/3\n  -> ends at (2,2), not solved (exit is at (5,4))\nThe ember can never come to rest on the exit at (5,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (4): (2,2) (2,6) (6,2) (6,6)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 1.038,
+     "prompt_tokens": 1959,
+     "output_tokens": 44,
+     "reasoning_tokens": 0,
+     "cost_usd": 9.4458e-05,
+     "reply": "```\n#######\n#S...*#\n#.###.#\n#.#~#.#\n#.#E###\n#*...*#\n#######\n```\nsolution: R D L U R D L U R D L U",
+     "claimed_solution": "RDLURDLURDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S...*#\n#.###.#\n#.#~#.#\n#.#E###\n#*...*#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 18,
+       "avg_branching": 1.722,
+       "dead_end_states": 18,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,6), coals 1/3\n  move 2 (D): rests at (4,6), coals 1/3\n  move 3 (L): blocked, the ember at (4,6) cannot move that way\nThe ember can never come to rest on the exit at (5,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (5): (2,2) (2,6) (4,6) (6,2) (6,6)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 1.151,
+     "prompt_tokens": 2185,
+     "output_tokens": 44,
+     "reasoning_tokens": 0,
+     "cost_usd": 7.191e-05,
+     "reply": "```\n#######\n#S...*#\n#.###.#\n#.#~#.#\n#.#E###\n#*...*#\n#######\n```\nsolution: R D L U R D L U R D L U",
+     "claimed_solution": "RDLURDLURDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S...*#\n#.###.#\n#.#~#.#\n#.#E###\n#*...*#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 18,
+       "avg_branching": 1.722,
+       "dead_end_states": 18,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,6), coals 1/3\n  move 2 (D): rests at (4,6), coals 1/3\n  move 3 (L): blocked, the ember at (4,6) cannot move that way\nThe ember can never come to rest on the exit at (5,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (5): (2,2) (2,6) (4,6) (6,2) (6,6)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "hard-09"
+  },
+  "hard-14": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 7,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 2,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 2,
+   "seconds": 2.078,
+   "cost_usd": 0.000147306,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.081,
+     "prompt_tokens": 667,
+     "output_tokens": 46,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.2385999999999996e-05,
+     "reply": "```\n#######\n#S..*.#\n#.###.#\n#..#..#\n#.#~#.#\n#.*#.*#\n#..E..#\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S..*.#\n#.###.#\n#..#..#\n#.#~#.#\n#.*#.*#\n#..E..#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 15,
+       "avg_branching": 2.0,
+       "dead_end_states": 15,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,6), coals 1/3\n  move 2 (D): rests at (7,6), coals 2/3\n  move 3 (L): rests at (7,2), coals 2/3\n  move 4 (U): rests at (2,2), coals 2/3\n  move 5 (R): rests at (2,6), coals 2/3\n  move 6 (D): rests at (7,6), coals 2/3\n  move 7 (L): rests at (7,2), coals 2/3\n  move 8 (U): rests at (2,2), coals 2/3\n  move 9 (R): rests at (2,6), coals 2/3\n  move 10 (D): rests at (7,6), coals 2/3\n  -> ends at (7,6), not solved (exit is at (7,4))\nThe ember can never come to rest on the exit at (7,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (6,3).\nCells where the ember can come to rest (4): (2,2) (2,6) (7,2) (7,6)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.968,
+     "prompt_tokens": 1068,
+     "output_tokens": 48,
+     "reasoning_tokens": 0,
+     "cost_usd": 9.492e-05,
+     "reply": "```\n#######\n#S..*.#\n#.###.#\n#..#..#\n#.#~#.#\n#.*#*.#\n#..E#.#\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S..*.#\n#.###.#\n#..#..#\n#.#~#.#\n#.*#*.#\n#..E#.#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 1.625,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the wall at (6,4) into floor"
+    }
+   ],
+   "level": "#######\n#S..*.#\n#.###.#\n#..#..#\n#.#~#.#\n#.*.*.#\n#..E#.#",
+   "canonical": "#######\n#.*..S#\n#.###.#\n#..#..#\n#.#~#.#\n#.*.*.#\n#.#E..#",
+   "features": {
+    "optimal_moves": 11,
+    "solution": "DRUDULRULDR",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 54,
+    "reachable_states": 57,
+    "avg_branching": 2.089,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "hard-14"
+  },
+  "hard-15": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 6,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.105,
+   "cost_usd": 4.4585999999999996e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.104,
+     "prompt_tokens": 667,
+     "output_tokens": 33,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.4585999999999996e-05,
+     "reply": "```\nS....#\n.##..#\n..~..~\n..*..#\n.#E..#\n#~.*~#\n```\nsolution: RDLURDULDR",
+     "claimed_solution": "RDLURDULDR",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "S....#\n.##..#\n..~..~\n..*..#\n.#E..#\n#~.*~#",
+      "features": {
+       "optimal_moves": 11,
+       "solution": "RDLRLUDURDL",
+       "n_optimal_solutions": 3,
+       "states_to_solve": 85,
+       "reachable_states": 112,
+       "avg_branching": 2.259,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "S....#\n.##..#\n..~..~\n..*..#\n.#E..#\n#~.*~#",
+   "canonical": "###~##\n~.....\n*.....\n.E*~#.\n~#..#.\n#....S",
+   "features": {
+    "optimal_moves": 11,
+    "solution": "RDLRLUDURDL",
+    "n_optimal_solutions": 3,
+    "states_to_solve": 85,
+    "reachable_states": 112,
+    "avg_branching": 2.259,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "hard-15"
+  },
+  "hard-16": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 8,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.075,
+   "cost_usd": 5.0586e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.044,
+     "prompt_tokens": 667,
+     "output_tokens": 43,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.0586e-05,
+     "reply": "```\n########\n#S..~..#\n#..#.#.#\n#.*..*.#\n#.#..#.#\n#..E~..#\n########\n```\nsolution: RDLURDLURDLU",
+     "claimed_solution": "RDLURDLURDLU",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 9 moves (RDLRURLDR); requested hard = 10..16 moves",
+      "level": "########\n#S..~..#\n#..#.#.#\n#.*..*.#\n#.#..#.#\n#..E~..#\n########",
+      "features": {
+       "optimal_moves": 9,
+       "solution": "RDLRURLDR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 33,
+       "reachable_states": 34,
+       "avg_branching": 1.909,
+       "dead_end_states": 8,
+       "dead_end_ratio": 0.235,
+       "trap_moves": 2
+      }
+     },
+     "patch": "turn the wall at (2,8) into floor"
+    }
+   ],
+   "level": "########\n#S..~...\n#..#.#.#\n#.*..*.#\n#.#..#.#\n#..E~..#\n########",
+   "canonical": "#######\n#....S#\n#.#*..#\n#E..#.#\n#~...~#\n#.#*#.#\n#.....#\n#####.#",
+   "features": {
+    "optimal_moves": 11,
+    "solution": "DRULDRURLDR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 35,
+    "reachable_states": 36,
+    "avg_branching": 1.886,
+    "dead_end_states": 12,
+    "dead_end_ratio": 0.333,
+    "trap_moves": 3
+   },
+   "id": "hard-16"
+  },
+  "hard-17": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 6,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 0.77,
+   "cost_usd": 4.698600000000001e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.762,
+     "prompt_tokens": 667,
+     "output_tokens": 37,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.698600000000001e-05,
+     "reply": "```\n######\n#S...#\n#.##.#\n#.#*.#\n#.#~.#\n#..E.#\n######\n```\nsolution: RDLURDLURD",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#.##.#\n#.#*.#\n#.#~.#\n#..E.#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (6,5) into wet clay"
+    }
+   ],
+   "level": "######\n#S...#\n#.##.#\n#.#*.#\n#.#~.#\n#..E~#\n######",
+   "canonical": "######\n#...S#\n#.##.#\n#.*#.#\n#.~#.#\n#~E..#\n######",
+   "features": {
+    "optimal_moves": 10,
+    "solution": "DRLRURULDR",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 21,
+    "reachable_states": 22,
+    "avg_branching": 1.905,
+    "dead_end_states": 5,
+    "dead_end_ratio": 0.227,
+    "trap_moves": 0
+   },
+   "id": "hard-17"
+  },
+  "hard-11": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 5.197,
+   "cost_usd": 0.000469164,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.014,
+     "prompt_tokens": 667,
+     "output_tokens": 50,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.4786e-05,
+     "reply": "```\n########\n#S...*.#\n#.####.#\n#.#~~#.#\n#.#E.#.#\n#.####.#\n#*.....#\n########\n```\nsolution: R D L U R D L U R D L U",
+     "claimed_solution": "RDLURDLURDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S...*.#\n#.####.#\n#.#~~#.#\n#.#E.#.#\n#.####.#\n#*.....#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 12,
+       "avg_branching": 2.0,
+       "dead_end_states": 12,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 1/2\n  move 2 (D): rests at (7,7), coals 1/2\n  move 3 (L): rests at (7,2), coals 2/2\n  move 4 (U): rests at (2,2), coals 2/2\n  move 5 (R): rests at (2,7), coals 2/2\n  move 6 (D): rests at (7,7), coals 2/2\n  move 7 (L): rests at (7,2), coals 2/2\n  move 8 (U): rests at (2,2), coals 2/2\n  move 9 (R): rests at (2,7), coals 2/2\n  move 10 (D): rests at (7,7), coals 2/2\n  move 11 (L): rests at (7,2), coals 2/2\n  move 12 (U): rests at (2,2), coals 2/2\n  -> ends at (2,2), not solved (exit is at (5,4))\nThe ember can never come to rest on the exit at (5,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 1.169,
+     "prompt_tokens": 1101,
+     "output_tokens": 51,
+     "reasoning_tokens": 0,
+     "cost_usd": 0.00010167,
+     "reply": "```\n########\n#S...*.#\n#.####.#\n#.#~~#.#\n#.#E#..#\n#.####.#\n#*.....#\n########\n```\nsolution: R D L U R D L U R D L U R",
+     "claimed_solution": "RDLURDLURDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S...*.#\n#.####.#\n#.#~~#.#\n#.#E#..#\n#.####.#\n#*.....#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 12,
+       "avg_branching": 2.0,
+       "dead_end_states": 12,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 1/2\n  move 2 (D): rests at (7,7), coals 1/2\n  move 3 (L): rests at (7,2), coals 2/2\n  move 4 (U): rests at (2,2), coals 2/2\n  move 5 (R): rests at (2,7), coals 2/2\n  move 6 (D): rests at (7,7), coals 2/2\n  move 7 (L): rests at (7,2), coals 2/2\n  move 8 (U): rests at (2,2), coals 2/2\n  move 9 (R): rests at (2,7), coals 2/2\n  move 10 (D): rests at (7,7), coals 2/2\n  move 11 (L): rests at (7,2), coals 2/2\n  move 12 (U): rests at (2,2), coals 2/2\n  move 13 (R): rests at (2,7), coals 2/2\n  -> ends at (2,7), not solved (exit is at (5,4))\nThe ember can never come to rest on the exit at (5,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 0.91,
+     "prompt_tokens": 1557,
+     "output_tokens": 53,
+     "reasoning_tokens": 0,
+     "cost_usd": 9.6006e-05,
+     "reply": "```\n########\n#S...*.#\n#.####.#\n#.#~~#.#\n#.#.E#.#\n#.####.#\n#*.....#\n########\n```\nsolution: R D L U R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S...*.#\n#.####.#\n#.#~~#.#\n#.#.E#.#\n#.####.#\n#*.....#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 12,
+       "avg_branching": 2.0,
+       "dead_end_states": 12,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 1/2\n  move 2 (D): rests at (7,7), coals 1/2\n  move 3 (L): rests at (7,2), coals 2/2\n  move 4 (U): rests at (2,2), coals 2/2\n  move 5 (R): rests at (2,7), coals 2/2\n  move 6 (D): rests at (7,7), coals 2/2\n  move 7 (L): rests at (7,2), coals 2/2\n  move 8 (U): rests at (2,2), coals 2/2\n  move 9 (R): rests at (2,7), coals 2/2\n  move 10 (D): rests at (7,7), coals 2/2\n  move 11 (L): rests at (7,2), coals 2/2\n  move 12 (U): rests at (2,2), coals 2/2\n  move 13 (R): rests at (2,7), coals 2/2\n  move 14 (D): rests at (7,7), coals 2/2\n  -> ends at (7,7), not solved (exit is at (5,5))\nThe ember can never come to rest on the exit at (5,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 0.972,
+     "prompt_tokens": 2036,
+     "output_tokens": 54,
+     "reasoning_tokens": 0,
+     "cost_usd": 0.00011200800000000002,
+     "reply": "```\n########\n#S...*.#\n#.####.#\n#.#~~#.#\n#.#E~#.#\n#.####.#\n#*.....#\n########\n```\nsolution: R D L U R D L U R D L U R D L",
+     "claimed_solution": "RDLURDLURDLURDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S...*.#\n#.####.#\n#.#~~#.#\n#.#E~#.#\n#.####.#\n#*.....#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 12,
+       "avg_branching": 2.0,
+       "dead_end_states": 12,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 1/2\n  move 2 (D): rests at (7,7), coals 1/2\n  move 3 (L): rests at (7,2), coals 2/2\n  move 4 (U): rests at (2,2), coals 2/2\n  move 5 (R): rests at (2,7), coals 2/2\n  move 6 (D): rests at (7,7), coals 2/2\n  move 7 (L): rests at (7,2), coals 2/2\n  move 8 (U): rests at (2,2), coals 2/2\n  move 9 (R): rests at (2,7), coals 2/2\n  move 10 (D): rests at (7,7), coals 2/2\n  move 11 (L): rests at (7,2), coals 2/2\n  move 12 (U): rests at (2,2), coals 2/2\n  move 13 (R): rests at (2,7), coals 2/2\n  move 14 (D): rests at (7,7), coals 2/2\n  move 15 (L): rests at (7,2), coals 2/2\n  -> ends at (7,2), not solved (exit is at (5,4))\nThe ember can never come to rest on the exit at (5,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (4): (2,2) (2,7) (7,2) (7,7)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 1.042,
+     "prompt_tokens": 2537,
+     "output_tokens": 42,
+     "reasoning_tokens": 0,
+     "cost_usd": 0.000104694,
+     "reply": "```\n########\n#S.....#\n#.####.#\n#.#~~#.#\n#.#E.#.#\n#.####.#\n#*.#....#\n########\n```\nsolution: R D L U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "malformed",
+      "detail": "row 7 has 9 characters but row 1 has 8; all rows must be the same length",
+      "parse_code": "ragged"
+     },
+     "feedback": "REJECTED: malformed. row 7 has 9 characters but row 1 has 8; all rows must be the same length. The level must be exactly 8 wide and 8 tall. Reply with a corrected level in the same output format."
+    }
+   ],
+   "id": "hard-11"
+  },
+  "hard-12": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 6,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 5.14,
+   "cost_usd": 0.000296688,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.12,
+     "prompt_tokens": 667,
+     "output_tokens": 37,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.698600000000001e-05,
+     "reply": "```\n######\n#S~..#\n#.#..#\n#..*.#\n#..~E#\n######\n```\nsolution: D R L U R D L U R D",
+     "claimed_solution": "DRLURDLURD",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 4 moves (RLDR); requested hard = 10..16 moves",
+      "level": "######\n#S~..#\n#.#..#\n#..*.#\n#..~E#\n######",
+      "features": {
+       "optimal_moves": 4,
+       "solution": "RLDR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 13,
+       "reachable_states": 23,
+       "avg_branching": 2.182,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     },
+     "feedback": "REJECTED: wrong_difficulty.\noptimal solution is 4 moves (RLDR); requested hard = 10..16 moves.\nToo short by at least 6 move(s). The solver's shortest solution is RLDR. Block that shortcut or add coals that force detours.\n(Your stated solution was DRLURDLURD, 10 moves.)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 0.934,
+     "prompt_tokens": 794,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 4.661999999999999e-05,
+     "reply": "```\n######\n#S.*.#\n#.#..#\n#..~E#\n#.#..#\n######\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S.*.#\n#.#..#\n#..~E#\n#.#..#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 15,
+       "avg_branching": 1.867,
+       "dead_end_states": 15,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,5), coals 1/1\n  move 2 (D): rests at (5,5), coals 1/1\n  move 3 (L): rests at (5,4), coals 1/1\n  move 4 (U): rests at (2,4), coals 1/1\n  move 5 (R): rests at (2,5), coals 1/1\n  move 6 (D): rests at (5,5), coals 1/1\n  move 7 (L): rests at (5,4), coals 1/1\n  move 8 (U): blocked, the ember at (5,4) cannot move that way\nThe ember can never come to rest on the exit at (4,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (8): (2,2) (2,4) (2,5) (3,4) (3,5) (5,2) (5,4) (5,5)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 1.109,
+     "prompt_tokens": 1132,
+     "output_tokens": 39,
+     "reasoning_tokens": 0,
+     "cost_usd": 8.0304e-05,
+     "reply": "```\n######\n#S..*#\n#.##.#\n#..~E#\n#.##.#\n#....#\n######\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "malformed",
+      "detail": "wrong size: got 6x7 (width x height), requested 6x6",
+      "parse_code": "wrong_size"
+     },
+     "feedback": "REJECTED: malformed. wrong size: got 6x7 (width x height), requested 6x6. The level must be exactly 6 wide and 6 tall. Reply with a corrected level in the same output format."
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 1.011,
+     "prompt_tokens": 1225,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.4822000000000005e-05,
+     "reply": "```\n######\n#S..*#\n#.##.#\n#..~E#\n#.##.#\n######\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S..*#\n#.##.#\n#..~E#\n#.##.#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 6,
+       "avg_branching": 1.5,
+       "dead_end_states": 6,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,5), coals 1/1\n  move 2 (D): rests at (5,5), coals 1/1\n  move 3 (L): blocked, the ember at (5,5) cannot move that way\nThe ember can never come to rest on the exit at (4,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (4): (2,2) (2,5) (5,2) (5,5)\nReply with a corrected level in the same output format."
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 0.907,
+     "prompt_tokens": 1438,
+     "output_tokens": 36,
+     "reasoning_tokens": 0,
+     "cost_usd": 6.7956e-05,
+     "reply": "```\n######\n#S.*.#\n#.#..#\n#.*..#\n#..~E#\n######\n```\nsolution: R D L U R D L U R D",
+     "claimed_solution": "RDLURDLURD",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 7 moves (RDLRURD); requested hard = 10..16 moves",
+      "level": "######\n#S.*.#\n#.#..#\n#.*..#\n#..~E#\n######",
+      "features": {
+       "optimal_moves": 7,
+       "solution": "RDLRURD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 20,
+       "reachable_states": 21,
+       "avg_branching": 2.05,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     },
+     "feedback": "REJECTED: wrong_difficulty.\noptimal solution is 7 moves (RDLRURD); requested hard = 10..16 moves.\nToo short by at least 3 move(s). The solver's shortest solution is RDLRURD. Block that shortcut or add coals that force detours.\n(Your stated solution was RDLURDLURD, 10 moves.)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "hard-12"
+  },
+  "hard-19": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 6,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 0.927,
+   "cost_usd": 5.0586e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 0.906,
+     "prompt_tokens": 667,
+     "output_tokens": 43,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.0586e-05,
+     "reply": "```text\n#S...#\n#.#..#\n#.*..#\n#.#.~#\n#..*.#\n#..E.#\n```\nsolution: D R U L D R U L D R",
+     "claimed_solution": "DRULDRULDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#S...#\n#.#..#\n#.*..#\n#.#.~#\n#..*.#\n#..E.#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 32,
+       "avg_branching": 2.125,
+       "dead_end_states": 32,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "patch": "turn the floor at (5,3) into wet clay"
+    }
+   ],
+   "level": "#S...#\n#.#..#\n#.*..#\n#.#.~#\n#.~*.#\n#..E.#",
+   "canonical": "######\n.....S\n.~#*#.\nE*....\n..~...\n######",
+   "features": {
+    "optimal_moves": 13,
+    "solution": "RDULURDLDRULD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 37,
+    "reachable_states": 38,
+    "avg_branching": 2.189,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "hard-19"
+  },
+  "hard-18": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": true,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 1.791,
+   "cost_usd": 5.3586e-05,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 1.391,
+     "prompt_tokens": 667,
+     "output_tokens": 48,
+     "reasoning_tokens": 0,
+     "cost_usd": 5.3586e-05,
+     "reply": "```\n#....#\n.~.*.#\n..*..#\n.#~..#\n.*.#.#\n..~.*#\n#S.#.#\nE~.*.#\n```\nsolution: U L D R U L D R U L",
+     "claimed_solution": "ULDRULDRUL",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 9 moves (URUDLURDL); requested hard = 10..16 moves",
+      "level": "#....#\n.~.*.#\n..*..#\n.#~..#\n.*.#.#\n..~.*#\n#S.#.#\nE~.*.#",
+      "features": {
+       "optimal_moves": 9,
+       "solution": "URUDLURDL",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 332,
+       "reachable_states": 828,
+       "avg_branching": 2.146,
+       "dead_end_states": 750,
+       "dead_end_ratio": 0.906,
+       "trap_moves": 4
+      }
+     },
+     "patch": "move the exit from (8,1) to (2,3)"
+    }
+   ],
+   "level": "#....#\n.~E*.#\n..*..#\n.#~..#\n.*.#.#\n..~.*#\n#S.#.#\n.~.*.#",
+   "canonical": "########\n..*.....\n*#.#..*.\n..~.~*E.\n~S.*#.~.\n.#.....#",
+   "features": {
+    "optimal_moves": 12,
+    "solution": "UDRUDLUDLURL",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 653,
+    "reachable_states": 828,
+    "avg_branching": 2.14,
+    "dead_end_states": 640,
+    "dead_end_ratio": 0.773,
+    "trap_moves": 3
+   },
+   "id": "hard-18"
+  }
+ },
+ "incomplete": []
+}

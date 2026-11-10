@@ -1,0 +1,3908 @@
+{
+ "meta": {
+  "started_utc": "2026-11-10T20:48:13Z",
+  "provider": "gemini",
+  "model": "gemini-3.1-flash-lite",
+  "mode": "blind",
+  "max_rounds": 5,
+  "temperature": 1.0,
+  "max_output_tokens": 6000,
+  "thinking_budget": 4000,
+  "workers": 3,
+  "master_seed": 2026,
+  "n_requests": 60,
+  "system_prompt": "You design levels for Kiln Slide, a grid puzzle.\n\nRULES\n- The ember moves U, D, L or R. A move slides it in a straight line until the\n  next cell is a wall or the edge of the grid. It cannot stop earlier.\n- A move in a direction where the ember is already blocked is not allowed.\n- The ember collects every coal (*) it passes over or stops on.\n- Wet clay (~) can be crossed or rested on. As soon as the ember leaves a clay\n  tile, that tile bakes into a wall for the rest of the level.\n- The level is solved when all coals are collected and the ember comes to\n  REST on the exit (E). Sliding over the exit without stopping does nothing.\n\nLEVEL FORMAT\n- A rectangular text grid, one row per line, no spaces.\n- Characters: # wall, . floor, S start (exactly one), E exit (exactly one),\n  * coal (0 to 5), ~ wet clay (0 to 6).\n- Cells outside the grid are walls, so a border of # is optional.\n- Coordinates in feedback are (row, column), both starting at 1 from the top\n  left.\n\nEXAMPLE 1 (5 wide, 5 tall, optimal 3 moves: D R U)\n.....\n.S#..\n..E.#\n#.*..\n...#.\nD: from (2,2) slide to (5,2). R: stop at (5,3) because (5,4) is a wall.\nU: pass the coal at (4,3), stop on E at (3,3) because (2,3) is a wall.\n\nEXAMPLE 2 (6 wide, 5 tall, optimal 5 moves: U L R D L)\n..~.*.\n......\nE....S\n.#....\n......\nU: to (1,6). L: collect the coal, cross the clay at (1,3), stop at (1,1);\nthe clay bakes into a wall. R: stop at (1,2) against the baked clay.\nD: stop at (3,2) because (4,2) is a wall. L: stop on E at (3,1).\n\nDIFFICULTY is the length of the shortest solution (optimal move count):\neasy = 3-5 moves, medium = 6-9 moves, hard = 10-16 moves.\nEvery level you propose is checked by an exact solver, which finds the true\nshortest solution. A level only counts if the solver's optimal move count is\ninside the requested range, so a shortcut you did not notice makes it fail.\n\nOUTPUT\nReply with exactly two things and nothing else: the level inside one fenced\ncode block, then one line with the solution you intend.\n```\n<grid rows>\n```\nsolution: <letters from U D L R, no spaces>\nNo explanation, no reasoning text, no second attempt. Do not copy the examples.",
+  "calls_this_run": 111,
+  "usd_this_run": 0.233244,
+  "finished_utc": "2026-11-10T21:12:30Z",
+  "total_calls_logged": 111,
+  "total_usd_logged": 0.233244
+ },
+ "records": {
+  "easy-01": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 7,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 103.028,
+   "cost_usd": 0.01443025,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 12.858,
+     "prompt_tokens": 683,
+     "output_tokens": 2425,
+     "reasoning_tokens": 2399,
+     "cost_usd": 0.00380825,
+     "reply": "```\nS*.....\n..~....\n..E....\n.......\n.......\n.......\n```\nsolution: RDL U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S*.....\n..~....\n..E....\n.......\n.......\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 40.529,
+     "prompt_tokens": 683,
+     "output_tokens": 1681,
+     "reasoning_tokens": 1648,
+     "cost_usd": 0.00269225,
+     "reply": "```\n#######\n#S.*..#\n#.~E..#\n#.....#\n#.....#\n#######\n```\nsolution: RDLUR",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S.*..#\n#.~E..#\n#.....#\n#.....#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 37.615,
+     "prompt_tokens": 683,
+     "output_tokens": 1128,
+     "reasoning_tokens": 1094,
+     "cost_usd": 0.00186275,
+     "reply": "```\n#######\n#S....#\n#*#...#\n#.#...#\n#.#*E.#\n#######\n```\nsolution: DRUR",
+     "claimed_solution": "DRUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#*#...#\n#.#...#\n#.#*E.#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 18,
+       "avg_branching": 2.0,
+       "dead_end_states": 18,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 4.393,
+     "prompt_tokens": 683,
+     "output_tokens": 1509,
+     "reasoning_tokens": 1482,
+     "cost_usd": 0.00243425,
+     "reply": "```\nS.....#\n######.\n*......\n...~...\n.......\n......E\n```\nsolution: DRD",
+     "claimed_solution": "DRD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S.....#\n######.\n*......\n...~...\n.......\n......E",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 2,
+       "avg_branching": 1.0,
+       "dead_end_states": 2,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 7.63,
+     "prompt_tokens": 683,
+     "output_tokens": 2308,
+     "reasoning_tokens": 2275,
+     "cost_usd": 0.00363275,
+     "reply": "```\nS*.....\n.#####.\n.#.....\n.#.#...\n.#.E...\n...*...\n```\nsolution: RDL U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S*.....\n.#####.\n.#.....\n.#.#...\n.#.E...\n...*...",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 2.0,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-01"
+  },
+  "easy-02": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 4,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 4,
+   "seconds": 126.312,
+   "cost_usd": 0.010706,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 15.365,
+     "prompt_tokens": 683,
+     "output_tokens": 1201,
+     "reasoning_tokens": 1167,
+     "cost_usd": 0.00197225,
+     "reply": "```\n......\n.S....\n.*....\n.~....\n.#....\n......\n....E.\n...#..\n```\nsolution: DRDLU",
+     "claimed_solution": "DRDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "......\n.S....\n.*....\n.~....\n.#....\n......\n....E.\n...#..",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 28,
+       "avg_branching": 2.571,
+       "dead_end_states": 28,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 19.883,
+     "prompt_tokens": 683,
+     "output_tokens": 2059,
+     "reasoning_tokens": 2027,
+     "cost_usd": 0.00325925,
+     "reply": "```\n......\n.S...*\n......\n......\n......\n..E...\n......\n..#*..\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "......\n.S...*\n......\n......\n......\n..E...\n......\n..#*..",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 23,
+       "avg_branching": 2.391,
+       "dead_end_states": 23,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 72.75,
+     "prompt_tokens": 683,
+     "output_tokens": 1436,
+     "reasoning_tokens": 1396,
+     "cost_usd": 0.00232475,
+     "reply": "```\n######\n#S*..#\n#.~..#\n#....#\n#....#\n#....#\n#..E.#\n######\n```\nsolution: DRUL",
+     "claimed_solution": "DRUL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S*..#\n#.~..#\n#....#\n#....#\n#....#\n#..E.#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 18.312,
+     "prompt_tokens": 683,
+     "output_tokens": 1986,
+     "reasoning_tokens": 1947,
+     "cost_usd": 0.00314975,
+     "reply": "```\n######\n#S.*.#\n#....#\n#....#\n#....#\n#....#\n#E*..#\n######\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "######\n#S.*.#\n#....#\n#....#\n#....#\n#....#\n#E*..#\n######",
+      "features": {
+       "optimal_moves": 3,
+       "solution": "RDL",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 8,
+       "reachable_states": 14,
+       "avg_branching": 2.0,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "######\n#S.*.#\n#....#\n#....#\n#....#\n#....#\n#E*..#\n######",
+   "canonical": "######\n#.*.S#\n#....#\n#....#\n#....#\n#....#\n#..*E#\n######",
+   "features": {
+    "optimal_moves": 3,
+    "solution": "RDL",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 8,
+    "reachable_states": 14,
+    "avg_branching": 2.0,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-02"
+  },
+  "easy-04": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 7,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 132.775,
+   "cost_usd": 0.00902725,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 4.98,
+     "prompt_tokens": 683,
+     "output_tokens": 705,
+     "reasoning_tokens": 668,
+     "cost_usd": 0.00122825,
+     "reply": "```\n#######\n#S*...#\n#.###.#\n#...*.*\n#.###.#\n#...E.#\n#######\n```\nsolution: RDL U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S*...#\n#.###.#\n#...*.*\n#.###.#\n#...E.#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 5.571,
+     "prompt_tokens": 683,
+     "output_tokens": 1211,
+     "reasoning_tokens": 1176,
+     "cost_usd": 0.00198725,
+     "reply": "```\n#######\n#S....#\n#.###.#\n#.....#\n#.###.#\n#*..E.#\n#######\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#.###.#\n#.....#\n#.###.#\n#*..E.#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 7,
+       "avg_branching": 2.0,
+       "dead_end_states": 7,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 6.324,
+     "prompt_tokens": 683,
+     "output_tokens": 937,
+     "reasoning_tokens": 905,
+     "cost_usd": 0.00157625,
+     "reply": "```\n#######\n#S*.*.#\n#######\n#.....#\n#..E..#\n#######\n#######\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S*.*.#\n#######\n#.....#\n#..E..#\n#######\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 3,
+       "avg_branching": 1.0,
+       "dead_end_states": 3,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 16.12,
+     "prompt_tokens": 683,
+     "output_tokens": 1308,
+     "reasoning_tokens": 1270,
+     "cost_usd": 0.00213275,
+     "reply": "```\n#######\n#S....#\n#.*.*.#\n#.###.#\n#.~~..#\n#....E#\n#######\n```\nsolution: RDRUL",
+     "claimed_solution": "RDRUL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#.*.*.#\n#.###.#\n#.~~..#\n#....E#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 99.777,
+     "prompt_tokens": 683,
+     "output_tokens": 1288,
+     "reasoning_tokens": 1246,
+     "cost_usd": 0.00210275,
+     "reply": "```\n#######\n#S..~.#\n#...#.#\n#.*.E.#\n#...#.#\n#...#.#\n#######\n```\nsolution: R D L U R",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S..~.#\n#...#.#\n#.*.E.#\n#...#.#\n#...#.#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 6,
+       "avg_branching": 1.833,
+       "dead_end_states": 6,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-04"
+  },
+  "easy-00": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 8,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 284.672,
+   "cost_usd": 0.01119325,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 3.765,
+     "prompt_tokens": 683,
+     "output_tokens": 1263,
+     "reasoning_tokens": 1233,
+     "cost_usd": 0.00206525,
+     "reply": "```\n########\n#S...*##\n####.###\n#~..#E##\n########\n```\nsolution: RDL U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "malformed",
+      "detail": "wrong size: got 8x5 (width x height), requested 8x6",
+      "parse_code": "wrong_size"
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 24.553,
+     "prompt_tokens": 683,
+     "output_tokens": 2207,
+     "reasoning_tokens": 2173,
+     "cost_usd": 0.00348125,
+     "reply": "```\n########\n#S*....#\n#..~...#\n#..E...#\n#......#\n########\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S*....#\n#..~...#\n#..E...#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 132.788,
+     "prompt_tokens": 683,
+     "output_tokens": 649,
+     "reasoning_tokens": 621,
+     "cost_usd": 0.00114425,
+     "reply": "```\n........\nS...*...\n........\n....*...\n....E...\n~.......\n```\nsolution: DRULD",
+     "claimed_solution": "DRULD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "........\nS...*...\n........\n....*...\n....E...\n~.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 25,
+       "avg_branching": 2.28,
+       "dead_end_states": 25,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 87.179,
+     "prompt_tokens": 683,
+     "output_tokens": 1269,
+     "reasoning_tokens": 1235,
+     "cost_usd": 0.00207425,
+     "reply": "```\n########\n#S..*..#\n#.~....#\n#....*.#\n#....E.#\n########\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S..*..#\n#.~....#\n#....*.#\n#....E.#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 36.384,
+     "prompt_tokens": 683,
+     "output_tokens": 1505,
+     "reasoning_tokens": 1471,
+     "cost_usd": 0.00242825,
+     "reply": "```\n########\n#S.*...#\n#..#...#\n#..*.E.#\n#......#\n########\n```\nsolution: RDE",
+     "claimed_solution": "RD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.*...#\n#..#...#\n#..*.E.#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-00"
+  },
+  "easy-03": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 7,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 241.509,
+   "cost_usd": 0.01043125,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 134.727,
+     "prompt_tokens": 683,
+     "output_tokens": 1458,
+     "reasoning_tokens": 1416,
+     "cost_usd": 0.00235775,
+     "reply": "```\n#######\n#S....#\n#.###.#\n#.*~..#\n#.###.#\n#..*..E\n#.....#\n#######\n```\nsolution: DRULR",
+     "claimed_solution": "DRULR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#.###.#\n#.*~..#\n#.###.#\n#..*..E\n#.....#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 36.383,
+     "prompt_tokens": 683,
+     "output_tokens": 1131,
+     "reasoning_tokens": 1089,
+     "cost_usd": 0.00186725,
+     "reply": "```\n#######\n#S....#\n#.~...#\n#..*..#\n#.....#\n#..E..#\n#.....#\n#######\n```\nsolution: DRULD",
+     "claimed_solution": "DRULD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#.~...#\n#..*..#\n#.....#\n#..E..#\n#.....#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 18.03,
+     "prompt_tokens": 683,
+     "output_tokens": 995,
+     "reasoning_tokens": 954,
+     "cost_usd": 0.00166325,
+     "reply": "```\n#######\n#S....#\n#.~...#\n#.*...#\n#.....#\n#.*...#\n#...E.#\n#######\n```\nsolution: DRUD",
+     "claimed_solution": "DRUD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#.~...#\n#.*...#\n#.....#\n#.*...#\n#...E.#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 47.229,
+     "prompt_tokens": 683,
+     "output_tokens": 1291,
+     "reasoning_tokens": 1251,
+     "cost_usd": 0.00210725,
+     "reply": "```\n#######\n#*....#\n#.....#\n#.S...#\n#.....#\n#.....#\n#.*.E.#\n#######\n```\nsolution: ULDR",
+     "claimed_solution": "ULDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#*....#\n#.....#\n#.S...#\n#.....#\n#.....#\n#.*.E.#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 20,
+       "avg_branching": 2.35,
+       "dead_end_states": 20,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 5.135,
+     "prompt_tokens": 683,
+     "output_tokens": 1510,
+     "reasoning_tokens": 1471,
+     "cost_usd": 0.00243575,
+     "reply": "```\n#######\n#S....#\n#.###.#\n#*...*#\n#.###.#\n#..E..#\n#######\n#######\n```\nsolution: DRDL",
+     "claimed_solution": "DRDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#.###.#\n#*...*#\n#.###.#\n#..E..#\n#######\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 2.0,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-03"
+  },
+  "easy-07": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 8,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 5,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 5,
+   "seconds": 329.554,
+   "cost_usd": 0.00993775,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 258.129,
+     "prompt_tokens": 683,
+     "output_tokens": 832,
+     "reasoning_tokens": 806,
+     "cost_usd": 0.00141875,
+     "reply": "```\n........\nS.......\n~.......\n*.......\n........\n.......E\n........\n```\nsolution: DRUR",
+     "claimed_solution": "DRUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "........\nS.......\n~.......\n*.......\n........\n.......E\n........",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 2.286,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 50.064,
+     "prompt_tokens": 683,
+     "output_tokens": 1251,
+     "reasoning_tokens": 1209,
+     "cost_usd": 0.00204725,
+     "reply": "```\n########\n#S..*..#\n#...#..#\n#.~....#\n#...#..#\n#...E..#\n########\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S..*..#\n#...#..#\n#.~....#\n#...#..#\n#...E..#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 6.101,
+     "prompt_tokens": 683,
+     "output_tokens": 1239,
+     "reasoning_tokens": 1200,
+     "cost_usd": 0.00202925,
+     "reply": "```\n########\n#S.#...#\n#..#...#\n#.*....#\n#.~...E#\n#......#\n########\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.#...#\n#..#...#\n#.*....#\n#.~...E#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 18,
+       "avg_branching": 2.278,
+       "dead_end_states": 18,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 5.19,
+     "prompt_tokens": 683,
+     "output_tokens": 1681,
+     "reasoning_tokens": 1639,
+     "cost_usd": 0.00269225,
+     "reply": "```\n########\n#S...*##\n#..###.#\n#..#E#.#\n#..#.#.#\n#..#.#.#\n########\n```\nsolution:RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S...*##\n#..###.#\n#..#E#.#\n#..#.#.#\n#..#.#.#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 9,
+       "avg_branching": 2.111,
+       "dead_end_states": 9,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 10.065,
+     "prompt_tokens": 683,
+     "output_tokens": 1053,
+     "reasoning_tokens": 1013,
+     "cost_usd": 0.00175025,
+     "reply": "```\n########\n#S.*...#\n#......#\n#..##..#\n#..~~..#\n#..##E.#\n########\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "########\n#S.*...#\n#......#\n#..##..#\n#..~~..#\n#..##E.#\n########",
+      "features": {
+       "optimal_moves": 3,
+       "solution": "RDL",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 7,
+       "reachable_states": 11,
+       "avg_branching": 2.2,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "########\n#S.*...#\n#......#\n#..##..#\n#..~~..#\n#..##E.#\n########",
+   "canonical": "#######\n#.....#\n#....E#\n#..#~##\n#*.#~##\n#.....#\n#S....#\n#######",
+   "features": {
+    "optimal_moves": 3,
+    "solution": "RDL",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 7,
+    "reachable_states": 11,
+    "avg_branching": 2.2,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-07"
+  },
+  "easy-06": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 408.451,
+   "cost_usd": 0.01108075,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 4.97,
+     "prompt_tokens": 683,
+     "output_tokens": 915,
+     "reasoning_tokens": 876,
+     "cost_usd": 0.00154325,
+     "reply": "```\n######\n#S...#\n#....#\n#....#\n#.*..#\n#....#\n#...E#\n######\n```\nsolution: DRR",
+     "claimed_solution": "DRR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#....#\n#....#\n#.*..#\n#....#\n#...E#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 11.94,
+     "prompt_tokens": 683,
+     "output_tokens": 2046,
+     "reasoning_tokens": 2016,
+     "cost_usd": 0.00323975,
+     "reply": "```\n......\n......\n..*~.E\n......\n......\n......\n......\nS.....\n```\nsolution: URDLR",
+     "claimed_solution": "URDLR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "......\n......\n..*~.E\n......\n......\n......\n......\nS.....",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 20.356,
+     "prompt_tokens": 683,
+     "output_tokens": 1225,
+     "reasoning_tokens": 1195,
+     "cost_usd": 0.00200825,
+     "reply": "```\nS..*..\n.....#\n......\n......\n......\n......\n......\n....E.\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S..*..\n.....#\n......\n......\n......\n......\n......\n....E.",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 11,
+       "avg_branching": 2.091,
+       "dead_end_states": 11,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 23.435,
+     "prompt_tokens": 683,
+     "output_tokens": 1562,
+     "reasoning_tokens": 1521,
+     "cost_usd": 0.00251375,
+     "reply": "```\n######\n#S..*#\n#.~..#\n#....#\n#.*..#\n#....#\n#...E#\n######\n```\nsolution: DRUD",
+     "claimed_solution": "DRUD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S..*#\n#.~..#\n#....#\n#.*..#\n#....#\n#...E#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 7,
+       "avg_branching": 2.0,
+       "dead_end_states": 7,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 347.747,
+     "prompt_tokens": 683,
+     "output_tokens": 1070,
+     "reasoning_tokens": 1034,
+     "cost_usd": 0.00177575,
+     "reply": "```\n......\n.S*..#\n.####.\n.~..E.\n.####.\n......\n......\n......\n```\nsolution: RDLUR",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "......\n.S*..#\n.####.\n.~..E.\n.####.\n......\n......\n......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 16,
+       "avg_branching": 2.062,
+       "dead_end_states": 16,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-06"
+  },
+  "easy-09": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 61.006,
+   "cost_usd": 0.01065325,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 6.397,
+     "prompt_tokens": 683,
+     "output_tokens": 1153,
+     "reasoning_tokens": 1114,
+     "cost_usd": 0.00190025,
+     "reply": "```\n########\n#S*....#\n######.#\n#..*...#\n########\n#......#\n#..E...#\n########\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S*....#\n######.#\n#..*...#\n########\n#......#\n#..E...#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 1.5,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 12.679,
+     "prompt_tokens": 683,
+     "output_tokens": 1208,
+     "reasoning_tokens": 1161,
+     "cost_usd": 0.00198275,
+     "reply": "```\n########\n#S.....#\n#..*..E#\n#..*...#\n#......#\n#......#\n#..~..*#\n########\n```\nsolution: R D L U R",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#..*..E#\n#..*...#\n#......#\n#......#\n#..~..*#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 15,
+       "avg_branching": 2.133,
+       "dead_end_states": 15,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 11.44,
+     "prompt_tokens": 683,
+     "output_tokens": 1526,
+     "reasoning_tokens": 1485,
+     "cost_usd": 0.00245975,
+     "reply": "```\n########\n#S.....#\n#.~..*.#\n#....E.#\n#......#\n#......#\n#......#\n########\n```\nsolution: RDLU R",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#.~..*.#\n#....E.#\n#......#\n#......#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 12.422,
+     "prompt_tokens": 683,
+     "output_tokens": 1349,
+     "reasoning_tokens": 1319,
+     "cost_usd": 0.00219425,
+     "reply": "```\nS......*\nE.......\n........\n...~....\n........\n........\n........\n.......*\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S......*\nE.......\n........\n...~....\n........\n........\n........\n.......*",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 12,
+       "avg_branching": 2.0,
+       "dead_end_states": 12,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 18.064,
+     "prompt_tokens": 683,
+     "output_tokens": 1297,
+     "reasoning_tokens": 1256,
+     "cost_usd": 0.00211625,
+     "reply": "```\n########\n#S.*...#\n#......#\n#..E...#\n#.*....#\n#......#\n#......#\n########\n```\nsolution: RDLU R",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.*...#\n#......#\n#..E...#\n#.*....#\n#......#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-09"
+  },
+  "easy-11": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 8,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 217.972,
+   "cost_usd": 0.01021825,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 54.542,
+     "prompt_tokens": 683,
+     "output_tokens": 1492,
+     "reasoning_tokens": 1467,
+     "cost_usd": 0.00240875,
+     "reply": "```\nS.......\n.*......\n.~......\n*.......\n.......E\n........\n```\nsolution: DRU",
+     "claimed_solution": "DRU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S.......\n.*......\n.~......\n*.......\n.......E\n........",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 17.126,
+     "prompt_tokens": 683,
+     "output_tokens": 1087,
+     "reasoning_tokens": 1053,
+     "cost_usd": 0.00180125,
+     "reply": "```\n########\n#S.*...#\n#....#.#\n#..*.E.#\n#......#\n########\n```\nsolution: RDLUR",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.*...#\n#....#.#\n#..*.E.#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 6.719,
+     "prompt_tokens": 683,
+     "output_tokens": 1223,
+     "reasoning_tokens": 1194,
+     "cost_usd": 0.00200525,
+     "reply": "```\nS*......\n.#.#####\n.*.....E\n.#.~.#..\n........\n........\n```\nsolution: RDR",
+     "claimed_solution": "RDR",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 7 moves (RLDRULR); requested easy = 3..5 moves",
+      "level": "S*......\n.#.#####\n.*.....E\n.#.~.#..\n........\n........",
+      "features": {
+       "optimal_moves": 7,
+       "solution": "RLDRULR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 18,
+       "reachable_states": 20,
+       "avg_branching": 2.0,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 7.613,
+     "prompt_tokens": 683,
+     "output_tokens": 1743,
+     "reasoning_tokens": 1714,
+     "cost_usd": 0.00278525,
+     "reply": "```\n########\n#S.*..##\n########\n~..*..E#\n########\n########\n```\nsolution: RDRL",
+     "claimed_solution": "RDRL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.*..##\n########\n~..*..E#\n########\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 3,
+       "avg_branching": 1.0,
+       "dead_end_states": 3,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 131.969,
+     "prompt_tokens": 683,
+     "output_tokens": 698,
+     "reasoning_tokens": 664,
+     "cost_usd": 0.00121775,
+     "reply": "```\n########\n#*.....#\n#S.~...#\n#......#\n#*..E..#\n########\n```\nsolution: UDR",
+     "claimed_solution": "UDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#*.....#\n#S.~...#\n#......#\n#*..E..#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 27,
+       "avg_branching": 2.185,
+       "dead_end_states": 27,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-11"
+  },
+  "easy-10": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 7,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 287.169,
+   "cost_usd": 0.01075525,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 17.302,
+     "prompt_tokens": 683,
+     "output_tokens": 1433,
+     "reasoning_tokens": 1389,
+     "cost_usd": 0.00232025,
+     "reply": "```\n#######\n#S....#\n#.*...#\n#..*..#\n#~....#\n#.....#\n#..E..#\n#######\n```\nsolution: DRUL D",
+     "claimed_solution": "DRULD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#.*...#\n#..*..#\n#~....#\n#.....#\n#..E..#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 19,
+       "avg_branching": 2.158,
+       "dead_end_states": 19,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 12.97,
+     "prompt_tokens": 683,
+     "output_tokens": 1401,
+     "reasoning_tokens": 1354,
+     "cost_usd": 0.00227225,
+     "reply": "```\n#######\n#S....#\n#.....#\n#.*...#\n#.....#\n#.....#\n#..#..#\n#..E..#\n#######\n```\nsolution: DRURD",
+     "claimed_solution": "DRURD",
+     "verdict": {
+      "code": "malformed",
+      "detail": "wrong size: got 7x9 (width x height), requested 7x8",
+      "parse_code": "wrong_size"
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 17.24,
+     "prompt_tokens": 683,
+     "output_tokens": 1109,
+     "reasoning_tokens": 1069,
+     "cost_usd": 0.00183425,
+     "reply": "```\n#######\n#S....#\n#*....#\n#.....#\n#.....#\n#...*E#\n#.....#\n#######\n```\nsolution: DRDL",
+     "claimed_solution": "DRDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#*....#\n#.....#\n#.....#\n#...*E#\n#.....#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 232.432,
+     "prompt_tokens": 683,
+     "output_tokens": 1009,
+     "reasoning_tokens": 969,
+     "cost_usd": 0.00168425,
+     "reply": "```\n#######\n#S....#\n#.###.#\n#.*.E.#\n#.###.#\n#.*...#\n#.....#\n#######\n```\nsolution: DRUL",
+     "claimed_solution": "DRUL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#.###.#\n#.*.E.#\n#.###.#\n#.*...#\n#.....#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 7.222,
+     "prompt_tokens": 683,
+     "output_tokens": 1649,
+     "reasoning_tokens": 1609,
+     "cost_usd": 0.00264425,
+     "reply": "```\n#######\n#S*...#\n#####.#\n#...~.#\n#.E.#.#\n#.....#\n#.....#\n#######\n```\nsolution: RDL U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S*...#\n#####.#\n#...~.#\n#.E.#.#\n#.....#\n#.....#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 1.857,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-10"
+  },
+  "easy-08": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 8,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 5,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 5,
+   "seconds": 480.779,
+   "cost_usd": 0.01075525,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 177.678,
+     "prompt_tokens": 683,
+     "output_tokens": 1362,
+     "reasoning_tokens": 1326,
+     "cost_usd": 0.00221375,
+     "reply": "```\n########\n#S.....#\n#*.##..#\n#..#..E#\n#*.#...#\n########\n```\nsolution: DRU",
+     "claimed_solution": "DRU",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 7 moves (DURDLUR); requested easy = 3..5 moves",
+      "level": "########\n#S.....#\n#*.##..#\n#..#..E#\n#*.#...#\n########",
+      "features": {
+       "optimal_moves": 7,
+       "solution": "DURDLUR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 14,
+       "reachable_states": 15,
+       "avg_branching": 2.143,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 16.631,
+     "prompt_tokens": 683,
+     "output_tokens": 1468,
+     "reasoning_tokens": 1439,
+     "cost_usd": 0.00237275,
+     "reply": "```\n........\n.S*....*\n........\n...#....\n...E~...\n........\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "........\n.S*....*\n........\n...#....\n...E~...\n........",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 18,
+       "avg_branching": 2.389,
+       "dead_end_states": 18,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 14.353,
+     "prompt_tokens": 683,
+     "output_tokens": 1458,
+     "reasoning_tokens": 1429,
+     "cost_usd": 0.00235775,
+     "reply": "```\n........\n.S.....*\n.######.\n.~....E.\n........\n........\n```\nsolution: RDLUR",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "........\n.S.....*\n.######.\n.~....E.\n........\n........",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 13,
+       "avg_branching": 2.385,
+       "dead_end_states": 13,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 16.714,
+     "prompt_tokens": 683,
+     "output_tokens": 947,
+     "reasoning_tokens": 914,
+     "cost_usd": 0.00159125,
+     "reply": "```\n########\n#S.....#\n#.*....#\n#.####.#\n#.*.~.E#\n########\n```\nsolution: DRU",
+     "claimed_solution": "DRU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#.*....#\n#.####.#\n#.*.~.E#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 10,
+       "avg_branching": 1.8,
+       "dead_end_states": 10,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 255.4,
+     "prompt_tokens": 683,
+     "output_tokens": 1366,
+     "reasoning_tokens": 1336,
+     "cost_usd": 0.00221975,
+     "reply": "```\n########\nS..*...#\n######.#\n~......#\n######.E\n########\n```\nsolution: RDLUR",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "########\nS..*...#\n######.#\n~......#\n######.E\n########",
+      "features": {
+       "optimal_moves": 3,
+       "solution": "RDR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 4,
+       "reachable_states": 5,
+       "avg_branching": 1.5,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "########\nS..*...#\n######.#\n~......#\n######.E\n########",
+   "canonical": "########\n######.E\n~......#\n######.#\nS..*...#\n########",
+   "features": {
+    "optimal_moves": 3,
+    "solution": "RDR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 4,
+    "reachable_states": 5,
+    "avg_branching": 1.5,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-08"
+  },
+  "easy-12": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 127.967,
+   "cost_usd": 0.01004125,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 43.638,
+     "prompt_tokens": 683,
+     "output_tokens": 1508,
+     "reasoning_tokens": 1478,
+     "cost_usd": 0.00243275,
+     "reply": "```\nS.......\n*.......\n.~.E#...\n........\n........\n........\n........\n........\n```\nsolution: DRE",
+     "claimed_solution": "DR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S.......\n*.......\n.~.E#...\n........\n........\n........\n........\n........",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 9.845,
+     "prompt_tokens": 683,
+     "output_tokens": 865,
+     "reasoning_tokens": 838,
+     "cost_usd": 0.00146825,
+     "reply": "```\nS......*\n########\n........\n########\n........\n########\n.......*\nE.......\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S......*\n########\n........\n########\n........\n########\n.......*\nE.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 3,
+       "avg_branching": 1.0,
+       "dead_end_states": 3,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 20.542,
+     "prompt_tokens": 683,
+     "output_tokens": 1325,
+     "reasoning_tokens": 1296,
+     "cost_usd": 0.00215825,
+     "reply": "```\nS.......\n########\n*.......\n........\n........\n........\n.......#\n......E#\n```\nsolution: DRDL",
+     "claimed_solution": "DRDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S.......\n########\n*.......\n........\n........\n........\n.......#\n......E#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 2,
+       "avg_branching": 1.0,
+       "dead_end_states": 2,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 8.793,
+     "prompt_tokens": 683,
+     "output_tokens": 878,
+     "reasoning_tokens": 838,
+     "cost_usd": 0.00148775,
+     "reply": "```\n########\n#S.....#\n#.....E#\n#*.....#\n#......#\n#......#\n#.*....#\n########\n```\nsolution: DRU",
+     "claimed_solution": "DRU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#.....E#\n#*.....#\n#......#\n#......#\n#.*....#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 15,
+       "avg_branching": 2.0,
+       "dead_end_states": 15,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 45.146,
+     "prompt_tokens": 683,
+     "output_tokens": 1549,
+     "reasoning_tokens": 1499,
+     "cost_usd": 0.00249425,
+     "reply": "```\n########\n#S*.~..#\n#..#...#\n#..#..E#\n#..#...#\n#..#...#\n#..#...#\n########\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S*.~..#\n#..#...#\n#..#..E#\n#..#...#\n#..#...#\n#..#...#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 2.214,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-12"
+  },
+  "easy-15": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 40.118,
+   "cost_usd": 0.00909025,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 8.712,
+     "prompt_tokens": 683,
+     "output_tokens": 1090,
+     "reasoning_tokens": 1047,
+     "cost_usd": 0.00180575,
+     "reply": "```\n######\n#S*..#\n#.#..#\n#.*..#\n#.#..#\n#.#..#\n#E...#\n######\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S*..#\n#.#..#\n#.*..#\n#.#..#\n#.#..#\n#E...#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 9.381,
+     "prompt_tokens": 683,
+     "output_tokens": 965,
+     "reasoning_tokens": 936,
+     "cost_usd": 0.00161825,
+     "reply": "```\nS.....\n......\n......\n*.....\n.~....\n.#....\n.....E\n######\n```\nsolution: DRR",
+     "claimed_solution": "DRR",
+     "verdict": {
+      "code": "trivial",
+      "detail": "solvable in 2 move(s): DR",
+      "level": "S.....\n......\n......\n*.....\n.~....\n.#....\n.....E\n######",
+      "features": {
+       "optimal_moves": 2,
+       "solution": "DR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 4,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 8.805,
+     "prompt_tokens": 683,
+     "output_tokens": 1220,
+     "reasoning_tokens": 1189,
+     "cost_usd": 0.00200075,
+     "reply": "```\n......\n.S.*..\n.~....\n......\n..E...\n......\n......\n......\n```\nsolution: RDLU R",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "......\n.S.*..\n.~....\n......\n..E...\n......\n......\n......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 21,
+       "avg_branching": 2.476,
+       "dead_end_states": 21,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 4.129,
+     "prompt_tokens": 683,
+     "output_tokens": 1481,
+     "reasoning_tokens": 1441,
+     "cost_usd": 0.00239225,
+     "reply": "```\n######\n#S...#\n#~*..#\n#....#\n#....#\n#.E..#\n#....#\n######\n```\nsolution: DRUL",
+     "claimed_solution": "DRUL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#~*..#\n#....#\n#....#\n#.E..#\n#....#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 10,
+       "avg_branching": 2.0,
+       "dead_end_states": 10,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 9.087,
+     "prompt_tokens": 683,
+     "output_tokens": 735,
+     "reasoning_tokens": 706,
+     "cost_usd": 0.00127325,
+     "reply": "```\nS....*\n~.....\n......\n......\n......\n......\n......\n...E..\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S....*\n~.....\n......\n......\n......\n......\n......\n...E..",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 15,
+       "avg_branching": 2.067,
+       "dead_end_states": 15,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-15"
+  },
+  "easy-13": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 7,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 211.974,
+   "cost_usd": 0.01059475,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 24.903,
+     "prompt_tokens": 683,
+     "output_tokens": 1414,
+     "reasoning_tokens": 1377,
+     "cost_usd": 0.00229175,
+     "reply": "```\n#######\n#S....#\n#.###.#\n#*~.*.#\n#.###.#\n#..E..#\n#######\n```\nsolution: DRUR",
+     "claimed_solution": "DRUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#.###.#\n#*~.*.#\n#.###.#\n#..E..#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 11.158,
+     "prompt_tokens": 683,
+     "output_tokens": 852,
+     "reasoning_tokens": 811,
+     "cost_usd": 0.00144875,
+     "reply": "```\n#######\n#S.*..#\n#..#..#\n#..*..#\n#.....#\n#.*..E#\n#######\n```\nsolution: RDLDR",
+     "claimed_solution": "RDLDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S.*..#\n#..#..#\n#..*..#\n#.....#\n#.*..E#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 2.0,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 22.809,
+     "prompt_tokens": 683,
+     "output_tokens": 1495,
+     "reasoning_tokens": 1459,
+     "cost_usd": 0.00241325,
+     "reply": "```\n#######\n#S....#\n###.###\n#.~.*.#\n###.###\n#...E.#\n#######\n```\nsolution: DRURD",
+     "claimed_solution": "DRURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n###.###\n#.~.*.#\n###.###\n#...E.#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 2,
+       "avg_branching": 1.0,
+       "dead_end_states": 2,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 16.447,
+     "prompt_tokens": 683,
+     "output_tokens": 1673,
+     "reasoning_tokens": 1635,
+     "cost_usd": 0.00268025,
+     "reply": "```\n#######\n#S....#\n#..*..#\n#.~E..#\n#.....#\n#.....#\n#######\n```\nsolution: RDL U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#..*..#\n#.~E..#\n#.....#\n#.....#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 136.654,
+     "prompt_tokens": 683,
+     "output_tokens": 1060,
+     "reasoning_tokens": 1035,
+     "cost_usd": 0.00176075,
+     "reply": "```\nS.*....\n#######\n......E\n.......\n.......\n.......\n.......\n```\nsolution: RDU",
+     "claimed_solution": "RDU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S.*....\n#######\n......E\n.......\n.......\n.......\n.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 3,
+       "avg_branching": 1.0,
+       "dead_end_states": 3,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-13"
+  },
+  "easy-14": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 8,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 222.216,
+   "cost_usd": 0.01005475,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 8.863,
+     "prompt_tokens": 683,
+     "output_tokens": 1158,
+     "reasoning_tokens": 1121,
+     "cost_usd": 0.00190775,
+     "reply": "```\nS..*....\n#..#....\n#..#..*.\n~..#....\nE..#....\n........\n```\nsolution: RDL U",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S..*....\n#..#....\n#..#..*.\n~..#....\nE..#....\n........",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 18,
+       "avg_branching": 2.222,
+       "dead_end_states": 18,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 17.289,
+     "prompt_tokens": 683,
+     "output_tokens": 1942,
+     "reasoning_tokens": 1915,
+     "cost_usd": 0.00308375,
+     "reply": "```\n########\nS.*.~..E\n###..###\n........\n........\n########\n```\nsolution: RRD R",
+     "claimed_solution": "RRDR",
+     "verdict": {
+      "code": "trivial",
+      "detail": "solvable in 1 move(s): R",
+      "level": "########\nS.*.~..E\n###..###\n........\n........\n########",
+      "features": {
+       "optimal_moves": 1,
+       "solution": "R",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 1,
+       "reachable_states": 2,
+       "avg_branching": 1.0,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 21.626,
+     "prompt_tokens": 683,
+     "output_tokens": 1135,
+     "reasoning_tokens": 1097,
+     "cost_usd": 0.00187325,
+     "reply": "```\n########\n#S...*##\n#..##..#\n#..E...#\n#.~....#\n########\n```\nsolution: R D L U R",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 6 moves (RLDRLU); requested easy = 3..5 moves",
+      "level": "########\n#S...*##\n#..##..#\n#..E...#\n#.~....#\n########",
+      "features": {
+       "optimal_moves": 6,
+       "solution": "RLDRLU",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 27,
+       "reachable_states": 28,
+       "avg_branching": 2.259,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 144.795,
+     "prompt_tokens": 683,
+     "output_tokens": 959,
+     "reasoning_tokens": 933,
+     "cost_usd": 0.00160925,
+     "reply": "```\nS*......\n........\n........\n........\n....*...\n....E...\n```\nsolution:RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S*......\n........\n........\n........\n....*...\n....E...",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 29.639,
+     "prompt_tokens": 683,
+     "output_tokens": 940,
+     "reasoning_tokens": 906,
+     "cost_usd": 0.00158075,
+     "reply": "```\n########\n#S*....#\n#.~....#\n#......#\n#.*..E.#\n########\n```\nsolution: RDLDR",
+     "claimed_solution": "RDLDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S*....#\n#.~....#\n#......#\n#.*..E.#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 2.0,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-14"
+  },
+  "easy-17": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 77.486,
+   "cost_usd": 0.00927475,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 25.751,
+     "prompt_tokens": 683,
+     "output_tokens": 980,
+     "reasoning_tokens": 935,
+     "cost_usd": 0.00164075,
+     "reply": "```\n########\n#S.....#\n#.*....#\n#..#...#\n#..#...#\n#..*E..#\n#......#\n########\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#.*....#\n#..#...#\n#..#...#\n#..*E..#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 19.236,
+     "prompt_tokens": 683,
+     "output_tokens": 1261,
+     "reasoning_tokens": 1217,
+     "cost_usd": 0.00206225,
+     "reply": "```\n########\n#S.*..##\n#.....##\n#.....##\n#...*..#\n#...~..#\n#...E..#\n########\n```\nsolution: RDD",
+     "claimed_solution": "RDD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.*..##\n#.....##\n#.....##\n#...*..#\n#...~..#\n#...E..#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 22,
+       "avg_branching": 2.182,
+       "dead_end_states": 22,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 21.674,
+     "prompt_tokens": 683,
+     "output_tokens": 792,
+     "reasoning_tokens": 764,
+     "cost_usd": 0.00135875,
+     "reply": "```\nS*......\nE.......\n........\n...~....\n........\n........\n........\n........\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S*......\nE.......\n........\n...~....\n........\n........\n........\n........",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 4.256,
+     "prompt_tokens": 683,
+     "output_tokens": 1192,
+     "reasoning_tokens": 1160,
+     "cost_usd": 0.00195875,
+     "reply": "```\nS.......\n.......#\n......*.\n.######.\n.~......\n........\n........\n.......E\n```\nsolution: RDLDR",
+     "claimed_solution": "RDLDR",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 6 moves (DRULDR); requested easy = 3..5 moves",
+      "level": "S.......\n.......#\n......*.\n.######.\n.~......\n........\n........\n.......E",
+      "features": {
+       "optimal_moves": 6,
+       "solution": "DRULDR",
+       "n_optimal_solutions": 2,
+       "states_to_solve": 10,
+       "reachable_states": 11,
+       "avg_branching": 1.9,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 6.565,
+     "prompt_tokens": 683,
+     "output_tokens": 1389,
+     "reasoning_tokens": 1347,
+     "cost_usd": 0.00225425,
+     "reply": "```\n########\n#S.*...#\n#......#\n#.*.E..#\n#......#\n#......#\n#......#\n########\n```\nsolution: RDLUR",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.*...#\n#......#\n#.*.E..#\n#......#\n#......#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-17"
+  },
+  "easy-18": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 83.656,
+   "cost_usd": 0.00144725,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 83.655,
+     "prompt_tokens": 683,
+     "output_tokens": 851,
+     "reasoning_tokens": 824,
+     "cost_usd": 0.00144725,
+     "reply": "```\nS....*\n......\n......\n......\n......\n......\n......\nE....*\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "S....*\n......\n......\n......\n......\n......\n......\nE....*",
+      "features": {
+       "optimal_moves": 3,
+       "solution": "RDL",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 8,
+       "reachable_states": 12,
+       "avg_branching": 2.0,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "S....*\n......\n......\n......\n......\n......\n......\nE....*",
+   "canonical": "*......*\n........\n........\n........\n........\nE......S",
+   "features": {
+    "optimal_moves": 3,
+    "solution": "RDL",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 8,
+    "reachable_states": 12,
+    "avg_branching": 2.0,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-18"
+  },
+  "medium-00": {
+   "mode": "blind",
+   "band": "medium",
+   "width": 6,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 59.331,
+   "cost_usd": 0.01144675,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 19.43,
+     "prompt_tokens": 683,
+     "output_tokens": 1200,
+     "reasoning_tokens": 1166,
+     "cost_usd": 0.00197075,
+     "reply": "```\n......\nS*#...\n.~#...\n......\n*.....\n~.....\n......\n.....E\n```\nsolution: RDLDRD",
+     "claimed_solution": "RDLDRD",
+     "verdict": {
+      "code": "wrong_difficulty",
+      "detail": "optimal solution is 4 moves (RLDR); requested medium = 6..9 moves",
+      "level": "......\nS*#...\n.~#...\n......\n*.....\n~.....\n......\n.....E",
+      "features": {
+       "optimal_moves": 4,
+       "solution": "RLDR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 27,
+       "reachable_states": 44,
+       "avg_branching": 2.333,
+       "dead_end_states": 12,
+       "dead_end_ratio": 0.273,
+       "trap_moves": 2
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 5.621,
+     "prompt_tokens": 683,
+     "output_tokens": 939,
+     "reasoning_tokens": 899,
+     "cost_usd": 0.00157925,
+     "reply": "```\nS.....\n.#..*.\n~.....\n.#.#..\n...~..\n*.#...\n.....#\n..E...\n```\nsolution: RRDLDLUU",
+     "claimed_solution": "RRDLDLUU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S.....\n.#..*.\n~.....\n.#.#..\n...~..\n*.#...\n.....#\n..E...",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 76,
+       "avg_branching": 2.132,
+       "dead_end_states": 76,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 12.454,
+     "prompt_tokens": 683,
+     "output_tokens": 1777,
+     "reasoning_tokens": 1731,
+     "cost_usd": 0.00283625,
+     "reply": "```\n######\n#S*..#\n#.~..#\n#.*#.#\n#..#.#\n#..#.#\n#..E.#\n######\n```\nsolution: RDLULDRD",
+     "claimed_solution": "RDLULDRD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S*..#\n#.~..#\n#.*#.#\n#..#.#\n#..#.#\n#..E.#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 12.721,
+     "prompt_tokens": 683,
+     "output_tokens": 2036,
+     "reasoning_tokens": 1998,
+     "cost_usd": 0.00322475,
+     "reply": "```\n......\n.S....\n.*.~..\n.#.#..\n.#.#..\n..#...\n.E....\n......\n```\nsolution: DRULDURLU",
+     "claimed_solution": "DRULDURLU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "......\n.S....\n.*.~..\n.#.#..\n.#.#..\n..#...\n.E....\n......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 23,
+       "avg_branching": 2.522,
+       "dead_end_states": 23,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 9.102,
+     "prompt_tokens": 683,
+     "output_tokens": 1110,
+     "reasoning_tokens": 1067,
+     "cost_usd": 0.00183575,
+     "reply": "```\nS#....\n.#..*.\n.~....\n.#..#.\n.#..#.\n.#..#.\n.#..#.\n.E...*\n```\nsolution: DRDLDULR",
+     "claimed_solution": "DRDLDULR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S#....\n.#..*.\n.~....\n.#..#.\n.#..#.\n.#..#.\n.#..#.\n.E...*",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 1.875,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "medium-00"
+  },
+  "easy-19": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 8,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 4,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 4,
+   "seconds": 103.501,
+   "cost_usd": 0.0083705,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 6.355,
+     "prompt_tokens": 683,
+     "output_tokens": 1315,
+     "reasoning_tokens": 1266,
+     "cost_usd": 0.00214325,
+     "reply": "```\n########\n#S*..#.#\n#.#..#.#\n#.#..#.#\n#~.*...#\n#.##...#\n#...E..#\n########\n```\nsolution: RDLDR",
+     "claimed_solution": "RDLDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S*..#.#\n#.#..#.#\n#.#..#.#\n#~.*...#\n#.##...#\n#...E..#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 19,
+       "avg_branching": 1.789,
+       "dead_end_states": 19,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 6.164,
+     "prompt_tokens": 683,
+     "output_tokens": 1627,
+     "reasoning_tokens": 1586,
+     "cost_usd": 0.00261125,
+     "reply": "```\n########\n#S.*...#\n#......#\n#.~....#\n#......#\n#.....*#\n#....E.#\n########\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.*...#\n#......#\n#.~....#\n#......#\n#.....*#\n#....E.#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 15,
+       "avg_branching": 2.0,
+       "dead_end_states": 15,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 15.793,
+     "prompt_tokens": 683,
+     "output_tokens": 632,
+     "reasoning_tokens": 590,
+     "cost_usd": 0.00111875,
+     "reply": "```\n########\n#S*.*..#\n#......#\n#.....*#\n#......#\n#......#\n#.E.*..#\n########\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S*.*..#\n#......#\n#.....*#\n#......#\n#......#\n#.E.*..#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 24,
+       "avg_branching": 2.0,
+       "dead_end_states": 24,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 75.186,
+     "prompt_tokens": 683,
+     "output_tokens": 1551,
+     "reasoning_tokens": 1522,
+     "cost_usd": 0.00249725,
+     "reply": "```\nS.*#E...\n........\n........\n........\n........\n........\n........\n........\n```\nsolution: RLRR",
+     "claimed_solution": "RLRR",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "S.*#E...\n........\n........\n........\n........\n........\n........\n........",
+      "features": {
+       "optimal_moves": 5,
+       "solution": "RDRUL",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 12,
+       "reachable_states": 13,
+       "avg_branching": 2.167,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "S.*#E...\n........\n........\n........\n........\n........\n........\n........",
+   "canonical": "........\n........\n........\n........\n........\n........\n........\n...E#*.S",
+   "features": {
+    "optimal_moves": 5,
+    "solution": "RDRUL",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 12,
+    "reachable_states": 13,
+    "avg_branching": 2.167,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-19"
+  },
+  "easy-16": {
+   "mode": "blind",
+   "band": "easy",
+   "width": 6,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 263.692,
+   "cost_usd": 0.01080475,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 68.577,
+     "prompt_tokens": 683,
+     "output_tokens": 2295,
+     "reasoning_tokens": 2268,
+     "cost_usd": 0.00361325,
+     "reply": "```\nS....*\n#####.\n. E...\n......\n......\n......\n......\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "malformed",
+      "detail": "row 3 contains illegal character(s) [' ']; only # . S E * ~ are allowed",
+      "parse_code": "alphabet"
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 28.292,
+     "prompt_tokens": 683,
+     "output_tokens": 1123,
+     "reasoning_tokens": 1097,
+     "cost_usd": 0.00185525,
+     "reply": "```\nS....*\n......\n......\n......\n......\n......\n....E.\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S....*\n......\n......\n......\n......\n......\n....E.",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 7,
+       "avg_branching": 2.0,
+       "dead_end_states": 7,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 18.408,
+     "prompt_tokens": 683,
+     "output_tokens": 1298,
+     "reasoning_tokens": 1264,
+     "cost_usd": 0.00211775,
+     "reply": "```\n######\nS.*..#\n.....#\n.....#\n.....#\n.....#\n..E..#\n######\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "malformed",
+      "detail": "wrong size: got 6x8 (width x height), requested 6x7",
+      "parse_code": "wrong_size"
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 136.519,
+     "prompt_tokens": 683,
+     "output_tokens": 838,
+     "reasoning_tokens": 811,
+     "cost_usd": 0.00142775,
+     "reply": "```\nS*#...\n......\n.~....\n.#....\n......\n.....E\n......\n```\nsolution: RD RU",
+     "claimed_solution": "RDRU",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S*#...\n......\n.~....\n.#....\n......\n.....E\n......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 29,
+       "avg_branching": 2.379,
+       "dead_end_states": 29,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 11.893,
+     "prompt_tokens": 683,
+     "output_tokens": 1080,
+     "reasoning_tokens": 1050,
+     "cost_usd": 0.00179075,
+     "reply": "```\n......\n.*....\nS..~..\n......\n.*....\n...E..\n......\n```\nsolution: RDLUR",
+     "claimed_solution": "RDLUR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "......\n.*....\nS..~..\n......\n.*....\n...E..\n......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 13,
+       "avg_branching": 2.385,
+       "dead_end_states": 13,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "easy-16"
+  },
+  "medium-01": {
+   "mode": "blind",
+   "band": "medium",
+   "width": 8,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 5,
+   "seconds": 90.246,
+   "cost_usd": 0.012108250000000001,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 12.583,
+     "prompt_tokens": 683,
+     "output_tokens": 917,
+     "reasoning_tokens": 873,
+     "cost_usd": 0.00154625,
+     "reply": "```\n########\n#S.....#\n#.*.##.#\n#.~..~.#\n#.##.*.#\n#......#\n#....E.#\n########\n```\nsolution: DRURDL",
+     "claimed_solution": "DRURDL",
+     "verdict": {
+      "code": "malformed",
+      "detail": "wrong size: got 8x8 (width x height), requested 8x7",
+      "parse_code": "wrong_size"
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 23.335,
+     "prompt_tokens": 683,
+     "output_tokens": 2416,
+     "reasoning_tokens": 2375,
+     "cost_usd": 0.00379475,
+     "reply": "```\n########\n#S..*..#\n#......#\n#...~~.#\n#......#\n#..*...#\n#######E\n```\nsolution: RDLURDR",
+     "claimed_solution": "RDLURDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S..*..#\n#......#\n#...~~.#\n#......#\n#..*...#\n#######E",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 2.0,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 18.67,
+     "prompt_tokens": 683,
+     "output_tokens": 1432,
+     "reasoning_tokens": 1390,
+     "cost_usd": 0.00231875,
+     "reply": "```\n########\n#S.....#\n#.#.#..#\n#.*~*E.#\n#.#.#..#\n#......#\n########\n```\nsolution: RDLURD",
+     "claimed_solution": "RDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#.#.#..#\n#.*~*E.#\n#.#.#..#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 18.575,
+     "prompt_tokens": 683,
+     "output_tokens": 1264,
+     "reasoning_tokens": 1221,
+     "cost_usd": 0.00206675,
+     "reply": "```\n########\n#S.....#\n#.~.~..#\n#.*.##.#\n#...##.#\n#..*..E#\n########\n```\nsolution: RDLURDL",
+     "claimed_solution": "RDLURDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#.~.~..#\n#.*.##.#\n#...##.#\n#..*..E#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": true,
+     "latency_s": 17.08,
+     "prompt_tokens": 683,
+     "output_tokens": 1474,
+     "reasoning_tokens": 1427,
+     "cost_usd": 0.00238175,
+     "reply": "```\n########\n#S.....#\n#.*....#\n#.~..~.#\n#.*..*.#\n#......#\n#..E...#\n########\n```\nsolution: RDRULURD",
+     "claimed_solution": "RDRULURD",
+     "verdict": {
+      "code": "malformed",
+      "detail": "wrong size: got 8x8 (width x height), requested 8x7",
+      "parse_code": "wrong_size"
+     }
+    }
+   ],
+   "id": "medium-01"
+  }
+ },
+ "incomplete": [
+  {
+   "mode": "blind",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "llm_error",
+   "n_calls": 5,
+   "seconds": 261.399,
+   "cost_usd": 0.007688,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 27.4,
+     "prompt_tokens": 683,
+     "output_tokens": 727,
+     "reasoning_tokens": 688,
+     "cost_usd": 0.00126125,
+     "reply": "```\nS*....\n#.....\n#.~#..\n#.#...\n#.#...\n#.#...\n#.#..E\n######\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "trivial",
+      "detail": "solvable in 2 move(s): RD",
+      "level": "S*....\n#.....\n#.~#..\n#.#...\n#.#...\n#.#...\n#.#..E\n######",
+      "features": {
+       "optimal_moves": 2,
+       "solution": "RD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 2,
+       "reachable_states": 4,
+       "avg_branching": 1.333,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 8.335,
+     "prompt_tokens": 683,
+     "output_tokens": 1273,
+     "reasoning_tokens": 1232,
+     "cost_usd": 0.00208025,
+     "reply": "```\n######\n#S...#\n#.*..#\n#.~..#\n#....#\n#.*..#\n#..E.#\n######\n```\nsolution: DRD",
+     "claimed_solution": "DRD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "######\n#S...#\n#.*..#\n#.~..#\n#....#\n#.*..#\n#..E.#\n######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 18.88,
+     "prompt_tokens": 683,
+     "output_tokens": 1873,
+     "reasoning_tokens": 1841,
+     "cost_usd": 0.00298025,
+     "reply": "```\nS....*\n######\n......\n.~~...\n......\n......\n......\n*..E..\n```\nsolution: RDL R",
+     "claimed_solution": "RDLR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S....*\n######\n......\n.~~...\n......\n......\n......\n*..E..",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 3,
+       "avg_branching": 1.0,
+       "dead_end_states": 3,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": true,
+     "latency_s": 28.444,
+     "prompt_tokens": 683,
+     "output_tokens": 797,
+     "reasoning_tokens": 768,
+     "cost_usd": 0.00136625,
+     "reply": "```\nS.....\n......\n*.....\n......\n..~...\n......\n......\n....E.\n```\nsolution: DRDL",
+     "claimed_solution": "DRDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S.....\n......\n*.....\n......\n..~...\n......\n......\n....E.",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 5,
+     "llm_ok": false,
+     "latency_s": 178.337,
+     "prompt_tokens": 0,
+     "output_tokens": 0,
+     "reasoning_tokens": 0,
+     "cost_usd": 0.0,
+     "reply": "",
+     "verdict": {
+      "code": "llm_error",
+      "detail": "{\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+     }
+    }
+   ],
+   "id": "easy-05"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "llm_error",
+   "n_calls": 4,
+   "seconds": 68.754,
+   "cost_usd": 0.00787425,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 18.439,
+     "prompt_tokens": 683,
+     "output_tokens": 1276,
+     "reasoning_tokens": 1232,
+     "cost_usd": 0.00208475,
+     "reply": "```\n########\n#S.....#\n#.*.##.#\n#.~..*##\n#...E..#\n#......#\n#......#\n########\n```\nsolution: RDLUDR",
+     "claimed_solution": "RDLUDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.....#\n#.*.##.#\n#.~..*##\n#...E..#\n#......#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 7,
+       "avg_branching": 2.0,
+       "dead_end_states": 7,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 19.925,
+     "prompt_tokens": 683,
+     "output_tokens": 1678,
+     "reasoning_tokens": 1628,
+     "cost_usd": 0.00268775,
+     "reply": "```\n########\n#S*....#\n#.~~...#\n#..*...#\n#......#\n#...*E.#\n#......#\n#......#\n########\n```\nsolution: RDLURDR",
+     "claimed_solution": "RDLURDR",
+     "verdict": {
+      "code": "malformed",
+      "detail": "wrong size: got 8x9 (width x height), requested 8x8",
+      "parse_code": "wrong_size"
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 21.173,
+     "prompt_tokens": 683,
+     "output_tokens": 1954,
+     "reasoning_tokens": 1906,
+     "cost_usd": 0.00310175,
+     "reply": "```\n########\n#S.*...#\n#..##..#\n#..~~..#\n#.*##.E#\n#......#\n#......#\n########\n```\nsolution: RDLURDRR",
+     "claimed_solution": "RDLURDRR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "########\n#S.*...#\n#..##..#\n#..~~..#\n#.*##.E#\n#......#\n#......#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 8,
+       "avg_branching": 2.0,
+       "dead_end_states": 8,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 4,
+     "llm_ok": false,
+     "latency_s": 9.214,
+     "prompt_tokens": 0,
+     "output_tokens": 0,
+     "reasoning_tokens": 0,
+     "cost_usd": 0.0,
+     "reply": "",
+     "verdict": {
+      "code": "llm_error",
+      "detail": "{\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 500, model: gemini-3.1-flash-lite, description: Generate content requests per day limit exceeded on Free Tie"
+     }
+    }
+   ],
+   "id": "medium-02"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 7,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-04"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 8,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-05"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 6,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-06"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 7,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-07"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 6,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-08"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 7,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-09"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 6,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-10"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 6,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-11"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-12"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 7,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-13"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 8,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-14"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-15"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 6,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-16"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 7,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-17"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 6,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-18"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "medium-19"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 6,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-00"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 7,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-01"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 8,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-02"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 7,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-03"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 7,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-04"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 8,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-05"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-06"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 8,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-07"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 7,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-08"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 7,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-09"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 6,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-10"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-11"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 6,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-12"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 6,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-13"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 7,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-14"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 6,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-15"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 8,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-16"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 6,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-17"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 6,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-18"
+  },
+  {
+   "mode": "blind",
+   "band": "hard",
+   "width": 6,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 0,
+   "seconds": 0.0,
+   "cost_usd": 0,
+   "rounds": [],
+   "id": "hard-19"
+  },
+  {
+   "mode": "blind",
+   "band": "medium",
+   "width": 7,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "budget: provider daily quota exhausted",
+   "n_calls": 3,
+   "seconds": 60.201,
+   "cost_usd": 0.0052597500000000005,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 19.253,
+     "prompt_tokens": 683,
+     "output_tokens": 1078,
+     "reasoning_tokens": 1040,
+     "cost_usd": 0.00178775,
+     "reply": "```\n#######\n#S....#\n#.###.#\n#.~.*.#\n#.###.#\n#*..E.#\n#######\n```\nsolution: RDLDRUL",
+     "claimed_solution": "RDLDRUL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#.###.#\n#.~.*.#\n#.###.#\n#*..E.#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 7,
+       "avg_branching": 2.0,
+       "dead_end_states": 7,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 21.754,
+     "prompt_tokens": 683,
+     "output_tokens": 564,
+     "reasoning_tokens": 528,
+     "cost_usd": 0.00101675,
+     "reply": "```\n.......\n.S.~...\n.#####.\n.*.*.*.\n.#####.\n.......\n..E....\n```\nsolution: RDLURDL",
+     "claimed_solution": "RDLURDL",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": ".......\n.S.~...\n.#####.\n.*.*.*.\n.#####.\n.......\n..E....",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 14,
+       "avg_branching": 2.357,
+       "dead_end_states": 14,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    },
+    {
+     "round": 3,
+     "llm_ok": true,
+     "latency_s": 19.193,
+     "prompt_tokens": 683,
+     "output_tokens": 1523,
+     "reasoning_tokens": 1480,
+     "cost_usd": 0.00245525,
+     "reply": "```\n#######\n#S....#\n#.~~..#\n#..*..#\n#..*..#\n#..E..#\n#######\n```\nsolution: RDLURD",
+     "claimed_solution": "RDLURD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#######\n#S....#\n#.~~..#\n#..*..#\n#..*..#\n#..E..#\n#######",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 4,
+       "avg_branching": 2.0,
+       "dead_end_states": 4,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     }
+    }
+   ],
+   "id": "medium-03"
+  }
+ ]
+}

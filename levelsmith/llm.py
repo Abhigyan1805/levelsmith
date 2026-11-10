@@ -28,6 +28,8 @@ PRICES = {
     "gemini-3.6-flash": {"in": 0.75, "in_cached": 0.075, "out": 3.75},
     "gemini-3.1-flash-lite": {"in": 0.25, "in_cached": 0.025, "out": 1.50},
     "gemini-2.5-flash": {"in": 0.30, "in_cached": 0.03, "out": 2.50},
+    "gemini-3-flash-preview": {"in": 0.50, "in_cached": 0.05, "out": 3.00},
+    "gemini-3.8-flash": {"in": 0.75, "in_cached": 0.075, "out": 3.75},
 }
 PRICES["gemini-3.5-flash"] = PRICES["gemini-3.6-flash"]  # served by 3.6-flash
 

@@ -1,0 +1,20 @@
+flash3/repair: 0 done, 18 to run
+  easy-00 8x6 -> accepted after 1 call(s); budget 1 calls $0.0000
+  easy-01 7x6 -> accepted after 1 call(s); budget 2 calls $0.0000
+  easy-02 6x8 -> accepted after 1 call(s); budget 3 calls $0.0000
+  easy-03 7x8 -> accepted after 1 call(s); budget 4 calls $0.0000
+  easy-04 7x7 -> accepted after 1 call(s); budget 5 calls $0.0000
+  easy-05 6x8 -> accepted after 1 call(s); budget 6 calls $0.0000
+  medium-00 6x8 -> accepted after 1 call(s); budget 7 calls $0.0000
+  medium-01 8x7 -> max_rounds after 1 call(s); budget 8 calls $0.0000
+  medium-03 7x7 -> max_rounds after 1 call(s); budget 9 calls $0.0000
+  medium-02 8x8 -> max_rounds after 1 call(s); budget 10 calls $0.0000
+  medium-04 7x6 -> max_rounds after 1 call(s); budget 11 calls $0.0000
+  medium-05 8x7 -> max_rounds after 1 call(s); budget 12 calls $0.0000
+  hard-00 6x7 -> accepted after 1 call(s); budget 13 calls $0.0000
+  hard-01 7x8 -> max_rounds after 1 call(s); budget 14 calls $0.0000
+  hard-02 8x7 -> max_rounds after 1 call(s); budget 15 calls $0.0000
+  hard-03 7x7 -> max_rounds after 1 call(s); budget 16 calls $0.0000
+  hard-05 8x7 -> llm_error after 1 call(s); budget 17 calls $0.0000
+  hard-04 7x7 -> accepted after 1 call(s); budget 18 calls $0.0000
+done: 9/17 accepted, 1 not finished

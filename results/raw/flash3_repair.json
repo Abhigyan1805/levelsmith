@@ -1,0 +1,890 @@
+{
+ "meta": {
+  "started_utc": "2026-11-10T20:55:31Z",
+  "provider": "gemini",
+  "model": "gemini-3-flash-preview",
+  "mode": "repair",
+  "max_rounds": 1,
+  "temperature": 1.0,
+  "max_output_tokens": 12000,
+  "thinking_budget": 4000,
+  "workers": 2,
+  "master_seed": 2026,
+  "n_requests": 18,
+  "system_prompt": "You design levels for Kiln Slide, a grid puzzle.\n\nRULES\n- The ember moves U, D, L or R. A move slides it in a straight line until the\n  next cell is a wall or the edge of the grid. It cannot stop earlier.\n- A move in a direction where the ember is already blocked is not allowed.\n- The ember collects every coal (*) it passes over or stops on.\n- Wet clay (~) can be crossed or rested on. As soon as the ember leaves a clay\n  tile, that tile bakes into a wall for the rest of the level.\n- The level is solved when all coals are collected and the ember comes to\n  REST on the exit (E). Sliding over the exit without stopping does nothing.\n\nLEVEL FORMAT\n- A rectangular text grid, one row per line, no spaces.\n- Characters: # wall, . floor, S start (exactly one), E exit (exactly one),\n  * coal (0 to 5), ~ wet clay (0 to 6).\n- Cells outside the grid are walls, so a border of # is optional.\n- Coordinates in feedback are (row, column), both starting at 1 from the top\n  left.\n\nEXAMPLE 1 (5 wide, 5 tall, optimal 3 moves: D R U)\n.....\n.S#..\n..E.#\n#.*..\n...#.\nD: from (2,2) slide to (5,2). R: stop at (5,3) because (5,4) is a wall.\nU: pass the coal at (4,3), stop on E at (3,3) because (2,3) is a wall.\n\nEXAMPLE 2 (6 wide, 5 tall, optimal 5 moves: U L R D L)\n..~.*.\n......\nE....S\n.#....\n......\nU: to (1,6). L: collect the coal, cross the clay at (1,3), stop at (1,1);\nthe clay bakes into a wall. R: stop at (1,2) against the baked clay.\nD: stop at (3,2) because (4,2) is a wall. L: stop on E at (3,1).\n\nDIFFICULTY is the length of the shortest solution (optimal move count):\neasy = 3-5 moves, medium = 6-9 moves, hard = 10-16 moves.\nEvery level you propose is checked by an exact solver, which finds the true\nshortest solution. A level only counts if the solver's optimal move count is\ninside the requested range, so a shortcut you did not notice makes it fail.\n\nOUTPUT\nReply with exactly two things and nothing else: the level inside one fenced\ncode block, then one line with the solution you intend.\n```\n<grid rows>\n```\nsolution: <letters from U D L R, no spaces>\nNo explanation, no reasoning text, no second attempt. Do not copy the examples.",
+  "patch": false,
+  "calls_this_run": 18,
+  "usd_this_run": 0.0,
+  "finished_utc": "2026-11-10T21:01:04Z",
+  "total_calls_logged": 18,
+  "total_usd_logged": 0.0
+ },
+ "records": {
+  "easy-00": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 30.776,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 30.775,
+     "prompt_tokens": 683,
+     "output_tokens": 7837,
+     "reasoning_tokens": 7806,
+     "cost_usd": 0.0,
+     "reply": "```\nS.#E....\n........\n*..#...*\n....#...\n........\n...*....\n```\nsolution: DRUL",
+     "claimed_solution": "DRUL",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "S.#E....\n........\n*..#...*\n....#...\n........\n...*....",
+      "features": {
+       "optimal_moves": 4,
+       "solution": "DRUL",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 13,
+       "reachable_states": 32,
+       "avg_branching": 2.258,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "S.#E....\n........\n*..#...*\n....#...\n........\n...*....",
+   "canonical": "..*...\n......\n......\n...#..\nE.#..*\n#.....\n......\nS.*...",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "DRUL",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 13,
+    "reachable_states": 32,
+    "avg_branching": 2.258,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-00"
+  },
+  "easy-01": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 7,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 45.06,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 45.059,
+     "prompt_tokens": 683,
+     "output_tokens": 8854,
+     "reasoning_tokens": 8819,
+     "cost_usd": 0.0,
+     "reply": "```\n#######\n#S*~*.#\n#..E..#\n#.....#\n#.#..*#\n#######\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "#######\n#S*~*.#\n#..E..#\n#.....#\n#.#..*#\n#######",
+      "features": {
+       "optimal_moves": 4,
+       "solution": "RDLU",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 9,
+       "reachable_states": 21,
+       "avg_branching": 2.3,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "#######\n#S*~*.#\n#..E..#\n#.....#\n#.#..*#\n#######",
+   "canonical": "######\n#*...#\n#...*#\n#..E~#\n##..*#\n#...S#\n######",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLU",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 9,
+    "reachable_states": 21,
+    "avg_branching": 2.3,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-01"
+  },
+  "easy-02": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 27.764,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 27.764,
+     "prompt_tokens": 683,
+     "output_tokens": 7445,
+     "reasoning_tokens": 7416,
+     "cost_usd": 0.0,
+     "reply": "```\nS..*..\n......\n......\n......\n......\nE....#\n#.....\n......\n```\nsolution: RLD",
+     "claimed_solution": "RLD",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "S..*..\n......\n......\n......\n......\nE....#\n#.....\n......",
+      "features": {
+       "optimal_moves": 3,
+       "solution": "RLD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 9,
+       "reachable_states": 19,
+       "avg_branching": 2.389,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "S..*..\n......\n......\n......\n......\nE....#\n#.....\n......",
+   "canonical": ".#E....S\n........\n........\n.......*\n........\n..#.....",
+   "features": {
+    "optimal_moves": 3,
+    "solution": "RLD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 9,
+    "reachable_states": 19,
+    "avg_branching": 2.389,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-02"
+  },
+  "easy-03": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 7,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 38.957,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 38.955,
+     "prompt_tokens": 683,
+     "output_tokens": 10093,
+     "reasoning_tokens": 10062,
+     "cost_usd": 0.0,
+     "reply": "```\nS......\n.......\n.......\n..#....\n..E....\n.......\n.......\n.*.#...\n```\nsolution: DRU",
+     "claimed_solution": "DRU",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "S......\n.......\n.......\n..#....\n..E....\n.......\n.......\n.*.#...",
+      "features": {
+       "optimal_moves": 3,
+       "solution": "DRU",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 5,
+       "reachable_states": 14,
+       "avg_branching": 2.154,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "S......\n.......\n.......\n..#....\n..E....\n.......\n.......\n.*.#...",
+   "canonical": ".*.#...\n.......\n.......\n..E....\n..#....\n.......\n.......\nS......",
+   "features": {
+    "optimal_moves": 3,
+    "solution": "DRU",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 5,
+    "reachable_states": 14,
+    "avg_branching": 2.154,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-03"
+  },
+  "easy-04": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 7,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 26.346,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 26.344,
+     "prompt_tokens": 683,
+     "output_tokens": 6965,
+     "reasoning_tokens": 6931,
+     "cost_usd": 0.0,
+     "reply": "```\n..#...*\n.S....#\n.#.....\n...E...\n...#...\n#......\n.......\n```\nsolution: URLD",
+     "claimed_solution": "URLD",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "..#...*\n.S....#\n.#.....\n...E...\n...#...\n#......\n.......",
+      "features": {
+       "optimal_moves": 5,
+       "solution": "RURLD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 20,
+       "reachable_states": 22,
+       "avg_branching": 2.476,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "..#...*\n.S....#\n.#.....\n...E...\n...#...\n#......\n.......",
+   "canonical": "*#.....\n.......\n.......\n...E#..\n#......\n.S#....\n.....#.",
+   "features": {
+    "optimal_moves": 5,
+    "solution": "RURLD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 20,
+    "reachable_states": 22,
+    "avg_branching": 2.476,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-04"
+  },
+  "easy-05": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 32.642,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 32.642,
+     "prompt_tokens": 683,
+     "output_tokens": 8527,
+     "reasoning_tokens": 8486,
+     "cost_usd": 0.0,
+     "reply": "```\n######\n#S...#\n#.#..#\n###.*#\n#E#..#\n#.#..#\n#....#\n######\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "######\n#S...#\n#.#..#\n###.*#\n#E#..#\n#.#..#\n#....#\n######",
+      "features": {
+       "optimal_moves": 4,
+       "solution": "RDLU",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 7,
+       "reachable_states": 9,
+       "avg_branching": 1.75,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "######\n#S...#\n#.#..#\n###.*#\n#E#..#\n#.#..#\n#....#\n######",
+   "canonical": "######\n#....#\n#.#..#\n#E#..#\n###.*#\n#.#..#\n#S...#\n######",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLU",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 7,
+    "reachable_states": 9,
+    "avg_branching": 1.75,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-05"
+  },
+  "medium-00": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 51.144,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 51.143,
+     "prompt_tokens": 683,
+     "output_tokens": 10504,
+     "reasoning_tokens": 10466,
+     "cost_usd": 0.0,
+     "reply": "```\nS.....\n...#..\n.#....\n..E#..\n#.....\n....#.\n..#...\n.#.#.*\n```\nsolution: RDULDR",
+     "claimed_solution": "RDULDR",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "S.....\n...#..\n.#....\n..E#..\n#.....\n....#.\n..#...\n.#.#.*",
+      "features": {
+       "optimal_moves": 6,
+       "solution": "RDULDR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 22,
+       "reachable_states": 35,
+       "avg_branching": 2.471,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "S.....\n...#..\n.#....\n..E#..\n#.....\n....#.\n..#...\n.#.#.*",
+   "canonical": "*.#.#.\n...#..\n.#....\n.....#\n..#E..\n....#.\n..#...\n.....S",
+   "features": {
+    "optimal_moves": 6,
+    "solution": "RDULDR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 22,
+    "reachable_states": 35,
+    "avg_branching": 2.471,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "medium-00"
+  },
+  "medium-01": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 8,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 1,
+   "seconds": 26.266,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 26.265,
+     "prompt_tokens": 683,
+     "output_tokens": 6549,
+     "reasoning_tokens": 6516,
+     "cost_usd": 0.0,
+     "reply": "```\n........\n.S.~..#.\n........\n......*.\n.......#\n.E.#....\n#.......\n```\nsolution: RUDLRDR",
+     "claimed_solution": "RUDLRDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "........\n.S.~..#.\n........\n......*.\n.......#\n.E.#....\n#.......",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 64,
+       "avg_branching": 2.578,
+       "dead_end_states": 64,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,6), coals 0/1\n  move 2 (U): rests at (1,6), coals 0/1\n  move 3 (D): rests at (7,6), coals 0/1\n  move 4 (L): rests at (7,2), coals 0/1\n  move 5 (R): rests at (7,8), coals 0/1\n  move 6 (D): blocked, the ember at (7,8) cannot move that way\nThe ember can never come to rest on the exit at (6,2): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (21): (1,1) (1,2) (1,3) (1,5) (1,6) (1,8) (2,1) (2,2) (2,5) (2,6) (4,1) (4,8) (6,1) (6,3) (6,5) (6,8) (7,2) (7,3) (7,5) (7,6) (7,8)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "medium-01"
+  },
+  "medium-03": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 7,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 1,
+   "seconds": 33.875,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 33.874,
+     "prompt_tokens": 683,
+     "output_tokens": 7049,
+     "reasoning_tokens": 7012,
+     "cost_usd": 0.0,
+     "reply": "```\nS......\n......#\n..#*..~\n.......\n..~.E.#\n..#....\n*.....*\n```\nsolution: DRULDR",
+     "claimed_solution": "DRULDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "S......\n......#\n..#*..~\n.......\n..~.E.#\n..#....\n*.....*",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 20,
+       "avg_branching": 2.05,
+       "dead_end_states": 20,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): rests at (7,1), coals 1/3\n  move 2 (R): rests at (7,7), coals 2/3\n  move 3 (U): rests at (6,7), coals 2/3\n  move 4 (L): rests at (6,4), coals 2/3\n  move 5 (D): rests at (7,4), coals 2/3\n  move 6 (R): rests at (7,7), coals 2/3\n  -> ends at (7,7), not solved (exit is at (5,5))\nThe ember can never come to rest on the exit at (5,5): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (8): (1,1) (1,4) (1,7) (6,4) (6,7) (7,1) (7,4) (7,7)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "medium-03"
+  },
+  "medium-02": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 8,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 1,
+   "seconds": 45.767,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 45.767,
+     "prompt_tokens": 683,
+     "output_tokens": 11996,
+     "reasoning_tokens": 11516,
+     "cost_usd": 0.0,
+     "reply": "7,2*)\n    2. R (7,2-7,6)\n    3. U (7,6-2,6*)\n    4. L (2,6-2,4) E\n    That's 4 moves! (If 2,7 and 7,7 and 8,2 are walls).\n    Okay, the clay is the key to making it longer.\n\n    Let's use the clay to block a path.\n    If the only way to stop on E is to have a wall that wasn't there before.\n    E is at (2,4). To stop on E, you need a wall at (1,4), (3,4), (2,3) or (2,5).\n    Let's say (1,4), (3,4) and (2,3) are NOT walls.\n    The only way to stop at (2,4) is from the right, with a wall at (2,3).\n    But (2,3) is a clay tile!\n    So you have to go through (2,3) first, then it bakes, and then you can stop on E.\n\n    Draft 8:\n    S (5,5)\n    C1 (5,2)\n    ~ (2,3)\n    E (2,4)\n    Path:\n    1. L: (5,5) to (5,2) [*]\n    2. U: (5,2) to (2,2)\n    3. R: (2,2) to (2,7) [Passes ~2,3 and E 2,4]\n    4. L: (2,7) to (2,4) [Hits baked ~2,3] [E]\n    This is only 4 moves. We need 6.\n\n    Let's add more coals.\n    C1 (5,2), C2 (8,8), C3 (1,8).\n    1. L: (5,5) to (5,2) [*1]\n    2. D: (5,2) to (8,2)",
+     "claimed_solution": null,
+     "verdict": {
+      "code": "malformed",
+      "detail": "no fenced code block found in the reply",
+      "parse_code": "no_level"
+     },
+     "feedback": "REJECTED: malformed. no fenced code block found in the reply. The level must be exactly 8 wide and 8 tall. Reply with a corrected level in the same output format."
+    }
+   ],
+   "id": "medium-02"
+  },
+  "medium-04": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 7,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 1,
+   "seconds": 31.748,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 31.747,
+     "prompt_tokens": 683,
+     "output_tokens": 7846,
+     "reasoning_tokens": 7807,
+     "cost_usd": 0.0,
+     "reply": "```\n#.#....\nS.*...#\n..#....\n.#....~\n.#.E#..\n...*#..\n```\nsolution: RDLD RULD ",
+     "claimed_solution": "RDLDRULD",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#.#....\nS.*...#\n..#....\n.#....~\n.#.E#..\n...*#..",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 41,
+       "avg_branching": 2.049,
+       "dead_end_states": 41,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,6), coals 1/2\n  move 2 (D): rests at (6,6), coals 1/2\n  move 3 (L): blocked, the ember at (6,6) cannot move that way\nThe ember can never come to rest on the exit at (5,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (13): (1,4) (1,6) (1,7) (2,1) (2,6) (3,4) (3,7) (5,6) (5,7) (6,1) (6,4) (6,6) (6,7)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "medium-04"
+  },
+  "medium-05": {
+   "mode": "repair",
+   "band": "medium",
+   "width": 8,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 1,
+   "seconds": 46.073,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 46.072,
+     "prompt_tokens": 683,
+     "output_tokens": 9907,
+     "reasoning_tokens": 9859,
+     "cost_usd": 0.0,
+     "reply": "```\n#..*...#\n.S.....#\n#.#....#\n#..E..*#\n#..#...#\n#..~.#.#\n########\n```\nsolution: RDLURDLDR",
+     "claimed_solution": "RDLURDLDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#..*...#\n.S.....#\n#.#....#\n#..E..*#\n#..#...#\n#..~.#.#\n########",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 38,
+       "avg_branching": 2.079,
+       "dead_end_states": 38,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): rests at (2,7), coals 0/2\n  move 2 (D): rests at (6,7), coals 1/2\n  move 3 (L): blocked, the ember at (6,7) cannot move that way\nThe ember can never come to rest on the exit at (4,4): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (13): (1,2) (1,5) (1,7) (2,1) (2,2) (2,7) (4,2) (4,3) (4,7) (6,2) (6,3) (6,5) (6,7)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "medium-05"
+  },
+  "hard-00": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 6,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 41.814,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 41.812,
+     "prompt_tokens": 685,
+     "output_tokens": 11362,
+     "reasoning_tokens": 11313,
+     "cost_usd": 0.0,
+     "reply": "```\nS#..*#\n...#.#\n#.*...\n...#..\n*.~.#.\n.#..#*\n..*E##\n```\nsolution: DRDLU RDURN URUL DLDLR",
+     "claimed_solution": "DRDLURDUR",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "S#..*#\n...#.#\n#.*...\n...#..\n*.~.#.\n.#..#*\n..*E##",
+      "features": {
+       "optimal_moves": 13,
+       "solution": "DRURDRDULDLDR",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 86,
+       "reachable_states": 172,
+       "avg_branching": 2.212,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "S#..*#\n...#.#\n#.*...\n...#..\n*.~.#.\n.#..#*\n..*E##",
+   "canonical": "##...*#\n*...###\n.#.#..E\n..*.~.*\n#....#.\nS.#.*..",
+   "features": {
+    "optimal_moves": 13,
+    "solution": "DRURDRDULDLDR",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 86,
+    "reachable_states": 172,
+    "avg_branching": 2.212,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "hard-00"
+  },
+  "hard-01": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 7,
+   "height": 8,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 1,
+   "seconds": 45.375,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 45.375,
+     "prompt_tokens": 685,
+     "output_tokens": 11575,
+     "reasoning_tokens": 11519,
+     "cost_usd": 0.0,
+     "reply": "```\nS..#..*\n##...##\n*..~..*\n..###..\n.##E##.\n..###..\n*..~..*\n##..*..\n```\nsolution: RDLDRURULDLURD\n",
+     "claimed_solution": "RDLDRURULDLURD",
+     "verdict": {
+      "code": "malformed",
+      "detail": "too many coals: 6 (maximum 5)",
+      "parse_code": "count"
+     },
+     "feedback": "REJECTED: malformed. too many coals: 6 (maximum 5). The level must be exactly 7 wide and 8 tall. Reply with a corrected level in the same output format."
+    }
+   ],
+   "id": "hard-01"
+  },
+  "hard-02": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 8,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 1,
+   "seconds": 34.203,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 34.202,
+     "prompt_tokens": 685,
+     "output_tokens": 8079,
+     "reasoning_tokens": 8032,
+     "cost_usd": 0.0,
+     "reply": "```\n#S#....*\n.......#\n..~.#...\n.*..#...\n....~.#.\n#..*....\n....#..E\n```\nsolution: RDLDRURDLDRDR",
+     "claimed_solution": "RDLDRURDLDRDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#S#....*\n.......#\n..~.#...\n.*..#...\n....~.#.\n#..*....\n....#..E",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 12,
+       "avg_branching": 1.583,
+       "dead_end_states": 12,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (R): blocked, the ember at (1,2) cannot move that way\nThe ember can never come to rest on the exit at (7,8): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCells where the ember can come to rest (6): (1,2) (1,4) (1,8) (7,1) (7,2) (7,4)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "hard-02"
+  },
+  "hard-03": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 7,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "max_rounds",
+   "n_calls": 1,
+   "seconds": 41.603,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 41.602,
+     "prompt_tokens": 685,
+     "output_tokens": 10539,
+     "reasoning_tokens": 10489,
+     "cost_usd": 0.0,
+     "reply": "```\n#S...*#\n#.#.#.#\n#*..~~#\n#.#.#.#\n#~.#*E#\n###.#.#\n#*...~#\n```\nsolution: DRULDRURDR",
+     "claimed_solution": "DRULDRURDR",
+     "verdict": {
+      "code": "unsolvable",
+      "detail": "no sequence of moves solves this level",
+      "level": "#S...*#\n#.#.#.#\n#*..~~#\n#.#.#.#\n#~.#*E#\n###.#.#\n#*...~#",
+      "features": {
+       "optimal_moves": null,
+       "solution": null,
+       "n_optimal_solutions": null,
+       "states_to_solve": null,
+       "reachable_states": 22,
+       "avg_branching": 1.364,
+       "dead_end_states": 22,
+       "dead_end_ratio": 1.0,
+       "trap_moves": null
+      }
+     },
+     "feedback": "REJECTED: unsolvable.\nno sequence of moves solves this level.\nSimulating your stated solution:\n  move 1 (D): rests at (5,2), coals 1/4\n  move 2 (R): rests at (5,3), coals 1/4\n  move 3 (U): blocked, the ember at (5,3) cannot move that way\nThe ember can never come to rest on the exit at (5,6): from every reachable position it slides past it or cannot reach it. Put a wall directly behind the exit along some approach line.\nCoals that can never be collected: (5,5).\nCells where the ember can come to rest (10): (1,2) (1,6) (4,2) (4,6) (5,2) (5,3) (6,6) (7,2) (7,5) (7,6)\nReply with a corrected level in the same output format."
+    }
+   ],
+   "id": "hard-03"
+  },
+  "hard-04": {
+   "mode": "repair",
+   "band": "hard",
+   "width": 7,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "patched": false,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 48.27,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 48.268,
+     "prompt_tokens": 685,
+     "output_tokens": 11569,
+     "reasoning_tokens": 11521,
+     "cost_usd": 0.0,
+     "reply": "```\n#..*..#\n..#....\n.###.#.\n*..E~.*\n.#.#.#.\n....#..\n##.*..S\n```\nsolution: ULULDRDLRULR",
+     "claimed_solution": "ULULDRDLRULR",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "#..*..#\n..#....\n.###.#.\n*..E~.*\n.#.#.#.\n....#..\n##.*..S",
+      "features": {
+       "optimal_moves": 13,
+       "solution": "LULRULUDRDLUR",
+       "n_optimal_solutions": 2,
+       "states_to_solve": 143,
+       "reachable_states": 150,
+       "avg_branching": 2.228,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "#..*..#\n..#....\n.###.#.\n*..E~.*\n.#.#.#.\n....#..\n##.*..S",
+   "canonical": "##.*..S\n....#..\n.#.#.#.\n*..E~.*\n.###.#.\n..#....\n#..*..#",
+   "features": {
+    "optimal_moves": 13,
+    "solution": "LULRULUDRDLUR",
+    "n_optimal_solutions": 2,
+    "states_to_solve": 143,
+    "reachable_states": 150,
+    "avg_branching": 2.228,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "hard-04"
+  }
+ },
+ "incomplete": [
+  {
+   "mode": "repair",
+   "band": "hard",
+   "width": 8,
+   "height": 7,
+   "accepted": false,
+   "accepted_round": null,
+   "patched": false,
+   "stop_reason": "llm_error",
+   "n_calls": 1,
+   "seconds": 0.661,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": false,
+     "latency_s": 0.66,
+     "prompt_tokens": 0,
+     "output_tokens": 0,
+     "reasoning_tokens": 0,
+     "cost_usd": 0.0,
+     "reply": "",
+     "verdict": {
+      "code": "llm_error",
+      "detail": "{\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3-flash, description: Generate content requests per day limit exceeded on Free Tier. See h"
+     }
+    }
+   ],
+   "id": "hard-05"
+  }
+ ]
+}

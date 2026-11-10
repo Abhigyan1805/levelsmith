@@ -1,0 +1,62 @@
+flashlite/blind: 0 done, 60 to run
+  easy-01 7x6 -> max_rounds after 5 call(s); budget 9 calls $0.0252
+  easy-02 6x8 -> accepted after 4 call(s); budget 11 calls $0.0307
+  easy-04 7x7 -> max_rounds after 5 call(s); budget 19 calls $0.0453
+  easy-00 8x6 -> max_rounds after 5 call(s); budget 21 calls $0.0496
+  easy-03 7x8 -> max_rounds after 5 call(s); budget 31 calls $0.0703
+  easy-05 6x8 -> llm_error after 5 call(s); budget 33 calls $0.0728
+  easy-07 8x7 -> accepted after 5 call(s); budget 38 calls $0.0827
+  easy-06 6x8 -> max_rounds after 5 call(s); budget 40 calls $0.0864
+  easy-09 8x8 -> max_rounds after 5 call(s); budget 49 calls $0.1067
+  easy-11 8x6 -> max_rounds after 5 call(s); budget 56 calls $0.1203
+  easy-10 7x8 -> max_rounds after 5 call(s); budget 58 calls $0.1247
+  easy-08 8x6 -> accepted after 5 call(s); budget 60 calls $0.1293
+  easy-12 8x8 -> max_rounds after 5 call(s); budget 71 calls $0.1526
+  easy-15 6x8 -> max_rounds after 5 call(s); budget 76 calls $0.1617
+  easy-13 7x7 -> max_rounds after 5 call(s); budget 78 calls $0.1671
+  easy-14 8x6 -> max_rounds after 5 call(s); budget 82 calls $0.1738
+  easy-17 8x8 -> max_rounds after 5 call(s); budget 87 calls $0.1835
+  easy-18 6x8 -> accepted after 1 call(s); budget 91 calls $0.1908
+  medium-00 6x8 -> max_rounds after 5 call(s); budget 96 calls $0.2023
+  easy-19 8x8 -> accepted after 4 call(s); budget 98 calls $0.2062
+  easy-16 6x7 -> max_rounds after 5 call(s); budget 100 calls $0.2095
+  medium-02 8x8 -> llm_error after 4 call(s); budget 109 calls $0.2284
+  medium-04 7x6 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-05 8x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-06 6x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-07 7x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-08 6x6 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-09 7x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-10 6x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-11 6x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-12 8x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-13 7x6 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-14 8x6 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-15 8x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-16 6x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-17 7x6 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-18 6x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-19 8x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-00 6x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-01 7x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-02 8x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-03 7x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-04 7x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-05 8x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-06 8x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-07 8x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-08 7x6 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-09 7x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-10 6x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-11 8x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-12 6x6 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-13 6x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-14 7x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-15 6x6 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-16 8x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-17 6x7 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-18 6x8 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  hard-19 6x6 -> budget: provider daily quota exhausted after 0 call(s); budget 109 calls $0.2284
+  medium-03 7x7 -> budget: provider daily quota exhausted after 3 call(s); budget 110 calls $0.2309
+  medium-01 8x7 -> max_rounds after 5 call(s); budget 111 calls $0.2332
+done: 5/21 accepted, 39 not finished

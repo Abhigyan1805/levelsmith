@@ -1,0 +1,10 @@
+gemini/repair: 0 done, 60 to run
+  easy-02 6x8 -> accepted after 1 call(s); budget 1 calls $0.0128
+  easy-01 7x6 -> accepted after 1 call(s); budget 2 calls $0.0250
+  easy-03 7x8 -> accepted after 1 call(s); budget 3 calls $0.0431
+  easy-05 6x8 -> accepted after 1 call(s); budget 4 calls $0.0625
+  easy-07 8x7 -> accepted after 1 call(s); budget 5 calls $0.0716
+  easy-04 7x7 -> accepted after 2 call(s); budget 9 calls $0.1262
+gemini/repair: 6 done, 54 to run
+  easy-08 8x6 -> accepted after 1 call(s); budget 1 calls $0.0222
+  easy-00 8x6 -> llm_error after 1 call(s); budget 2 calls $0.0222

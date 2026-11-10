@@ -1,0 +1,453 @@
+{
+ "meta": {
+  "started_utc": "2026-11-10T20:34:53Z",
+  "provider": "gemini",
+  "model": "gemini-3.6-flash",
+  "mode": "repair",
+  "max_rounds": 5,
+  "temperature": 1.0,
+  "max_output_tokens": 6000,
+  "thinking_budget": 4000,
+  "workers": 5,
+  "master_seed": 2026,
+  "n_requests": 60,
+  "system_prompt": "You design levels for Kiln Slide, a grid puzzle.\n\nRULES\n- The ember moves U, D, L or R. A move slides it in a straight line until the\n  next cell is a wall or the edge of the grid. It cannot stop earlier.\n- A move in a direction where the ember is already blocked is not allowed.\n- The ember collects every coal (*) it passes over or stops on.\n- Wet clay (~) can be crossed or rested on. As soon as the ember leaves a clay\n  tile, that tile bakes into a wall for the rest of the level.\n- The level is solved when all coals are collected and the ember comes to\n  REST on the exit (E). Sliding over the exit without stopping does nothing.\n\nLEVEL FORMAT\n- A rectangular text grid, one row per line, no spaces.\n- Characters: # wall, . floor, S start (exactly one), E exit (exactly one),\n  * coal (0 to 5), ~ wet clay (0 to 6).\n- Cells outside the grid are walls, so a border of # is optional.\n- Coordinates in feedback are (row, column), both starting at 1 from the top\n  left.\n\nEXAMPLE 1 (5 wide, 5 tall, optimal 3 moves: D R U)\n.....\n.S#..\n..E.#\n#.*..\n...#.\nD: from (2,2) slide to (5,2). R: stop at (5,3) because (5,4) is a wall.\nU: pass the coal at (4,3), stop on E at (3,3) because (2,3) is a wall.\n\nEXAMPLE 2 (6 wide, 5 tall, optimal 5 moves: U L R D L)\n..~.*.\n......\nE....S\n.#....\n......\nU: to (1,6). L: collect the coal, cross the clay at (1,3), stop at (1,1);\nthe clay bakes into a wall. R: stop at (1,2) against the baked clay.\nD: stop at (3,2) because (4,2) is a wall. L: stop on E at (3,1).\n\nDIFFICULTY is the length of the shortest solution (optimal move count):\neasy = 3-5 moves, medium = 6-9 moves, hard = 10-16 moves.\nEvery level you propose is checked by an exact solver, which finds the true\nshortest solution. A level only counts if the solver's optimal move count is\ninside the requested range, so a shortcut you did not notice makes it fail.\n\nOUTPUT\nReply with exactly two things and nothing else: the level inside one fenced\ncode block, then one line with the solution you intend.\n```\n<grid rows>\n```\nsolution: <letters from U D L R, no spaces>\nNo explanation, no reasoning text, no second attempt. Do not copy the examples.",
+  "calls_this_run": 2,
+  "usd_this_run": 0.022221
+ },
+ "records": {
+  "easy-02": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 23.776,
+   "cost_usd": 0.01280475,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 23.776,
+     "prompt_tokens": 683,
+     "output_tokens": 3278,
+     "reasoning_tokens": 3244,
+     "cost_usd": 0.01280475,
+     "reply": "```\n......\n.S...#\n......\n......\n..#.*.\n..E...\n.#....\n....#.\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "......\n.S...#\n......\n......\n..#.*.\n..E...\n.#....\n....#.",
+      "features": {
+       "optimal_moves": 4,
+       "solution": "RDLU",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 22,
+       "reachable_states": 30,
+       "avg_branching": 2.483,
+       "dead_end_states": 20,
+       "dead_end_ratio": 0.667,
+       "trap_moves": 2
+      }
+     }
+    }
+   ],
+   "level": "......\n.S...#\n......\n......\n..#.*.\n..E...\n.#....\n....#.",
+   "canonical": ".#....\n....#.\n...E..\n.*.#..\n......\n......\n#...S.\n......",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLU",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 22,
+    "reachable_states": 30,
+    "avg_branching": 2.483,
+    "dead_end_states": 20,
+    "dead_end_ratio": 0.667,
+    "trap_moves": 2
+   },
+   "id": "easy-02"
+  },
+  "easy-01": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 7,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 26.99,
+   "cost_usd": 0.01222725,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 26.989,
+     "prompt_tokens": 683,
+     "output_tokens": 3124,
+     "reasoning_tokens": 3094,
+     "cost_usd": 0.01222725,
+     "reply": "```\n.......\n.S.....\n.......\n..*..#.\n.#..E#.\n....#..\n```\nsolution: DRD",
+     "claimed_solution": "DRD",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": ".......\n.S.....\n.......\n..*..#.\n.#..E#.\n....#..",
+      "features": {
+       "optimal_moves": 3,
+       "solution": "DRD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 12,
+       "reachable_states": 24,
+       "avg_branching": 2.435,
+       "dead_end_states": 16,
+       "dead_end_ratio": 0.667,
+       "trap_moves": 2
+      }
+     }
+    }
+   ],
+   "level": ".......\n.S.....\n.......\n..*..#.\n.#..E#.\n....#..",
+   "canonical": "..#....\n.#E..#.\n.#..*..\n.......\n.....S.\n.......",
+   "features": {
+    "optimal_moves": 3,
+    "solution": "DRD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 12,
+    "reachable_states": 24,
+    "avg_branching": 2.435,
+    "dead_end_states": 16,
+    "dead_end_ratio": 0.667,
+    "trap_moves": 2
+   },
+   "id": "easy-01"
+  },
+  "easy-03": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 7,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 42.051,
+   "cost_usd": 0.0180885,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 42.05,
+     "prompt_tokens": 683,
+     "output_tokens": 4687,
+     "reasoning_tokens": 4647,
+     "cost_usd": 0.0180885,
+     "reply": "```\n#######\n#S...*#\n#.....#\n#.....#\n#.....#\n#.#E..#\n#....##\n#######\n```\nsolution: RDL",
+     "claimed_solution": "RDL",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "#######\n#S...*#\n#.....#\n#.....#\n#.....#\n#.#E..#\n#....##\n#######",
+      "features": {
+       "optimal_moves": 3,
+       "solution": "RDL",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 7,
+       "reachable_states": 11,
+       "avg_branching": 2.2,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "#######\n#S...*#\n#.....#\n#.....#\n#.....#\n#.#E..#\n#....##\n#######",
+   "canonical": "#######\n##....#\n#..E#.#\n#.....#\n#.....#\n#.....#\n#*...S#\n#######",
+   "features": {
+    "optimal_moves": 3,
+    "solution": "RDL",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 7,
+    "reachable_states": 11,
+    "avg_branching": 2.2,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-03"
+  },
+  "easy-05": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 6,
+   "height": 8,
+   "accepted": true,
+   "accepted_round": 1,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 26.999,
+   "cost_usd": 0.0193335,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 26.998,
+     "prompt_tokens": 683,
+     "output_tokens": 5019,
+     "reasoning_tokens": 4980,
+     "cost_usd": 0.0193335,
+     "reply": "```\n######\n#S...#\n#...*#\n#....#\n#...##\n#E...#\n##.###\n######\n```\nsolution: RDLD",
+     "claimed_solution": "RDLD",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "######\n#S...#\n#...*#\n#....#\n#...##\n#E...#\n##.###\n######",
+      "features": {
+       "optimal_moves": 4,
+       "solution": "RDLD",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 8,
+       "reachable_states": 9,
+       "avg_branching": 2.0,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "######\n#S...#\n#...*#\n#....#\n#...##\n#E...#\n##.###\n######",
+   "canonical": "######\n###.##\n#...E#\n##...#\n#....#\n#*...#\n#...S#\n######",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLD",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 8,
+    "reachable_states": 9,
+    "avg_branching": 2.0,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-05"
+  },
+  "easy-07": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 1,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 13.531,
+   "cost_usd": 0.00915975,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 13.531,
+     "prompt_tokens": 683,
+     "output_tokens": 2306,
+     "reasoning_tokens": 2272,
+     "cost_usd": 0.00915975,
+     "reply": "```\n........\n.S....#.\n..#.....\n..E..*..\n........\n.#......\n.....#..\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "........\n.S....#.\n..#.....\n..E..*..\n........\n.#......\n.....#..",
+      "features": {
+       "optimal_moves": 4,
+       "solution": "RDLU",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 21,
+       "reachable_states": 38,
+       "avg_branching": 2.703,
+       "dead_end_states": 28,
+       "dead_end_ratio": 0.737,
+       "trap_moves": 2
+      }
+     }
+    }
+   ],
+   "level": "........\n.S....#.\n..#.....\n..E..*..\n........\n.#......\n.....#..",
+   "canonical": "..#.....\n......#.\n........\n..*..E..\n.....#..\n.#....S.\n........",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLU",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 21,
+    "reachable_states": 38,
+    "avg_branching": 2.703,
+    "dead_end_states": 28,
+    "dead_end_ratio": 0.737,
+    "trap_moves": 2
+   },
+   "id": "easy-07"
+  },
+  "easy-04": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 7,
+   "height": 7,
+   "accepted": true,
+   "accepted_round": 2,
+   "stop_reason": "accepted",
+   "n_calls": 2,
+   "seconds": 72.285,
+   "cost_usd": 0.026466,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 56.317,
+     "prompt_tokens": 683,
+     "output_tokens": 3976,
+     "reasoning_tokens": 3940,
+     "cost_usd": 0.01542225,
+     "reply": "```\n#######\n#S~....#\n#.E....#\n#......#\n#......#\n##.*...#\n#######\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "malformed",
+      "detail": "row 2 has 8 characters but row 1 has 7; all rows must be the same length",
+      "parse_code": "ragged"
+     },
+     "feedback": "REJECTED: malformed. row 2 has 8 characters but row 1 has 7; all rows must be the same length. The level must be exactly 7 wide and 7 tall. Reply with a corrected level in the same output format."
+    },
+    {
+     "round": 2,
+     "llm_ok": true,
+     "latency_s": 15.968,
+     "prompt_tokens": 775,
+     "output_tokens": 2790,
+     "reasoning_tokens": 2749,
+     "cost_usd": 0.01104375,
+     "reply": "```\n#######\n#S.#..#\n#..#..#\n#..E..#\n#..*..#\n#...#.#\n#######\n```\nsolution: DRU",
+     "claimed_solution": "DRU",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "#######\n#S.#..#\n#..#..#\n#..E..#\n#..*..#\n#...#.#\n#######",
+      "features": {
+       "optimal_moves": 3,
+       "solution": "DRU",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 5,
+       "reachable_states": 6,
+       "avg_branching": 2.2,
+       "dead_end_states": 0,
+       "dead_end_ratio": 0.0,
+       "trap_moves": 0
+      }
+     }
+    }
+   ],
+   "level": "#######\n#S.#..#\n#..#..#\n#..E..#\n#..*..#\n#...#.#\n#######",
+   "canonical": "#######\n#.#...#\n#..*..#\n#..E..#\n#..#..#\n#..#.S#\n#######",
+   "features": {
+    "optimal_moves": 3,
+    "solution": "DRU",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 5,
+    "reachable_states": 6,
+    "avg_branching": 2.2,
+    "dead_end_states": 0,
+    "dead_end_ratio": 0.0,
+    "trap_moves": 0
+   },
+   "id": "easy-04"
+  },
+  "easy-08": {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 6,
+   "accepted": true,
+   "accepted_round": 1,
+   "stop_reason": "accepted",
+   "n_calls": 1,
+   "seconds": 56.931,
+   "cost_usd": 0.022221,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": true,
+     "latency_s": 56.929,
+     "prompt_tokens": 683,
+     "output_tokens": 5789,
+     "reasoning_tokens": 5760,
+     "cost_usd": 0.022221,
+     "reply": "```\n..#.....\n.SE..*.#\n........\n........\n.#....*.\n......#.\n```\nsolution: RDLU",
+     "claimed_solution": "RDLU",
+     "verdict": {
+      "code": "ok",
+      "detail": "",
+      "level": "..#.....\n.SE..*.#\n........\n........\n.#....*.\n......#.",
+      "features": {
+       "optimal_moves": 4,
+       "solution": "RDLU",
+       "n_optimal_solutions": 1,
+       "states_to_solve": 27,
+       "reachable_states": 49,
+       "avg_branching": 2.458,
+       "dead_end_states": 38,
+       "dead_end_ratio": 0.776,
+       "trap_moves": 2
+      }
+     }
+    }
+   ],
+   "level": "..#.....\n.SE..*.#\n........\n........\n.#....*.\n......#.",
+   "canonical": ".#....\n....*#\n.*....\n......\n......\n#E....\n.S..#.\n......",
+   "features": {
+    "optimal_moves": 4,
+    "solution": "RDLU",
+    "n_optimal_solutions": 1,
+    "states_to_solve": 27,
+    "reachable_states": 49,
+    "avg_branching": 2.458,
+    "dead_end_states": 38,
+    "dead_end_ratio": 0.776,
+    "trap_moves": 2
+   },
+   "id": "easy-08"
+  }
+ },
+ "incomplete": [
+  {
+   "mode": "repair",
+   "band": "easy",
+   "width": 8,
+   "height": 6,
+   "accepted": false,
+   "accepted_round": null,
+   "stop_reason": "llm_error",
+   "n_calls": 1,
+   "seconds": 284.936,
+   "cost_usd": 0.0,
+   "rounds": [
+    {
+     "round": 1,
+     "llm_ok": false,
+     "latency_s": 284.935,
+     "prompt_tokens": 0,
+     "output_tokens": 0,
+     "reasoning_tokens": 0,
+     "cost_usd": 0.0,
+     "reply": "",
+     "verdict": {
+      "code": "llm_error",
+      "detail": "{\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash, description: Generate content requests per day limit exceeded on Free Tier. See"
+     }
+    }
+   ],
+   "id": "easy-00"
+  }
+ ]
+}

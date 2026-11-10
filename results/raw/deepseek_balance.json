@@ -1,0 +1,11 @@
+{
+ "start": {
+  "utc": "2026-11-10T20:22Z",
+  "usd": 0.65
+ },
+ "end": {
+  "utc": "2026-11-10T21:13Z",
+  "usd": 0.59
+ },
+ "note": "Balance API reports whole cents. Task cap was USD 0.20."
+}
