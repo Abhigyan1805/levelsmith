@@ -101,6 +101,7 @@ def run_llm(args) -> None:
             "master_seed": MASTER_SEED,
             "n_requests": len(requests),
             "system_prompt": SYSTEM_PROMPT,
+            "patch": args.patch,
             **extra,
         }
     )
@@ -117,6 +118,7 @@ def run_llm(args) -> None:
             client, args.mode, req["band"], req["width"], req["height"], seen,
             max_rounds=args.max_rounds, temperature=args.temperature,
             tag={"request": req["id"], "mode": args.mode}, lock=lock,
+            patch=args.patch,
         )
         rec["id"] = req["id"]
         with lock:
@@ -207,6 +209,8 @@ def main() -> None:
     a.add_argument("--max-output-tokens", type=int, default=2000)
     a.add_argument("--thinking-budget", type=int, default=None)
     a.add_argument("--no-thinking", action="store_true")
+    a.add_argument("--patch", action="store_true",
+                   help="apply the solver's one-edit patch after each rejection")
     a.add_argument("--min-interval", type=float, default=0.0)
     a.add_argument("--workers", type=int, default=4)
     a.set_defaults(func=run_llm)

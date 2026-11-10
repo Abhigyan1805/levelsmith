@@ -30,6 +30,8 @@ SOURCES = [
      "Proposed by DeepSeek V4.1 Flash (reasoning off) and accepted by the solver, with solver feedback."),
     ("deepseek_blind.json", "deepseek-blind", "DeepSeek Flash, resampled",
      "Proposed by DeepSeek V4.1 Flash (reasoning off) and accepted by the solver, no feedback."),
+    ("deepseekpatch_repair.json", "deepseek-patch", "DeepSeek Flash + solver one-edit patch",
+     "Proposed by DeepSeek V4.1 Flash; where the solver rejected a proposal, it searched for a single-cell edit that makes it valid."),
     ("baseline.json", "random", "Random generator + solver filter",
      "Random grids kept only if the solver accepts them. No language model involved."),
 ]

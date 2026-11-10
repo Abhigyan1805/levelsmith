@@ -474,6 +474,13 @@ def to_markdown(s: dict) -> str:
             f"{fmt_rate(bp['rejected_one_edit_from_valid'])} | n/a | n/a |"
         )
         L += ["", f"Mean patch search time: {1000 * bp['patch_search_seconds_mean']:.0f} ms per rejected level."]
+    for lp in s.get("live_patch_runs", []):
+        L += ["",
+              f"Live run with the patch inside the loop ({lp['model']}, repair mode, new samples): "
+              f"{fmt_rate(lp['accepted'])} accepted, of which {lp['accepted_unpatched']['k']} without "
+              f"a patch and {lp['accepted_patched']['k']} patched; {fmt_rate(lp['accepted_at_round1'])} "
+              f"after a single model call; {num(lp['calls_per_accepted'])} calls and "
+              f"${num(lp['cost_usd_per_accepted'], 5)} per accepted level."]
 
     L += ["", "### Why proposals were rejected", "",
           "| Model | Mode | Proposals | ok | unsolvable | wrong difficulty | trivial | malformed | duplicate | other |",
@@ -597,8 +604,46 @@ def discover_labels() -> list[str]:
     return labels
 
 
+def summarize_live_patch(label: str) -> dict | None:
+    """A run made with --patch: the loop itself applied the solver patch."""
+    d = load(f"{label}_repair.json")
+    if not d or not d["records"]:
+        return None
+    recs = list(d["records"].values())
+    n = len(recs)
+    calls = sum(r["n_calls"] for r in recs)
+    acc = [r for r in recs if r["accepted"]]
+    return {
+        "label": label,
+        "model": d["meta"]["model"],
+        "n_requests": n,
+        "accepted": rate(len(acc), n),
+        "accepted_unpatched": rate(sum(1 for r in acc if not r.get("patched")), n),
+        "accepted_patched": rate(sum(1 for r in acc if r.get("patched")), n),
+        "accepted_at_round1": rate(sum(1 for r in acc if r["accepted_round"] == 1), n),
+        "calls": calls,
+        "calls_per_accepted": calls / len(acc) if acc else None,
+        "cost_usd_total": sum(r["cost_usd"] for r in recs),
+        "cost_usd_per_accepted": sum(r["cost_usd"] for r in recs) / len(acc) if acc else None,
+        "latency_s_per_accepted": sum(rd["latency_s"] for r in recs for rd in r["rounds"]) / len(acc) if acc else None,
+        "by_band": {
+            b: rate(sum(1 for r in acc if r["band"] == b), sum(1 for r in recs if r["band"] == b))
+            for b in BANDS
+        },
+        "novelty": hamming_novelty([r["level"] for r in acc]) if acc else None,
+        "features_accepted": level_features(recs),
+    }
+
+
+def is_patch_run(label: str) -> bool:
+    d = load(f"{label}_repair.json")
+    return bool(d and d["meta"].get("patch"))
+
+
 def main() -> None:
-    runs = [x for x in map(summarize_llm, discover_labels()) if x]
+    labels = discover_labels()
+    live = [x for x in map(summarize_live_patch, filter(is_patch_run, labels)) if x]
+    runs = [x for x in map(summarize_llm, (l for l in labels if not is_patch_run(l))) if x]
     size = lambda x: max(m["n_requests"] for m in x["modes"].values())
     runs.sort(key=lambda x: (x["provider"] != "gemini", x["label"]))
     summary = {
@@ -607,6 +652,7 @@ def main() -> None:
         # Runs cut short (for example by a provider quota) are kept out of the
         # tables and reported separately.
         "llm_partial": [x for x in runs if size(x) < MIN_REQUESTS_FOR_MAIN_TABLE],
+        "live_patch_runs": live,
         "baseline": summarize_baseline(),
     }
     os.makedirs("results", exist_ok=True)
