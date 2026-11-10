@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiln Slide</title>
+<style>
+  :root {
+    --bg: #17120f;
+    --panel: #211a15;
+    --line: #3a2e26;
+    --floor: #2a211b;
+    --wall: #5d4b3f;
+    --wall-top: #6f5a4c;
+    --clay: #c58a62;
+    --baked: #8c4a30;
+    --baked-top: #a25a3c;
+    --ember: #ff8a3d;
+    --gold: #f3c969;
+    --text: #f2e8dc;
+    --muted: #a99688;
+    --ok: #9ccc7a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 20px 16px 48px;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (min-width: 860px) {
+    .wrap { grid-template-columns: minmax(0, 480px) minmax(0, 1fr); align-items: start; }
+    header { grid-column: 1 / -1; }
+  }
+  header h1 { font-size: 22px; margin: 0; letter-spacing: 0.02em; }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+  h2 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); margin: 0 0 8px; font-weight: 600;
+  }
+
+  .hud {
+    display: flex; gap: 8px; align-items: stretch; margin-bottom: 10px;
+  }
+  .stat {
+    flex: 1; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px 10px; min-width: 0;
+  }
+  .stat b {
+    display: block; font-size: 20px; font-variant-numeric: tabular-nums; line-height: 1.2;
+  }
+  .stat span { font-size: 12px; color: var(--muted); }
+  .stat.over b { color: var(--ember); }
+  .stat.done b { color: var(--ok); }
+
+  #level-title { font-size: 14px; color: var(--muted); margin: 0 0 8px; min-height: 20px; }
+  #level-title strong { color: var(--text); font-weight: 600; }
+
+  #board-box {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px; touch-action: none; user-select: none; -webkit-user-select: none;
+  }
+  #board {
+    position: relative; display: grid; gap: 0; width: 100%; margin: 0 auto;
+    background: var(--floor); border-radius: 4px; overflow: hidden;
+  }
+  .cell { position: relative; aspect-ratio: 1; }
+  .cell::after {  /* faint floor grid */
+    content: ""; position: absolute; inset: 0;
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.04);
+  }
+  .cell.wall { background: var(--wall); box-shadow: inset 0 3px 0 var(--wall-top), inset 0 -2px 0 rgba(0,0,0,.25); }
+  .cell.clay {
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,.14) 0 3px, transparent 3px 9px),
+      var(--clay);
+    box-shadow: inset 0 0 0 2px rgba(0,0,0,.18);
+    border-radius: 14%;
+    transform: scale(.88);
+  }
+  .cell.baked {
+    background: var(--baked);
+    box-shadow: inset 0 3px 0 var(--baked-top), inset 0 -2px 0 rgba(0,0,0,.3);
+    transition: background .15s;
+  }
+  .cell.coal::before {
+    content: ""; position: absolute; inset: 28%;
+    background: radial-gradient(circle at 40% 35%, #5a5550, #15110f 70%);
+    border-radius: 38% 46% 42% 50%;
+    box-shadow: 0 0 0 2px rgba(255, 138, 61, .35), 0 0 10px rgba(255, 138, 61, .25);
+  }
+  .cell.exit::before {
+    content: ""; position: absolute; inset: 14%;
+    border: 3px dashed var(--muted); border-radius: 50%;
+  }
+  #board.open .cell.exit::before {
+    border-style: solid; border-color: var(--gold);
+    box-shadow: 0 0 12px rgba(243, 201, 105, .5), inset 0 0 10px rgba(243, 201, 105, .25);
+  }
+  #ember {
+    position: absolute; left: 0; top: 0; pointer-events: none;
+    transition: transform 0s linear; will-change: transform;
+  }
+  #ember::before {
+    content: ""; position: absolute; inset: 20%; border-radius: 50%;
+    background: radial-gradient(circle at 45% 40%, #fff3c4, var(--ember) 55%, #c9471a);
+    box-shadow: 0 0 14px 3px rgba(255, 138, 61, .65);
+  }
+
+  #message { min-height: 48px; margin: 10px 0 0; font-size: 15px; }
+  #message.win { color: var(--ok); }
+  #message.stuck { color: var(--ember); }
+
+  .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  button, select {
+    font: inherit; color: var(--text); background: var(--panel);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; cursor: pointer;
+  }
+  button:hover { border-color: var(--muted); }
+  button:focus-visible, select:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+  button:disabled { opacity: .4; cursor: default; }
+  button kbd { font: inherit; font-size: 12px; color: var(--muted); margin-left: 4px; }
+
+  .pad {
+    display: grid; grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(2, 48px);
+    gap: 6px; justify-content: center; margin-top: 14px;
+  }
+  .pad button { padding: 0; font-size: 20px; }
+  .pad .u { grid-column: 2; grid-row: 1; }
+  .pad .l { grid-column: 1; grid-row: 2; }
+  .pad .d { grid-column: 2; grid-row: 2; }
+  .pad .r { grid-column: 3; grid-row: 2; }
+  @media (hover: hover) and (pointer: fine) { .pad { display: none; } }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+  .card + .card { margin-top: 16px; }
+  .rules p { margin: 0 0 8px; font-size: 14px; }
+  .legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
+  .legend div { display: flex; align-items: center; gap: 8px; }
+  .legend .cell { width: 22px; flex: none; background: var(--floor); border-radius: 3px; }
+  .legend .cell.clay { transform: none; }
+  .legend .ember-demo { position: relative; }
+  .legend .ember-demo::before {
+    content: ""; position: absolute; inset: 20%; border-radius: 50%;
+    background: radial-gradient(circle at 45% 40%, #fff3c4, var(--ember) 55%, #c9471a);
+  }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .filters select { flex: 1; min-width: 0; padding: 6px 8px; font-size: 14px; }
+  #level-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 6px; }
+  #level-list button {
+    padding: 6px 4px; font-size: 13px; text-align: center; line-height: 1.25;
+    font-variant-numeric: tabular-nums;
+  }
+  #level-list button small { display: block; color: var(--muted); font-size: 11px; }
+  #level-list button.current { border-color: var(--ember); }
+  #level-list button.solved small { color: var(--ok); }
+  #level-list button.best small { color: var(--gold); }
+  #source-note { font-size: 13px; color: var(--muted); margin: 10px 0 0; }
+  @media (prefers-reduced-motion: reduce) { #ember { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Kiln Slide</h1>
+    <p>Every level here was generated by a program and checked by an exact solver. Pick a source on the right to compare them.</p>
+  </header>
+
+  <section>
+    <p id="level-title"></p>
+    <div class="hud">
+      <div class="stat" id="stat-moves"><b id="moves">0</b><span>moves</span></div>
+      <div class="stat"><b id="optimal">0</b><span>solver's optimum</span></div>
+      <div class="stat"><b id="coals">0/0</b><span>coals</span></div>
+    </div>
+    <div id="board-box"><div id="board" aria-label="Game board"></div></div>
+    <p id="message" role="status" aria-live="polite"></p>
+    <div class="row">
+      <button id="undo">Undo<kbd>Z</kbd></button>
+      <button id="restart">Restart<kbd>R</kbd></button>
+      <button id="solve">Show solution</button>
+      <button id="prev" aria-label="Previous level">&larr; Prev</button>
+      <button id="next" aria-label="Next level">Next &rarr;</button>
+    </div>
+    <div class="pad" aria-label="Direction buttons">
+      <button class="u" data-dir="U" aria-label="Up">&uarr;</button>
+      <button class="l" data-dir="L" aria-label="Left">&larr;</button>
+      <button class="d" data-dir="D" aria-label="Down">&darr;</button>
+      <button class="r" data-dir="R" aria-label="Right">&rarr;</button>
+    </div>
+  </section>
+
+  <aside>
+    <div class="card rules">
+      <h2>Rules</h2>
+      <p>Each move slides the ember in a straight line until a wall stops it. It collects every coal it passes, and each wet clay tile it leaves bakes into a wall.</p>
+      <p>Collect every coal, then come to rest on the exit ring. Sliding across the ring does not count.</p>
+      <p style="color:var(--muted)">Arrow keys or WASD, or swipe on the board.</p>
+      <div class="legend">
+        <div><span class="cell ember-demo"></span>ember (you)</div>
+        <div><span class="cell wall"></span>wall</div>
+        <div><span class="cell coal"></span>coal</div>
+        <div><span class="cell clay"></span>wet clay</div>
+        <div><span class="cell exit"></span>exit</div>
+        <div><span class="cell baked"></span>baked clay</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Levels</h2>
+      <div class="filters">
+        <select id="source" aria-label="Level source"></select>
+        <select id="band" aria-label="Difficulty band">
+          <option value="all">All bands</option>
+          <option value="easy">Easy (3-5)</option>
+          <option value="medium">Medium (6-9)</option>
+          <option value="hard">Hard (10-16)</option>
+        </select>
+      </div>
+      <div id="level-list"></div>
+      <p id="source-note"></p>
+    </div>
+  </aside>
+</div>
+
+<script>
+// <core>
+// Game rules. This block mirrors levelsmith/game.py and is checked against it
+// by tests/test_web.py.
+const DIRS = { U: [-1, 0], D: [1, 0], L: [0, -1], R: [0, 1] };
+
+function parseLevel(rows) {
+  const h = rows.length, w = rows[0].length;
+  const lv = { w, h, rows, walls: new Set(), coals: [], clay: [], start: -1, exit: -1 };
+  rows.forEach((row, r) => [...row].forEach((ch, c) => {
+    const i = r * w + c;
+    if (ch === "#") lv.walls.add(i);
+    else if (ch === "S") lv.start = i;
+    else if (ch === "E") lv.exit = i;
+    else if (ch === "*") lv.coals.push(i);
+    else if (ch === "~") lv.clay.push(i);
+  }));
+  return lv;
+}
+
+function initialState(lv) {
+  return { pos: lv.start, got: new Set(), baked: new Set() };
+}
+
+// Returns null if the move is blocked, else { state, path } where path lists
+// the cells entered, in order.
+function slide(lv, state, dir) {
+  const [dr, dc] = DIRS[dir];
+  let r = Math.floor(state.pos / lv.w), c = state.pos % lv.w;
+  const got = new Set(state.got), baked = new Set(state.baked), path = [];
+  for (;;) {
+    const nr = r + dr, nc = c + dc;
+    if (nr < 0 || nr >= lv.h || nc < 0 || nc >= lv.w) break;
+    const nxt = nr * lv.w + nc;
+    if (lv.walls.has(nxt) || state.baked.has(nxt)) break;
+    const cur = r * lv.w + c;
+    if (lv.clay.includes(cur)) baked.add(cur);
+    r = nr; c = nc;
+    path.push(nxt);
+    if (lv.coals.includes(nxt)) got.add(nxt);
+  }
+  if (!path.length) return null;
+  return { state: { pos: r * lv.w + c, got, baked }, path };
+}
+
+function isGoal(lv, state) {
+  return state.pos === lv.exit && state.got.size === lv.coals.length;
+}
+// </core>
+
+const LEVELS = /*LEVELS*/[];
+const SOURCES = /*SOURCES*/[];
+
+const $ = (id) => document.getElementById(id);
+const boardEl = $("board"), emberEl = document.createElement("div");
+emberEl.id = "ember";
+const STEP_MS = 42;
+let level, meta, state, history, cells, busy = false, queue = [], solved = false, playing = false;
+let visible = [], index = 0;
+
+function store(key, value) {
+  try {
+    if (value === undefined) return JSON.parse(localStorage.getItem(key) || "null");
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (e) { /* storage unavailable: play without saved progress */ }
+  return null;
+}
+let progress = store("kiln-progress") || {};
+
+function buildBoard() {
+  boardEl.textContent = "";
+  boardEl.style.gridTemplateColumns = `repeat(${level.w}, 1fr)`;
+  boardEl.style.maxWidth = `${Math.min(460, level.w * 64)}px`;
+  cells = [];
+  for (let i = 0; i < level.w * level.h; i++) {
+    const el = document.createElement("div");
+    el.className = "cell";
+    boardEl.appendChild(el);
+    cells.push(el);
+  }
+  emberEl.style.width = `${100 / level.w}%`;
+  emberEl.style.height = `${100 / level.h}%`;
+  boardEl.appendChild(emberEl);
+}
+
+function paint() {
+  cells.forEach((el, i) => {
+    let cls = "cell";
+    if (level.walls.has(i)) cls += " wall";
+    else if (state.baked.has(i)) cls += " baked";
+    else if (level.clay.includes(i)) cls += " clay";
+    else if (level.coals.includes(i) && !state.got.has(i)) cls += " coal";
+    else if (i === level.exit) cls += " exit";
+    el.className = cls;
+  });
+  boardEl.classList.toggle("open", state.got.size === level.coals.length);
+  $("moves").textContent = history.length;
+  $("coals").textContent = `${state.got.size}/${level.coals.length}`;
+  $("stat-moves").className = "stat" + (solved ? " done" : history.length > meta.opt ? " over" : "");
+  $("undo").disabled = !history.length || playing;
+}
+
+function placeEmber(pos, ms) {
+  const r = Math.floor(pos / level.w), c = pos % level.w;
+  emberEl.style.transitionDuration = `${ms}ms`;
+  emberEl.style.transform = `translate(${c * 100}%, ${r * 100}%)`;
+}
+
+function setMessage(text, cls) {
+  $("message").textContent = text;
+  $("message").className = cls || "";
+}
+
+function load(i) {
+  index = (i + visible.length) % visible.length;
+  meta = visible[index];
+  level = parseLevel(meta.rows);
+  state = initialState(level);
+  history = []; queue = []; solved = false; busy = false; playing = false;
+  buildBoard();
+  placeEmber(state.pos, 0);
+  paint();
+  setMessage("");
+  $("optimal").textContent = meta.opt;
+  const src = SOURCES.find((s) => s.id === meta.src);
+  $("level-title").innerHTML =
+    `<strong>${meta.band} ${index + 1} of ${visible.length}</strong> &middot; ${meta.w}&times;${meta.h} &middot; ${src.label}`;
+  $("solve").disabled = false;
+  renderList();
+  store("kiln-last", { src: meta.src, id: meta.id });
+}
+
+function restart() {
+  if (playing) return;
+  state = initialState(level); history = []; queue = []; solved = false; busy = false;
+  placeEmber(state.pos, 0); paint(); setMessage("");
+}
+
+function undo() {
+  if (busy || playing || !history.length) return;
+  state = history.pop(); solved = false;
+  placeEmber(state.pos, 0); paint(); setMessage("");
+}
+
+function finishMove() {
+  paint();
+  busy = false;
+  if (isGoal(level, state)) {
+    solved = true;
+    const n = history.length;
+    const key = meta.src + "/" + meta.id;
+    if (!playing && (!progress[key] || n < progress[key])) {
+      progress[key] = n; store("kiln-progress", progress);
+    }
+    paint(); renderList();
+    setMessage(
+      playing ? `Solver's solution: ${meta.sol.split("").join(" ")} (${meta.opt} moves).`
+      : n === meta.opt ? `Solved in ${n} moves, which is the optimum.`
+      : `Solved in ${n} moves. The optimum is ${meta.opt}.`, "win");
+    queue = [];
+    return;
+  }
+  if (!"UDLR".split("").some((d) => slide(level, state, d))) {
+    setMessage("No moves left. Undo or restart.", "stuck");
+    queue = [];
+    return;
+  }
+  if (queue.length) move(queue.shift());
+}
+
+function move(dir) {
+  if (solved) return;
+  if (busy) { if (queue.length < 3) queue.push(dir); return; }
+  const res = slide(level, state, dir);
+  if (!res) return;
+  busy = true;
+  setMessage("");
+  history.push(state);
+  const before = state;
+  state = res.state;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const total = reduce ? 0 : res.path.length * STEP_MS;
+  placeEmber(state.pos, total);
+  if (!reduce) {
+    // Update tiles as the ember passes them.
+    res.path.forEach((cell, k) => {
+      setTimeout(() => {
+        if (level.coals.includes(cell)) cells[cell].classList.remove("coal");
+        const left = k === 0 ? before.pos : res.path[k - 1];
+        if (level.clay.includes(left)) cells[left].className = "cell baked";
+      }, (k + 0.6) * STEP_MS);
+    });
+  }
+  $("moves").textContent = history.length;
+  setTimeout(finishMove, total + 20);
+}
+
+function showSolution() {
+  if (playing) return;
+  restart();
+  playing = true;
+  $("undo").disabled = true;
+  const moves = meta.sol.split("");
+  const step = () => {
+    if (!playing) return;
+    if (!moves.length) { playing = false; paint(); return; }
+    if (busy) { setTimeout(step, 30); return; }
+    move(moves.shift());
+    setTimeout(step, 30);
+  };
+  setTimeout(step, 250);
+}
+
+function renderList() {
+  const list = $("level-list");
+  list.textContent = "";
+  visible.forEach((m, i) => {
+    const b = document.createElement("button");
+    const best = progress[m.src + "/" + m.id];
+    b.className = (i === index ? "current " : "") + (best ? (best === m.opt ? "best" : "solved") : "");
+    b.innerHTML = `${m.band[0].toUpperCase()}${i + 1}<small>${best ? best + " / " : ""}${m.opt}</small>`;
+    b.title = `${m.band}, ${m.w}x${m.h}, optimum ${m.opt} moves` + (best ? `, your best ${best}` : "");
+    b.onclick = () => { playing = false; load(i); };
+    list.appendChild(b);
+  });
+}
+
+function applyFilters(keepId) {
+  const src = $("source").value, band = $("band").value;
+  visible = LEVELS.filter((m) => m.src === src && (band === "all" || m.band === band));
+  const info = SOURCES.find((s) => s.id === src);
+  $("source-note").textContent = visible.length
+    ? info.note + " Under each level: your best / solver's optimum."
+    : "No levels from this source in this band.";
+  if (!visible.length) { $("level-list").textContent = ""; return; }
+  const at = visible.findIndex((m) => m.id === keepId);
+  load(at >= 0 ? at : 0);
+}
+
+function init() {
+  const sel = $("source");
+  SOURCES.forEach((s) => {
+    const n = LEVELS.filter((m) => m.src === s.id).length;
+    if (!n) return;
+    const o = document.createElement("option");
+    o.value = s.id; o.textContent = `${s.label} (${n})`;
+    sel.appendChild(o);
+  });
+  const last = store("kiln-last");
+  if (last && [...sel.options].some((o) => o.value === last.src)) sel.value = last.src;
+  sel.onchange = () => applyFilters();
+  $("band").onchange = () => applyFilters(meta && meta.id);
+  $("undo").onclick = undo;
+  $("restart").onclick = () => { playing = false; restart(); };
+  $("solve").onclick = showSolution;
+  $("prev").onclick = () => { playing = false; load(index - 1); };
+  $("next").onclick = () => { playing = false; load(index + 1); };
+  document.querySelectorAll(".pad button").forEach((b) => {
+    b.onclick = () => { if (!playing) move(b.dataset.dir); };
+  });
+  const keys = {
+    ArrowUp: "U", ArrowDown: "D", ArrowLeft: "L", ArrowRight: "R",
+    w: "U", s: "D", a: "L", d: "R",
+  };
+  window.addEventListener("keydown", (e) => {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target.tagName === "SELECT") return;
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (keys[k]) { e.preventDefault(); if (!playing) move(keys[k]); }
+    else if (k === "z") undo();
+    else if (k === "r") { playing = false; restart(); }
+  });
+  let touch = null;
+  const box = $("board-box");
+  box.addEventListener("pointerdown", (e) => { touch = [e.clientX, e.clientY]; });
+  box.addEventListener("pointerup", (e) => {
+    if (!touch) return;
+    const dx = e.clientX - touch[0], dy = e.clientY - touch[1];
+    touch = null;
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 24 || playing) return;
+    move(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "R" : "L") : (dy > 0 ? "D" : "U"));
+  });
+  box.addEventListener("pointercancel", () => { touch = null; });
+  applyFilters(last && last.id);
+}
+
+if (typeof document !== "undefined" && LEVELS.length) init();
+</script>
+</body>
+</html>

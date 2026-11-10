@@ -26,6 +26,8 @@ DEFAULT_ENV_FILE = os.path.expanduser("~/.config/fm-secrets/llm.env")
 PRICES = {
     "deepseek-flash": {"in": 0.15, "in_cached": 0.003, "out": 0.60, "peak_x": 2.0},
     "gemini-3.6-flash": {"in": 0.75, "in_cached": 0.075, "out": 3.75},
+    "gemini-3.1-flash-lite": {"in": 0.25, "in_cached": 0.025, "out": 1.50},
+    "gemini-2.5-flash": {"in": 0.30, "in_cached": 0.03, "out": 2.50},
 }
 PRICES["gemini-3.5-flash"] = PRICES["gemini-3.6-flash"]  # served by 3.6-flash
 
@@ -145,6 +147,7 @@ class LLMClient:
         self.min_interval_s = min_interval_s
         self.max_output_tokens = max_output_tokens
         self._next_slot = 0.0
+        self.quota_exhausted = False
         self._lock = threading.Lock()
         self._secrets: list[str] = []
 
@@ -175,6 +178,8 @@ class LLMClient:
         tag: dict | None = None,
     ) -> LLMResponse:
         """messages: [{"role": "user"|"assistant", "content": str}, ...]"""
+        if self.quota_exhausted:
+            raise BudgetExceeded("provider daily quota exhausted")
         self.budget.begin()
         resp = LLMResponse(ok=False, provider=self.provider, model=self.model)
         t_start = time.perf_counter()
@@ -208,6 +213,10 @@ class LLMClient:
                     break
                 resp.http_status = status
                 resp.error = _scrub(err, self._secrets)[:500]
+                if status == 429 and "per day" in err:
+                    # Daily quota is gone; retrying cannot help. Stop the run.
+                    self.quota_exhausted = True
+                    break
                 retryable = status in (429, 500, 502, 503, 504) or status is None
                 if not retryable or attempt >= self.max_retries:
                     break
