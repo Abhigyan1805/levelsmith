@@ -120,3 +120,73 @@ def test_solver_agrees_with_mover_on_solution_path():
             s = move(s, d)
             assert s is not None
         assert level.is_goal(s)
+
+
+# ---------- randomized cross-checks against independent implementations ----------
+
+def _random_levels(n, seed, lo=4, hi=6):
+    import random
+
+    from levelsmith.baseline import random_level_text
+
+    rng = random.Random(seed)
+    return [
+        parse_level(random_level_text(rng, rng.randint(lo, hi), rng.randint(lo, hi)))
+        for _ in range(n)
+    ]
+
+
+def test_optimal_moves_match_brute_force_on_random_levels():
+    checked = 0
+    for level in _random_levels(60, seed=11):
+        res = solve(level)
+        bf = brute_force_optimal(level, 6)
+        if bf is not None:
+            assert res.solvable and res.optimal_moves == bf
+            assert is_solution(level, res.solution)
+            checked += 1
+        else:
+            assert not res.solvable or res.optimal_moves > 6
+    assert checked >= 10  # the sample must actually exercise the solvable case
+
+
+def test_dead_end_count_matches_naive_reachability():
+    """Recount dead ends the slow way: from every reachable state, search
+    forward for a goal."""
+    with_dead_ends = 0
+    for level in _random_levels(40, seed=23):
+        res = solve(level)
+        move = make_mover(level)
+
+        def reach(start):
+            seen, stack = {start}, [start]
+            while stack:
+                s = stack.pop()
+                if level.is_goal(s):
+                    continue  # the game ends at a goal
+                for d in DIRS:
+                    t = move(s, d)
+                    if t is not None and t not in seen:
+                        seen.add(t)
+                        stack.append(t)
+            return seen
+
+        states = reach(level.initial_state())
+        assert len(states) == res.reachable_states
+        dead = sum(1 for s in states if not any(level.is_goal(t) for t in reach(s)))
+        assert dead == res.dead_end_states
+        with_dead_ends += 0 < dead < len(states)
+    assert with_dead_ends >= 3
+
+
+def test_number_of_optimal_solutions_matches_enumeration():
+    for level in _random_levels(40, seed=5, hi=5):
+        res = solve(level)
+        if not res.solvable or res.optimal_moves > 6:
+            continue
+        count = sum(
+            1
+            for combo in itertools.product(DIRS, repeat=res.optimal_moves)
+            if is_solution(level, "".join(combo))
+        )
+        assert count == res.n_optimal_solutions

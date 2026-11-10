@@ -20,12 +20,14 @@ OUT = "index.html"
 
 # (file, source id, label, note shown under the level list)
 SOURCES = [
-    ("gemini_repair.json", "gemini-repair", "Gemini 3.6 Flash + solver feedback",
-     "Proposed by Gemini 3.6 Flash and accepted by the solver, with solver feedback on rejections."),
-    ("gemini_blind.json", "gemini-blind", "Gemini 3.6 Flash, resampled",
-     "Proposed by Gemini 3.6 Flash and accepted by the solver, resampling without feedback."),
+    ("flashlite_repair.json", "flashlite-repair", "Gemini 3.1 Flash-Lite + solver feedback",
+     "Proposed by Gemini 3.1 Flash-Lite and accepted by the solver, with solver feedback after rejections."),
+    ("flashlite_blind.json", "flashlite-blind", "Gemini 3.1 Flash-Lite, resampled",
+     "Proposed by Gemini 3.1 Flash-Lite and accepted by the solver, resampling without feedback."),
+    ("gemini36_repair.json", "gemini36-repair", "Gemini 3.6 Flash (partial run)",
+     "Proposed by Gemini 3.6 Flash and accepted by the solver. The run stopped at the free-tier daily quota."),
     ("deepseek_repair.json", "deepseek-repair", "DeepSeek Flash + solver feedback",
-     "Proposed by DeepSeek V4.1 Flash (reasoning off) and accepted by the solver, with feedback."),
+     "Proposed by DeepSeek V4.1 Flash (reasoning off) and accepted by the solver, with solver feedback."),
     ("deepseek_blind.json", "deepseek-blind", "DeepSeek Flash, resampled",
      "Proposed by DeepSeek V4.1 Flash (reasoning off) and accepted by the solver, no feedback."),
     ("baseline.json", "random", "Random generator + solver filter",
