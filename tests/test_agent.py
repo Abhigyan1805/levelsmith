@@ -218,3 +218,54 @@ def test_spearman_handles_ties():
     assert spearman([1, 2, 3, 4], [4, 3, 2, 1]) == pytest.approx(-1.0)
     assert spearman([0, 0, 1, 1, 2, 2], [3, 4, 6, 7, 11, 12]) > 0.9
     assert spearman([1, 1, 1], [1, 2, 3]) is None
+
+
+# ---------- solver-side one-edit patch ----------
+
+def test_patch_fixes_an_unsolvable_level_with_one_edit():
+    from levelsmith.patch import find_patch
+
+    broken = EASY_6x5.replace("~", ".")  # example 2 without its clay tile
+    assert J.judge(broken, "easy").code == J.UNSOLVABLE
+    p = find_patch(broken, "easy")
+    assert p is not None and p["code"] == "ok"
+    patched = parse_level(p["level"])
+    # Exactly one edit: at most two cells differ (moving the exit touches two).
+    diff = sum(a != b for a, b in zip(broken.replace("\n", ""), p["level"].replace("\n", "")))
+    assert 1 <= diff <= 2
+    lo, hi = J.BANDS["easy"]
+    assert lo <= solve(patched).optimal_moves <= hi
+    assert is_solution(patched, p["features"]["solution"])
+
+
+def test_patch_returns_none_when_no_single_edit_works():
+    from levelsmith.patch import find_patch
+
+    # A 4x4 open room cannot hold a 10-move optimum after one edit.
+    assert find_patch("S...\n....\n....\n...E", "hard") is None
+    assert find_patch("not a level", "easy") is None
+
+
+def test_patch_is_deterministic():
+    from levelsmith.patch import find_patch
+
+    broken = EASY_6x5.replace("~", ".")
+    a = find_patch(broken, "easy")
+    b = find_patch(broken, "easy")
+    assert a["level"] == b["level"] and a["edit"] == b["edit"]
+
+
+def test_loop_with_patch_accepts_without_a_second_call():
+    broken = EASY_6x5.replace("~", ".")
+    client = FakeClient([reply(broken), reply(EASY_6x5)])
+    rec = agent.run_request(client, "repair", "easy", 6, 5, set(), max_rounds=4, patch=True)
+    assert rec["accepted"] and rec["patched"] and rec["n_calls"] == 1
+    assert rec["rounds"][0]["verdict"]["code"] == "unsolvable"
+    assert is_solution(parse_level(rec["level"]), rec["features"]["solution"])
+
+
+def test_loop_without_patch_is_unchanged():
+    broken = EASY_6x5.replace("~", ".")
+    client = FakeClient([reply(broken), reply(EASY_6x5, "ULRDL")])
+    rec = agent.run_request(client, "repair", "easy", 6, 5, set(), max_rounds=4)
+    assert rec["accepted"] and not rec["patched"] and rec["n_calls"] == 2

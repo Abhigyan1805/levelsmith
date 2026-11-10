@@ -24,6 +24,7 @@ from .judge import (
     judge,
 )
 from .llm import BudgetExceeded, LLMClient
+from .patch import find_patch
 
 MAX_RESPONSE_CHARS = 6000  # anything longer is rejected before parsing
 
@@ -230,13 +231,20 @@ def run_request(
     temperature: float = 1.0,
     tag: dict | None = None,
     lock=None,
+    patch: bool = False,
 ) -> dict:
-    """Run one level request to acceptance or exhaustion. Returns a JSON-safe record."""
+    """Run one level request to acceptance or exhaustion. Returns a JSON-safe record.
+
+    With `patch`, a rejected proposal is first handed to the solver's one-edit
+    patch search (levelsmith.patch); if that finds a valid level the request
+    ends there without another model call.
+    """
     assert mode in ("repair", "blind")
     first = {"role": "user", "content": request_prompt(band, width, height)}
     messages = [first]
     rounds = []
     accepted = None
+    patched = None
     stop_reason = "max_rounds"
     t0 = time.perf_counter()
     for rnd in range(1, max_rounds + 1):
@@ -280,6 +288,18 @@ def run_request(
             accepted = v
             stop_reason = "accepted"
             break
+        if patch and v.level is not None and v.code != MALFORMED:
+            fixed = find_patch(v.level.text, band, seen)
+            if fixed is not None:
+                rec["patch"] = fixed["edit"]
+                patched = fixed
+                if lock:
+                    with lock:
+                        seen.add(fixed["canonical"])
+                else:
+                    seen.add(fixed["canonical"])
+                stop_reason = "accepted"
+                break
         if mode == "repair":
             fb = feedback(v, band, width, height, claimed)
             rec["feedback"] = fb
@@ -288,13 +308,15 @@ def run_request(
                 {"role": "user", "content": fb},
             ]
         # blind mode: same single-message request again, nothing carried over
+    done = accepted is not None or patched is not None
     out = {
         "mode": mode,
         "band": band,
         "width": width,
         "height": height,
-        "accepted": accepted is not None,
-        "accepted_round": len(rounds) if accepted is not None else None,
+        "accepted": done,
+        "accepted_round": len(rounds) if done else None,
+        "patched": patched is not None,
         "stop_reason": stop_reason,
         "n_calls": len(rounds),
         "seconds": round(time.perf_counter() - t0, 3),
@@ -305,4 +327,8 @@ def run_request(
         out["level"] = accepted.level.text
         out["canonical"] = accepted.canonical
         out["features"] = accepted.summary()["features"]
+    elif patched is not None:
+        out["level"] = patched["level"]
+        out["canonical"] = patched["canonical"]
+        out["features"] = patched["features"]
     return out

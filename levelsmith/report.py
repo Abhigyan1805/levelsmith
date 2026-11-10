@@ -12,6 +12,10 @@ from .agent import SYSTEM_PROMPT
 from .game import _transform, canonical, parse_level
 from .judge import BANDS
 from .llm import cost_of
+from .baseline import random_level_text
+from .evaluate import make_requests
+from .judge import judge
+from .patch import find_patch
 from .solver import solve
 from .stats import mean, median, newcombe_diff, spearman_ci, wilson
 
@@ -143,6 +147,78 @@ def difficulty_control(proposals: list[tuple[str, dict]]) -> dict:
     return out
 
 
+PATCHABLE_CODES = ("unsolvable", "trivial", "wrong_difficulty")
+
+
+def patch_replay(records: list[dict], max_rounds: int) -> dict:
+    """Replay a run with the solver's one-edit patch applied after every
+    rejection. The replay is exact: a patched run is identical to the logged
+    run up to the first round whose proposal is accepted or patchable, and
+    stops there."""
+    seen: set[str] = set()
+    first_ok: list[int | None] = []  # round at which each request succeeds
+    rejected_r1 = patchable_r1 = 0
+    patched_levels = []
+    for r in sorted(records, key=lambda r: r["id"]):
+        hit = None
+        for rd in r["rounds"]:
+            v = rd["verdict"]
+            if v["code"] == "ok":
+                hit = rd["round"]
+                seen.add(r["canonical"])
+                break
+            p = find_patch(v["level"], r["band"], seen) if v["code"] in PATCHABLE_CODES else None
+            if rd["round"] == 1:
+                rejected_r1 += 1
+                patchable_r1 += p is not None
+            if p is not None:
+                hit = rd["round"]
+                seen.add(p["canonical"])
+                patched_levels.append({"id": r["id"], "band": r["band"], "round": rd["round"],
+                                       "original": v["level"], **p})
+                break
+        first_ok.append(hit)
+    n = len(first_ok)
+    return {
+        "by_round": {
+            str(k): rate(sum(1 for h in first_ok if h is not None and h <= k), n)
+            for k in range(1, max_rounds + 1)
+        },
+        "round1_rejected_one_edit_from_valid": rate(patchable_r1, rejected_r1),
+        "patched_levels": patched_levels,
+    }
+
+
+def baseline_patch(requests: list[dict], draws: int = 5) -> dict:
+    """The same one-shot and one-shot-plus-patch measurement for random grids:
+    the first `draws` samples of each request's random stream."""
+    import random as _random
+    import time as _time
+
+    n = ok = patched = rejected_wellformed = 0
+    t_patch = 0.0
+    for r in requests:
+        rng = _random.Random(r["seed"])
+        for _ in range(draws):
+            text = random_level_text(rng, r["width"], r["height"])
+            v = judge(text, r["band"])
+            n += 1
+            if v.accepted:
+                ok += 1
+                continue
+            rejected_wellformed += 1
+            t0 = _time.perf_counter()
+            p = find_patch(text, r["band"])
+            t_patch += _time.perf_counter() - t0
+            patched += p is not None
+    return {
+        "one_shot": rate(ok, n),
+        "one_shot_plus_patch": rate(ok + patched, n),
+        "rejected_one_edit_from_valid": rate(patched, rejected_wellformed),
+        "patch_search_seconds_mean": t_patch / max(rejected_wellformed, 1),
+    }
+
+
 def summarize_llm(label: str) -> dict | None:
     runs = {m: load(f"{label}_{m}.json") for m in ("repair", "blind")}
     runs = {m: d for m, d in runs.items() if d and d["records"]}
@@ -221,6 +297,7 @@ def summarize_llm(label: str) -> dict | None:
             for k in ("started_utc", "finished_utc", "deepseek_balance_before",
                       "deepseek_balance_after", "total_calls_logged", "total_usd_logged")
         }
+        m["with_patch"] = patch_replay(recs, max_rounds)
         out["modes"][mode] = m
         first_round += [(r["band"], r["rounds"][0]["verdict"]) for r in recs if r["rounds"]]
 
@@ -239,6 +316,10 @@ def summarize_llm(label: str) -> dict | None:
         len(first_round),
     )
     one["difficulty"] = difficulty_control(first_round)
+    k1 = sum(m["with_patch"]["by_round"]["1"]["k"] for m in out["modes"].values())
+    one["accepted_with_patch"] = rate(k1, len(first_round))
+    rej = [m["with_patch"]["round1_rejected_one_edit_from_valid"] for m in out["modes"].values()]
+    one["rejected_one_edit_from_valid"] = rate(sum(x["k"] for x in rej), sum(x["n"] for x in rej))
     out["one_shot_pooled"] = one
 
     if "repair" in out["modes"] and "blind" in out["modes"]:
@@ -310,6 +391,7 @@ def summarize_baseline() -> dict | None:
     }
     out["novelty"] = hamming_novelty([r["level"] for r in recs if r["accepted"]])
     out["features_accepted"] = level_features(recs)
+    out["patch"] = baseline_patch(make_requests())
     return out
 
 
@@ -368,6 +450,30 @@ def to_markdown(s: dict) -> str:
             + (f"{100 * diff['diff']:+.0f} pts ({100 * diff['ci95'][0]:+.0f} to {100 * diff['ci95'][1]:+.0f})"
                if diff else "n/a") + " |"
         )
+
+    L += ["", "### Solver one-edit patch", "",
+          "After a rejection the solver tries every single-cell edit (move the exit, "
+          "add or remove one wall, coal or clay tile) and keeps one that the judge "
+          "accepts. No extra model calls. The loop columns replay the logged runs "
+          "with the patch applied after each rejection.", "",
+          "| Source | One-shot | One-shot + patch | Rejected proposals one edit from valid | Repair loop + patch (5 rounds) | Blind + patch (5 rounds) |",
+          "|---|---|---|---|---|---|"]
+    for x in llms:
+        o = x["one_shot_pooled"]
+        rp, bl = x["modes"].get("repair"), x["modes"].get("blind")
+        L.append(
+            f"| {x['model']} | {fmt_rate(o['accepted'])} | {fmt_rate(o['accepted_with_patch'])} | "
+            f"{fmt_rate(o['rejected_one_edit_from_valid'])} | "
+            f"{fmt_rate(rp['with_patch']['by_round']['5']) if rp else 'not run'} | "
+            f"{fmt_rate(bl['with_patch']['by_round']['5']) if bl else 'not run'} |"
+        )
+    if base:
+        bp = base["patch"]
+        L.append(
+            f"| Random grids | {fmt_rate(bp['one_shot'])} | {fmt_rate(bp['one_shot_plus_patch'])} | "
+            f"{fmt_rate(bp['rejected_one_edit_from_valid'])} | n/a | n/a |"
+        )
+        L += ["", f"Mean patch search time: {1000 * bp['patch_search_seconds_mean']:.0f} ms per rejected level."]
 
     L += ["", "### Why proposals were rejected", "",
           "| Model | Mode | Proposals | ok | unsolvable | wrong difficulty | trivial | malformed | duplicate | other |",
