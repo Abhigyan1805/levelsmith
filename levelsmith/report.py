@@ -584,8 +584,11 @@ def to_markdown(s: dict) -> str:
             for mode, m in x["modes"].items():
                 L.append(
                     f"- {x['model']}, {mode}: {m['n_requests']} of {m['n_requests_planned']} "
-                    f"requests finished; one-shot {fmt_rate(m['per_call_accept_rate_round1'])}, "
-                    f"within 5 rounds {fmt_rate(m['accepted_within_max_rounds'])}."
+                    f"requests finished; one-shot {fmt_rate(m['per_call_accept_rate_round1'])}"
+                    + (f", within {x['settings']['max_rounds']} rounds "
+                       f"{fmt_rate(m['accepted_within_max_rounds'])}"
+                       if x["settings"]["max_rounds"] > 1 else " (one-shot only run)")
+                    + f"; one-shot + solver patch {fmt_rate(m['with_patch']['by_round']['1'])}."
                 )
     return "\n".join(L) + "\n"
 
@@ -635,6 +638,39 @@ def summarize_live_patch(label: str) -> dict | None:
     }
 
 
+def spend_summary() -> dict:
+    """Totals from the per-call logs, one entry per log file."""
+    out = {"logs": {}}
+    for name in sorted(os.listdir(RAW)):
+        if not (name.startswith("calls_") and name.endswith(".jsonl")):
+            continue
+        with open(os.path.join(RAW, name)) as f:
+            rows = [json.loads(line) for line in f if line.strip()]
+        if not rows:
+            continue
+        out["logs"][name] = {
+            "provider": rows[0]["provider"],
+            "model": rows[0]["model"],
+            "calls": len(rows),
+            "failed_calls": sum(1 for r in rows if not r["ok"]),
+            "retries": sum(r["retries"] for r in rows),
+            "prompt_tokens": sum(r["prompt_tokens"] for r in rows),
+            "output_tokens": sum(r["output_tokens"] for r in rows),
+            "reasoning_tokens": sum(r["reasoning_tokens"] for r in rows),
+            "latency_s_total": round(sum(r["latency_s"] for r in rows), 1),
+            # Gemini calls ran on the free tier: list-price equivalent, not spend.
+            "usd_at_list_price": round(
+                sum(cost_of(r["model"], r["prompt_tokens"], r["cached_tokens"], r["output_tokens"])
+                    if r["provider"] == "gemini" else r["cost_usd"] for r in rows), 5),
+        }
+    out["deepseek_usd_logged"] = round(
+        sum(v["usd_at_list_price"] for v in out["logs"].values() if v["provider"] == "deepseek"), 5)
+    bal = load("deepseek_balance.json")
+    if bal:
+        out["deepseek_account_balance"] = bal
+    return out
+
+
 def is_patch_run(label: str) -> bool:
     d = load(f"{label}_repair.json")
     return bool(d and d["meta"].get("patch"))
@@ -653,6 +689,7 @@ def main() -> None:
         # tables and reported separately.
         "llm_partial": [x for x in runs if size(x) < MIN_REQUESTS_FOR_MAIN_TABLE],
         "live_patch_runs": live,
+        "spend": spend_summary(),
         "baseline": summarize_baseline(),
     }
     os.makedirs("results", exist_ok=True)

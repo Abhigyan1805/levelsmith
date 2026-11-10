@@ -11,12 +11,11 @@ from __future__ import annotations
 import re
 import time
 
-from .game import DIRS, Level, MAX_CLAY, MAX_COALS, make_mover
+from .game import DIRS, MAX_CLAY, MAX_COALS, Level, make_mover
 from .judge import (
     BANDS,
     DUPLICATE,
     MALFORMED,
-    TOO_COMPLEX,
     TRIVIAL,
     UNSOLVABLE,
     WRONG_DIFFICULTY,
@@ -198,8 +197,7 @@ def feedback(v: Verdict, band: str, width: int, height: int, claimed: str | None
             parts.append(f"(Your stated solution was {claimed}, {len(claimed)} moves.)")
     elif v.code == DUPLICATE:
         parts.append("Change the layout substantially.")
-    elif v.code == TOO_COMPLEX:
-        pass
+    # TOO_COMPLEX needs nothing beyond the verdict detail.
     parts.append(tail)
     return "\n".join(parts)
 
